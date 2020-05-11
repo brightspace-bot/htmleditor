@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<meta charset="UTF-8">
+		<title>d2l-htmleditor visual-diff tests</title>
+		<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+		<script type="module">
+			import '@brightspace-ui/core/components/typography/typography.js';
+			import '../htmleditor.js';
+		</script>
+		<style>
+			html {
+				font-size: 20px;
+			}
+			body {
+				padding: 30px;
+			}
+			.visual-diff {
+				margin-bottom: 30px;
+			}
+		</style>
+	</head>
+	<body class="d2l-typography">
+		<div class="visual-diff">
+			<d2l-htmleditor id="default"></d2l-htmleditor>
+		</div>
+	</body>
+</html>
