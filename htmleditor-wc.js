@@ -1,19 +1,28 @@
 import { css, html, LitElement } from 'lit-element/lit-element.js';
 import { LocalizeStaticMixin } from '@brightspace-ui/core/mixins/localize-static-mixin.js';
 import { getUniqueId } from '@brightspace-ui/core/helpers/uniqueId.js';
-import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
+import { tinymceStyles } from './skins/skin.js';
+import './components/toolbar/toggle-button.js';
 import 'tinymce/tinymce.js';
-import 'tinymce/plugins/charmap/plugin.js';
-import 'tinymce/plugins/code/plugin.js';
-import 'tinymce/plugins/directionality/plugin.js';
-import 'tinymce/plugins/fullscreen/plugin.js';
-import 'tinymce/plugins/hr/plugin.js';
-import 'tinymce/plugins/lists/plugin.js';
-import 'tinymce/plugins/preview/plugin.js';
-import 'tinymce/plugins/table/plugin.js';
 import 'tinymce/themes/silver/theme.js';
 
-class HtmlEditor extends LocalizeStaticMixin(RtlMixin(LitElement)) {
+const registerPlugin = (name, command) => {
+	tinymce.PluginManager.add(name, function(editor, url) {
+		const elem = editor.getElement().getRootNode().querySelector(`[command="${command}"]`);
+		elem.addEventListener('click', () => {
+			editor.execCommand(command);
+		});
+		editor.on('NodeChange', (args) => {
+			elem.active = editor.queryCommandState(command);
+		});
+	});
+};
+
+registerPlugin('d2l-bold', 'bold');
+registerPlugin('d2l-italic', 'italic');
+registerPlugin('d2l-underline', 'underline');
+
+class HtmlEditor extends LocalizeStaticMixin(LitElement) {
 
 	static get properties() {
 		return {
@@ -24,34 +33,33 @@ class HtmlEditor extends LocalizeStaticMixin(RtlMixin(LitElement)) {
 	}
 
 	static get styles() {
-		return css`
+		return [tinymceStyles, css`
 			:host {
-				display: inline-block;
 			}
 			:host([hidden]) {
 				display: none;
 			}
-		`;
+		`];
 	}
 
 	static get resources() {
 		return {
-			'ar': { term1: 'Term 1' },
-			'da': { term1: 'Term 1' },
-			'de': { term1: 'Term 1' },
-			'en': { term1: 'Term 1' },
-			'es': { term1: 'Term 1' },
-			'fr': { term1: 'Term 1' },
-			'ja': { term1: 'Term 1' },
-			'ko': { term1: 'Term 1' },
-			'nl': { term1: 'Term 1' },
-			'pt': { term1: 'Term 1' },
-			'sv': { term1: 'Term 1' },
-			'tr': { term1: 'Term 1' },
-			'tr-tr': { term1: 'Term 1' },
-			'zh': { term1: 'Term 1' },
-			'zh-cn': { term1: 'Term 1' },
-			'zh-tw': { term1: 'Term 1' }
+			'ar': { bold: 'Bold', italic: 'Italic', underline: 'Underline' },
+			'da': { bold: 'Bold', italic: 'Italic', underline: 'Underline' },
+			'de': { bold: 'Bold', italic: 'Italic', underline: 'Underline' },
+			'en': { bold: 'Bold', italic: 'Italic', underline: 'Underline' },
+			'es': { bold: 'Bold', italic: 'Italic', underline: 'Underline' },
+			'fr': { bold: 'Bold', italic: 'Italic', underline: 'Underline' },
+			'ja': { bold: 'Bold', italic: 'Italic', underline: 'Underline' },
+			'ko': { bold: 'Bold', italic: 'Italic', underline: 'Underline' },
+			'nl': { bold: 'Bold', italic: 'Italic', underline: 'Underline' },
+			'pt': { bold: 'Bold', italic: 'Italic', underline: 'Underline' },
+			'sv': { bold: 'Bold', italic: 'Italic', underline: 'Underline' },
+			'tr': { bold: 'Bold', italic: 'Italic', underline: 'Underline' },
+			'tr-tr': { bold: 'Bold', italic: 'Italic', underline: 'Underline' },
+			'zh': { bold: 'Bold', italic: 'Italic', underline: 'Underline' },
+			'zh-cn': { bold: 'Bold', italic: 'Italic', underline: 'Underline' },
+			'zh-tw': { bold: 'Bold', italic: 'Italic', underline: 'Underline' }
 		};
 	}
 
@@ -62,19 +70,12 @@ class HtmlEditor extends LocalizeStaticMixin(RtlMixin(LitElement)) {
 		this._editorId = getUniqueId();
 	}
 
-	createRenderRoot() {
-		return this;
-	}
-
 	firstUpdated(changedProperties) {
 		super.firstUpdated(changedProperties);
 
 		requestAnimationFrame(() => {
 
-			const textarea = this.shadowRoot
-				? this.shadowRoot.querySelector(`#${this._editorId}`)
-				: this.querySelector(`#${this._editorId}`);
-
+			const textarea = this.shadowRoot.querySelector(`#${this._editorId}`);
 			const locale = 'en-US';
 
 			// TODO: figure out why we need to wait a frame before calling init
@@ -113,14 +114,12 @@ class HtmlEditor extends LocalizeStaticMixin(RtlMixin(LitElement)) {
 				language_url: `/langs/${locale}.js`,
 				menubar: false,
 				object_resizing : true,
-				plugins: 'charmap code directionality fullscreen hr lists preview table',
+				plugins: 'd2l-bold d2l-italic d2l-underline',
 				relative_urls: false,
 				skin_url: '/skins',
 				statusbar: false,
 				target: textarea,
-				toolbar: this.inline
-					? 'bold italic underline'
-					: 'bold italic underline | strikethrough subscript superscript | bullist numlist | indent outdent | alignleft alignright aligncenter alignjustify | charmap hr | table | forecolor | styleselect fontselect fontsizeselect | undo redo | preview code fullscreen | ltr rtl',
+				toolbar: false,
 				valid_elements: '*[*]'
 			});
 
@@ -147,7 +146,14 @@ class HtmlEditor extends LocalizeStaticMixin(RtlMixin(LitElement)) {
 		if (this.inline) {
 			return html`<div id="${this._editorId}">${this._originalContent}</div>`;
 		} else {
-			return html`<textarea id="${this._editorId}">${this._originalContent}</textarea>`;
+			return html`
+				<div>
+					<d2l-htmleditor-toggle-button command="bold" text="${this.localize('bold')}"></d2l-htmleditor-toggle-button>
+					<d2l-htmleditor-toggle-button command="italic" text="${this.localize('italic')}"></d2l-htmleditor-toggle-button>
+					<d2l-htmleditor-toggle-button command="underline" text="${this.localize('underline')}"></d2l-htmleditor-toggle-button>
+				</div>
+				<textarea id="${this._editorId}">${this._originalContent}</textarea>
+			`;
 		}
 	}
 }

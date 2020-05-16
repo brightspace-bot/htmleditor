@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<link rel="stylesheet" href="/node_modules/@brightspace-ui/core/components/demo/styles.css" type="text/css">
+		<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+		<script type="module">
+			import { html, LitElement } from 'lit-element/lit-element.js';
+			import '@brightspace-ui/core/components/demo/demo-page.js';
+			import '../htmleditor-wc.js';
+			class DemoWrapper extends LitElement {
+				render() {
+					return html`<div>
+						<d2l-htmleditor>
+							<template>
+								<p>Hello World!</p>
+							</template>
+						</d2l-htmleditor>
+					</div>`;
+				}
+			}
+			customElements.define('d2l-demo-wrapper', DemoWrapper);
+		</script>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<meta charset="UTF-8">
+		<style>
+			.actions {
+				margin-bottom: 20px;
+			}
+		</style>
+	</head>
+	<body unresolved>
+		<d2l-demo-page page-title="d2l-htmleditor (shadowDOM enabled)">
+
+			<h2>Default</h2>
+
+			<div class="actions">
+				<button>focus</button>
+			</div>
+
+			<d2l-demo-snippet>
+				<template>
+					<d2l-htmleditor>
+						<template>
+							<p>Hello World!</p>
+							<script>
+								console.log('script from default editor');
+								document.querySelector('p').addEventListener('click', () => {console.log('clicked');})
+							</script>
+						</template>
+					</d2l-htmleditor>
+				</template>
+			</d2l-demo-snippet>
+
+			<h2>Extra Wrapping</h2>
+
+			<d2l-demo-snippet>
+				<template>
+					<d2l-demo-wrapper></d2l-demo-wrapper>
+				</template>
+			</d2l-demo-snippet>
+
+		</d2l-demo-page>
+
+		<script>
+			document.querySelector('button').addEventListener('click', () => {
+				document.querySelector('d2l-htmleditor').focus();
+			});
+		</script>
+	</body>
+</html>
