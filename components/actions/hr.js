@@ -17,7 +17,7 @@ class Dialog extends RtlMixin(LitElement) {
 
 	static get properties() {
 		return {
-			hrData: { type: Object },
+			htmlData: { type: Object },
 			opened: { type: Boolean, reflect: true }
 		};
 	}
@@ -58,13 +58,13 @@ class Dialog extends RtlMixin(LitElement) {
 	constructor() {
 		super();
 		this.opened = false;
-		this.hrData = defaultProperties;
+		this.htmlData = defaultProperties;
 	}
 
 	render() {
-		const height = (this.hrData.height ? this.hrData.height : '');
-		const width = (this.hrData.width && this.hrData.width.value) ? this.hrData.width.value : defaultProperties.width.value;
-		const units = (this.hrData.width && this.hrData.width.units === 'px') ? 'px' : defaultProperties.width.units;
+		const height = (this.htmlData.height ? this.htmlData.height : '');
+		const width = (this.htmlData.width && this.htmlData.width.value) ? this.htmlData.width.value : defaultProperties.width.value;
+		const units = (this.htmlData.width && this.htmlData.width.units === 'px') ? 'px' : defaultProperties.width.units;
 		return html`<d2l-dialog width="400" title-text="Horizontal Rule" ?opened="${this.opened}" @d2l-dialog-close="${this._handleClose}">
 			<div class="d2l-htmleditor-hr-dialog-width">
 				<d2l-input-text label="Width" .value="${width}"></d2l-input-text>
@@ -80,7 +80,7 @@ class Dialog extends RtlMixin(LitElement) {
 				<d2l-input-text label="Height" .value="${height}"></d2l-input-text>
 			</div>
 			<div class="d2l-htmleditor-hr-dialog-shadow">
-				<d2l-input-checkbox ?checked="${this.hrData.hasShadow}">Display Shadow</d2l-input-checkbox>
+				<d2l-input-checkbox ?checked="${this.htmlData.hasShadow}">Display Shadow</d2l-input-checkbox>
 			</div>
 			<d2l-button slot="footer" primary data-dialog-action="insert">Create</d2l-button>
 			<d2l-button slot="footer" data-dialog-action="">Cancel</d2l-button>
