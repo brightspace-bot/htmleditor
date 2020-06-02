@@ -4,6 +4,10 @@ import '@brightspace-ui/core/components/dialog/dialog.js';
 import { css, html, LitElement } from 'lit-element/lit-element.js';
 import { styleMap } from 'lit-html/directives/style-map.js';
 
+// TODO: polish symbol dialog UI
+// TODO: use arrow keys to move focus between symbols
+// TODO: localize
+
 class Dialog extends LitElement {
 
 	static get properties() {

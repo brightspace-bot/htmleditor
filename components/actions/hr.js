@@ -8,6 +8,9 @@ import { inputLabelStyles } from '@brightspace-ui/core/components/inputs/input-l
 import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
 import { selectStyles } from '@brightspace-ui/core/components/inputs/input-select-styles.js';
 
+// TODO: localize
+// TODO: decide if we use this or the native browser cmd
+
 const defaultProperties = {
 	width: {value: 100, units: '%'},
 	hasShadow: true
