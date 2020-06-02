@@ -1,5 +1,6 @@
 import '@brightspace-ui/core/components/button/button.js';
 import '@brightspace-ui/core/components/dialog/dialog.js';
+import './components/actions/code.js';
 import './components/actions/hr.js';
 import './components/actions/symbol.js';
 import 'tinymce/tinymce.js';
@@ -186,6 +187,7 @@ class HtmlEditor extends LocalizeStaticMixin(LitElement) {
 					<d2l-htmleditor-button data-key="symbol" text="Insert Symbol"></d2l-htmleditor-button>
 					<d2l-htmleditor-button-toggle data-key="hr" text="Insert Line"></d2l-htmleditor-button-toggle>
 					<d2l-htmleditor-button data-key="insertHorizontalRule" text="Insert Line (native)"></d2l-htmleditor-button>
+					<d2l-htmleditor-button data-key="code" text="HTML Source Editor"></d2l-htmleditor-button>
 				</div>
 				<textarea id="${this._editorId}">${this._originalContent}</textarea>
 			`;
@@ -234,8 +236,7 @@ tinymce.PluginManager.add('d2l-actions', function(editor) {
 			document.body.appendChild(dialog).opened = true;
 			dialog.addEventListener('d2l-htmleditor-symbol-dialog-close', (e) => {
 				if (e.detail.action !== 'insert') return;
-				const htmlCode = e.detail.htmlCode;
-				if (htmlCode) editor.execCommand('mceInsertContent', false, htmlCode);
+				editor.execCommand('mceInsertContent', false, e.detail.htmlCode);
 			}, { once: true });
 			//editor.execCommand('mceShowCharmap'));
 		}
@@ -267,8 +268,7 @@ tinymce.PluginManager.add('d2l-actions', function(editor) {
 			document.body.appendChild(dialog).opened = true;
 			dialog.addEventListener('d2l-htmleditor-hr-dialog-close', (e) => {
 				if (e.detail.action !== 'insert') return;
-				const html = e.detail.html;
-				if (html) editor.execCommand('mceInsertContent', false, html);
+				editor.execCommand('mceInsertContent', false, e.detail.html);
 			}, { once: true });
 		},
 		active: () => {
@@ -281,6 +281,19 @@ tinymce.PluginManager.add('d2l-actions', function(editor) {
 	});
 
 	registerButton(editor, 'insertHorizontalRule');
+
+	registerButton(editor, 'code', {
+		action: () => {
+			const dialog = document.createElement('d2l-htmleditor-code-dialog');
+			dialog.html = editor.getContent({source_view: true});
+			document.body.appendChild(dialog).opened = true;
+			dialog.addEventListener('d2l-htmleditor-code-dialog-close', (e) => {
+				if (e.detail.action !== 'insert') return;
+				// TODO: filter the HTML?
+				editor.setContent(e.detail.html, {source_view: true});
+			}, { once: true });
+		}
+	});
 
 	registerButton(editor, 'a11ycheck', {
 		action: () => {
