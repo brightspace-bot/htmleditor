@@ -60,7 +60,7 @@ class Dialog extends LitElement {
 		const height = (this.hrData.height ? this.hrData.height : '');
 		const width = (this.hrData.width && this.hrData.width.value) ? this.hrData.width.value : defaultProperties.width.value;
 		const units = (this.hrData.width && this.hrData.width.units === 'px') ? 'px' : defaultProperties.width.units;
-		return html`<d2l-dialog width="400" data-key="symbol" title-text="Horizontal Rule" ?opened="${this.opened}" @d2l-dialog-close="${this._handleClose}">
+		return html`<d2l-dialog width="400" title-text="Horizontal Rule" ?opened="${this.opened}" @d2l-dialog-close="${this._handleClose}">
 			<div class="d2l-htmleditor-hr-dialog-width">
 				<d2l-input-text label="Width" .value="${width}"></d2l-input-text>
 				<label>

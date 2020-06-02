@@ -72,7 +72,7 @@ class Dialog extends LitElement {
 		const styles = {
 			'font-family': this.fontFamily
 		};
-		return html`<d2l-dialog data-key="symbol" title-text="Symbol" ?opened="${this.opened}" @d2l-dialog-close="${this._handleClose}">
+		return html`<d2l-dialog title-text="Symbol" ?opened="${this.opened}" @d2l-dialog-close="${this._handleClose}">
 			<div class="d2l-htmleditor-symbols" style="${styleMap(styles)}">
 				${symbols.map((s) => html`
 					<div role="button" tabindex="0" data-html-code="${s.htmlCode}" aria-selected="${s.htmlCode === this._selectedHtmlCode ? 'true' : 'false'}" @click="${this._handleClick}">${s.value}</div>
