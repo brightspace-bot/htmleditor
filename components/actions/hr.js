@@ -5,6 +5,7 @@ import '@brightspace-ui/core/components/inputs/input-checkbox.js';
 import '@brightspace-ui/core/components/inputs/input-text.js';
 import { css, html, LitElement } from 'lit-element/lit-element.js';
 import { inputLabelStyles } from '@brightspace-ui/core/components/inputs/input-label-styles.js';
+import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
 import { selectStyles } from '@brightspace-ui/core/components/inputs/input-select-styles.js';
 
 const defaultProperties = {
@@ -12,7 +13,7 @@ const defaultProperties = {
 	hasShadow: true
 };
 
-class Dialog extends LitElement {
+class Dialog extends RtlMixin(LitElement) {
 
 	static get properties() {
 		return {
@@ -38,6 +39,10 @@ class Dialog extends LitElement {
 			}
 			.d2l-htmleditor-hr-dialog-width > d2l-input-text {
 				margin-right: 0.8rem;
+			}
+			:host([dir="rtl"]) .d2l-htmleditor-hr-dialog-width > d2l-input-text {
+				margin-left: 0.8rem;
+				margin-right: 0;
 			}
 			.d2l-htmleditor-hr-dialog-height > d2l-input-text,
 			.d2l-htmleditor-hr-dialog-width > d2l-input-text {
