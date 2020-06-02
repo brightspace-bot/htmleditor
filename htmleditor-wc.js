@@ -233,6 +233,7 @@ tinymce.PluginManager.add('d2l-actions', function(editor) {
 			}
 			document.body.appendChild(dialog).opened = true;
 			dialog.addEventListener('d2l-htmleditor-symbol-dialog-close', (e) => {
+				if (e.detail.action !== 'insert') return;
 				const htmlCode = e.detail.htmlCode;
 				if (htmlCode) editor.execCommand('mceInsertContent', false, htmlCode);
 			}, { once: true });
@@ -265,6 +266,7 @@ tinymce.PluginManager.add('d2l-actions', function(editor) {
 			}
 			document.body.appendChild(dialog).opened = true;
 			dialog.addEventListener('d2l-htmleditor-hr-dialog-close', (e) => {
+				if (e.detail.action !== 'insert') return;
 				const html = e.detail.html;
 				if (html) editor.execCommand('mceInsertContent', false, html);
 			}, { once: true });

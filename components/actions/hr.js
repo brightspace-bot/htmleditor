@@ -82,12 +82,12 @@ class Dialog extends RtlMixin(LitElement) {
 			<div class="d2l-htmleditor-hr-dialog-shadow">
 				<d2l-input-checkbox ?checked="${this.hrData.hasShadow}">Display Shadow</d2l-input-checkbox>
 			</div>
-			<d2l-button slot="footer" primary data-dialog-action="create">Create</d2l-button>
+			<d2l-button slot="footer" primary data-dialog-action="insert">Create</d2l-button>
 			<d2l-button slot="footer" data-dialog-action="">Cancel</d2l-button>
 		</d2l-dialog>`;
 	}
 
-	_handleClose() {
+	_handleClose(e) {
 		this.opened = false;
 
 		let width = this.shadowRoot.querySelector('.d2l-htmleditor-hr-dialog-width d2l-input-text').value;
@@ -101,7 +101,7 @@ class Dialog extends RtlMixin(LitElement) {
 		this.dispatchEvent(new CustomEvent(
 			'd2l-htmleditor-hr-dialog-close', {
 				bubbles: true,
-				detail: { html: `<hr style="width: ${width}${widthUnits}; height: ${height}px; color: #ffffff; border-style: ${shadow ? 'inset' : 'solid'}; border-width: 1px; border-color: #cccccc;" />` }
+				detail: { action: e.detail.action, html: `<hr style="width: ${width}${widthUnits}; height: ${height}px; color: #ffffff; border-style: ${shadow ? 'inset' : 'solid'}; border-width: 1px; border-color: #cccccc;" />` }
 			}
 		));
 	}

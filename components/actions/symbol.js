@@ -87,12 +87,12 @@ class Dialog extends LitElement {
 		this._selectedHtmlCode = e.target.getAttribute('data-html-code');
 	}
 
-	_handleClose() {
+	_handleClose(e) {
 		this.opened = false;
 		this.dispatchEvent(new CustomEvent(
 			'd2l-htmleditor-symbol-dialog-close', {
 				bubbles: true,
-				detail: { htmlCode: this._selectedHtmlCode }
+				detail: { action: e.detail.action, htmlCode: this._selectedHtmlCode }
 			}
 		));
 	}
