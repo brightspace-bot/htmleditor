@@ -5,6 +5,7 @@ import './components/actions/hr.js';
 import './components/actions/symbol.js';
 import 'tinymce/tinymce.js';
 import 'tinymce/plugins/charmap/plugin.js';
+import 'tinymce/plugins/fullpage/plugin.js';
 import 'tinymce/themes/silver/theme.js';
 import { css, html, LitElement } from 'lit-element/lit-element.js';
 import { getUniqueId } from '@brightspace-ui/core/helpers/uniqueId.js';
@@ -59,6 +60,10 @@ class HtmlEditor extends LocalizeStaticMixin(LitElement) {
 
 	static get properties() {
 		return {
+			fullPage: { type: Boolean, attribute: 'full-page' },
+			fullPageFontColor: { type: String, attribute: 'full-page-font-color' },
+			fullPageFontFamily: { type: String, attribute: 'full-page-font-family' },
+			fullPageFontSize: { type: String, attribute: 'full-page-font-size' },
 			height: { type: String },
 			inline: { type: Boolean },
 			noSpellchecker: { type: Boolean, attribute: 'no-spellchecker'},
@@ -100,6 +105,7 @@ class HtmlEditor extends LocalizeStaticMixin(LitElement) {
 
 	constructor() {
 		super();
+		this.fullPage = false;
 		this.height = '355px';
 		this.inline = false;
 		this.noSpellchecker = false;
@@ -114,6 +120,13 @@ class HtmlEditor extends LocalizeStaticMixin(LitElement) {
 
 			const textarea = this.shadowRoot.querySelector(`#${this._editorId}`);
 			const locale = 'en-US';
+
+			const fullPageConfig = {};
+			if (this.fullPage) {
+				if (this.fullPageFontColor) fullPageConfig['fullpage_default_text_color'] = this.fullPageFontColor;
+				if (this.fullPageFontFamily) fullPageConfig['fullpage_default_font_family'] = this.fullPageFontFamily;
+				if (this.fullPageFontSize) fullPageConfig['fullpage_default_font_size'] = this.fullPageFontSize;
+			}
 
 			tinymce.init({
 				a11ychecker_allow_decorative_images: true,
@@ -132,7 +145,7 @@ class HtmlEditor extends LocalizeStaticMixin(LitElement) {
 				language_url: `/tinymce/langs/${locale}.js`,
 				menubar: false,
 				object_resizing : true,
-				plugins: 'a11ychecker charmap d2l-actions',
+				plugins: `a11ychecker charmap d2l-actions ${this.fullPage ? 'fullpage' : ''}`,
 				relative_urls: false,
 				setup: (editor) => { console.log(editor); },
 				skin_url: '/tinymce/skins',
@@ -140,7 +153,8 @@ class HtmlEditor extends LocalizeStaticMixin(LitElement) {
 				target: textarea,
 				toolbar: false,
 				valid_elements: '*[*]',
-				width: this.width
+				width: this.width,
+				...fullPageConfig
 			});
 
 		});
