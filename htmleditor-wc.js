@@ -19,6 +19,7 @@ import { tinymceStyles } from './tinymce/skins/skin.js';
 // TODO: refactor action wire-up
 // TODO: set powerpaste_word_import based on paste formatting config value (clean, merge, prompt)
 // TODO: convert pasted local images if upload location provided (previously only allowed local images if provided)
+// TODO: review whether pasted content needs prepcessing to avoid pasted image links getting converted to images
 // TODO: configure paste_as_text if using tinyMCEs paste as text feature (fra editor sets to false if power paste enabled) - probably not needed
 // TODO: provide a way for consumer to specify upload location for images, and configure images_upload_handler
 // TODO: review whether we need to stop pasting of image addresses (see fra editor)
@@ -147,7 +148,11 @@ class HtmlEditor extends LocalizeStaticMixin(LitElement) {
 			const powerPasteConfig = {
 				powerpaste_allow_local_images: true,
 				powerpaste_block_drop : false,
-				powerpaste_word_import: 'merge'
+				powerpaste_word_import: 'merge',
+				//paste_preprocess: function(plugin, data) {
+					// Stops Paste plugin from converting pasted image links to image
+				//	data.content += ' ';
+				//},
 			};
 
 			tinymce.init({
