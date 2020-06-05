@@ -13,6 +13,8 @@ import { getUniqueId } from '@brightspace-ui/core/helpers/uniqueId.js';
 import { LocalizeStaticMixin } from '@brightspace-ui/core/mixins/localize-static-mixin.js';
 import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
 
+// TODO: deal with fact that tinyMCE inline content styles conflict with prismjs styles
+
 class HtmlEditor extends LocalizeStaticMixin(RtlMixin(LitElement)) {
 
 	static get properties() {

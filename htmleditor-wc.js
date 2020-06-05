@@ -15,6 +15,22 @@ import { registerButtonToggle } from './components/toolbar/button-toggle.js';
 import { registerSelect } from './components/toolbar/select.js';
 import { tinymceStyles } from './tinymce/skins/skin.js';
 
+// TODO: experiment with editor in dialog
+// TODO: refactor action wire-up
+// TODO: set powerpaste_word_import based on paste formatting config value (clean, merge, prompt)
+// TODO: convert pasted local images if upload location provided (previously only allowed local images if provided)
+// TODO: configure paste_as_text if using tinyMCEs paste as text feature (fra editor sets to false if power paste enabled) - probably not needed
+// TODO: provide a way for consumer to specify upload location for images, and configure images_upload_handler
+// TODO: review whether we need to stop pasting of image addresses (see fra editor)
+// TODO: localize & skin power paste
+// TODO: localize and skin accessibility checker
+// TODO: refactor classic / inline if necessary (need Design discussion)
+// TODO: review allow_script_urls (ideally we can turn this off)
+// TODO: review resize (monolith specifies both, but this would require enabling statusbar)
+// TODO: content CSS (fragment and fullpage)
+// TODO: review auto-focus and whether it should be on the API
+// TODO: monolith intrgration (d2l_image d2l_isf d2l_equation fullscreen d2l_link d2l_equation d2l_code d2l_preview smallscreen)
+
 const fontSizes = [
 	{value: '', text: 'Font Size'},
 	{value: '8pt', text: '8pt'},
@@ -123,10 +139,16 @@ class HtmlEditor extends LocalizeStaticMixin(LitElement) {
 
 			const fullPageConfig = {};
 			if (this.fullPage) {
-				if (this.fullPageFontColor) fullPageConfig['fullpage_default_text_color'] = this.fullPageFontColor;
-				if (this.fullPageFontFamily) fullPageConfig['fullpage_default_font_family'] = this.fullPageFontFamily;
-				if (this.fullPageFontSize) fullPageConfig['fullpage_default_font_size'] = this.fullPageFontSize;
+				if (this.fullPageFontColor) fullPageConfig.fullpage_default_text_color = this.fullPageFontColor;
+				if (this.fullPageFontFamily) fullPageConfig.fullpage_default_font_family = this.fullPageFontFamily;
+				if (this.fullPageFontSize) fullPageConfig.fullpage_default_font_size = this.fullPageFontSize;
 			}
+
+			const powerPasteConfig = {
+				powerpaste_allow_local_images: true,
+				powerpaste_block_drop : false,
+				powerpaste_word_import: 'merge'
+			};
 
 			tinymce.init({
 				a11ychecker_allow_decorative_images: true,
@@ -138,14 +160,17 @@ class HtmlEditor extends LocalizeStaticMixin(LitElement) {
 				content_css: '/tinymce/skins/content/default/content.css',
 				directionality: this.dir ? this.dir : 'ltr',
 				extended_valid_elements: 'span[*]',
-				external_plugins: {'a11ychecker': '/tinymce/plugins/a11ychecker/plugin.js'},
+				external_plugins: {
+					'a11ychecker': '/tinymce/plugins/a11ychecker/plugin.js',
+					'powerpaste': '/tinymce/plugins/powerpaste/plugin.js'
+				},
 				height: this.height,
 				inline: this.inline,
 				language: locale !== 'en-US' ? locale : null,
 				language_url: `/tinymce/langs/${locale}.js`,
 				menubar: false,
 				object_resizing : true,
-				plugins: `a11ychecker charmap d2l-actions ${this.fullPage ? 'fullpage' : ''}`,
+				plugins: `a11ychecker charmap powerpaste d2l-actions ${this.fullPage ? 'fullpage' : ''}`,
 				relative_urls: false,
 				setup: (editor) => { console.log(editor); },
 				skin_url: '/tinymce/skins',
@@ -154,7 +179,8 @@ class HtmlEditor extends LocalizeStaticMixin(LitElement) {
 				toolbar: false,
 				valid_elements: '*[*]',
 				width: this.width,
-				...fullPageConfig
+				...fullPageConfig,
+				...powerPasteConfig
 			});
 
 		});
