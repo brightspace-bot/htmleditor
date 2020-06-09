@@ -32,6 +32,9 @@ import { tinymceStyles } from './tinymce/skins/skin.js';
 // TODO: content CSS (fragment and fullpage)
 // TODO: review auto-focus and whether it should be on the API
 // TODO: monolith intrgration (d2l_image d2l_isf d2l_equation fullscreen d2l_link d2l_equation d2l_code d2l_preview smallscreen)
+// TODO: explore color picker (tinymce's dropdown picker will not work in shadow-dom, and we prefer ours)
+// TODO: editor resize (ref monolith resize handler, updates editor size)
+
 
 const fontSizes = [
 	{value: '', text: 'Font Size'},
