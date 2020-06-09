@@ -3,6 +3,9 @@
 	<head>
 		<link rel="stylesheet" href="/node_modules/@brightspace-ui/core/components/demo/styles.css" type="text/css">
 		<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+		<script>
+			window.D2L = { DialogMixin: { preferNative: false } };
+		</script>
 		<script type="module">
 			import '@brightspace-ui/core/components/demo/demo-page.js';
 			import '@brightspace-ui/core/components/dialog/dialog.js';

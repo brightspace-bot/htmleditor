@@ -8,6 +8,7 @@ import 'tinymce/plugins/charmap/plugin.js';
 import 'tinymce/plugins/fullpage/plugin.js';
 import 'tinymce/themes/silver/theme.js';
 import { css, html, LitElement } from 'lit-element/lit-element.js';
+import { classMap} from 'lit-html/directives/class-map.js';
 import { getUniqueId } from '@brightspace-ui/core/helpers/uniqueId.js';
 import { LocalizeStaticMixin } from '@brightspace-ui/core/mixins/localize-static-mixin.js';
 import { registerButton } from './components/toolbar/button.js';
@@ -85,7 +86,8 @@ class HtmlEditor extends LocalizeStaticMixin(LitElement) {
 			inline: { type: Boolean },
 			noSpellchecker: { type: Boolean, attribute: 'no-spellchecker'},
 			width: { type: String },
-			_editorId: { type: String }
+			_editorId: { type: String },
+			_fullscreen: { type: Boolean }
 		};
 	}
 
@@ -95,6 +97,22 @@ class HtmlEditor extends LocalizeStaticMixin(LitElement) {
 			}
 			:host([hidden]) {
 				display: none;
+			}
+			.d2l-htmleditor-fullscreen {
+				background-color: #ffffff;
+				display: flex;
+				flex-direction: column;
+				height: 100vh;
+				left: 0;
+				position: fixed;
+				top: 0;
+				z-index: 1001;
+			}
+			.d2l-htmleditor-fullscreen .d2l-htmleditor-content {
+				flex: auto;
+			}
+			.d2l-htmleditor-fullscreen .tox-tinymce {
+				height: 100% !important;
 			}
 		`];
 	}
@@ -206,10 +224,15 @@ class HtmlEditor extends LocalizeStaticMixin(LitElement) {
 			}
 		}
 
+		const classes = {
+			'd2l-htmleditor-fullscreen': this._fullscreen
+		};
+
 		if (this.inline) {
 			return html`<div id="${this._editorId}">${this._originalContent}</div>`;
 		} else {
 			return html`
+			<div class="${classMap(classes)}">
 				<div>
 					<d2l-htmleditor-button-toggle data-key="bold" text="${this.localize('bold')}"></d2l-htmleditor-button-toggle>
 					<d2l-htmleditor-button-toggle data-key="italic" text="${this.localize('italic')}"></d2l-htmleditor-button-toggle>
@@ -235,8 +258,12 @@ class HtmlEditor extends LocalizeStaticMixin(LitElement) {
 					<d2l-htmleditor-button-toggle data-key="hr" text="Insert Line"></d2l-htmleditor-button-toggle>
 					<d2l-htmleditor-button data-key="insertHorizontalRule" text="Insert Line (native)"></d2l-htmleditor-button>
 					<d2l-htmleditor-button data-key="code" text="HTML Source Editor"></d2l-htmleditor-button>
+					<d2l-htmleditor-button-toggle data-key="fullscreen" text="Fullscreen"></d2l-htmleditor-button-toggle>
 				</div>
-				<textarea id="${this._editorId}">${this._originalContent}</textarea>
+				<div class="d2l-htmleditor-content">
+					<textarea id="${this._editorId}">${this._originalContent}</textarea>
+				</div>
+			</div>
 			`;
 		}
 	}
@@ -280,7 +307,7 @@ tinymce.PluginManager.add('d2l-actions', function(editor) {
 				if (node.nodeType === Node.DOCUMENT_NODE) node = node.body;
 				dialog.fontFamily = window.getComputedStyle(node)['font-family'];
 			}
-			document.body.appendChild(dialog).opened = true;
+			editor.getElement().getRootNode().appendChild(dialog).opened = true;
 			dialog.addEventListener('d2l-htmleditor-symbol-dialog-close', (e) => {
 				if (e.detail.action !== 'insert') return;
 				editor.execCommand('mceInsertContent', false, e.detail.htmlCode);
@@ -312,7 +339,7 @@ tinymce.PluginManager.add('d2l-actions', function(editor) {
 					dialog.hrData = hrData;
 				}
 			}
-			document.body.appendChild(dialog).opened = true;
+			editor.getElement().getRootNode().appendChild(dialog).opened = true;
 			dialog.addEventListener('d2l-htmleditor-hr-dialog-close', (e) => {
 				if (e.detail.action !== 'insert') return;
 				editor.execCommand('mceInsertContent', false, e.detail.html);
@@ -333,7 +360,7 @@ tinymce.PluginManager.add('d2l-actions', function(editor) {
 		action: () => {
 			const dialog = document.createElement('d2l-htmleditor-code-dialog');
 			dialog.html = editor.getContent({source_view: true});
-			document.body.appendChild(dialog).opened = true;
+			editor.getElement().getRootNode().appendChild(dialog).opened = true;
 			dialog.addEventListener('d2l-htmleditor-code-dialog-close', (e) => {
 				if (e.detail.action !== 'insert') return;
 				// TODO: filter the HTML?
@@ -348,4 +375,13 @@ tinymce.PluginManager.add('d2l-actions', function(editor) {
 			//console.log(editor.plugins.a11ychecker.getReport());
 		}
 	});
+
+	registerButtonToggle(editor, 'fullscreen', {
+		action: () => {
+			const elem = editor.getElement().getRootNode().querySelector(`[data-key="fullscreen"]`);
+			elem.active = !elem.active;
+			editor.getElement().getRootNode().host._fullscreen = elem.active;
+		}
+	});
+
 });
