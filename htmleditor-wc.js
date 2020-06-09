@@ -148,12 +148,14 @@ class HtmlEditor extends LocalizeStaticMixin(LitElement) {
 			const powerPasteConfig = {
 				powerpaste_allow_local_images: true,
 				powerpaste_block_drop : false,
-				powerpaste_word_import: 'merge',
-				//paste_preprocess: function(plugin, data) {
-					// Stops Paste plugin from converting pasted image links to image
-				//	data.content += ' ';
-				//},
+				powerpaste_word_import: 'merge'
 			};
+			/*
+			paste_preprocess: function(plugin, data) {
+				// Stops Paste plugin from converting pasted image links to image
+				data.content += ' ';
+			},
+			*/
 
 			tinymce.init({
 				a11ychecker_allow_decorative_images: true,
