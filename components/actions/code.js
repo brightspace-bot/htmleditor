@@ -28,6 +28,7 @@ class Dialog extends LitElement {
 			}
 			textarea.d2l-input {
 				height: 200px;
+				resize: none;
 			}
 		`];
 	}
