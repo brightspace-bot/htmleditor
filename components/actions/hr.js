@@ -94,11 +94,11 @@ class Dialog extends RtlMixin(LitElement) {
 		this.opened = false;
 
 		let width = this.shadowRoot.querySelector('.d2l-htmleditor-hr-dialog-width d2l-input-text').value;
-		if (!Number.isInteger(Number.parseInt(width))) width = defaultProperties.width.value;
+		if (!Number.isInteger(Number.parseInt(width, 10))) width = defaultProperties.width.value;
 		let widthUnits = this.shadowRoot.querySelector('.d2l-htmleditor-hr-dialog-width select').value;
 		if (widthUnits !== 'px') widthUnits = defaultProperties.width.units;
 		let height = this.shadowRoot.querySelector('.d2l-htmleditor-hr-dialog-height d2l-input-text').value;
-		if (!Number.isInteger(Number.parseInt(height))) height = '';
+		if (!Number.isInteger(Number.parseInt(height, 10))) height = '';
 		const shadow = this.shadowRoot.querySelector('d2l-input-checkbox').checked;
 
 		this.dispatchEvent(new CustomEvent(
