@@ -1,8 +1,11 @@
 import '@brightspace-ui/core/components/button/button.js';
 import '@brightspace-ui/core/components/dialog/dialog.js';
+import '@brightspace-ui/core/components/dropdown/dropdown.js';
+import '@brightspace-ui/core/components/dropdown/dropdown-content.js';
 import './components/actions/code.js';
 import './components/actions/hr.js';
 import './components/actions/symbol.js';
+import './components/actions/table.js';
 import 'tinymce/tinymce.js';
 import 'tinymce/plugins/charmap/plugin.js';
 import 'tinymce/plugins/fullpage/plugin.js';
@@ -34,7 +37,6 @@ import { tinymceStyles } from './tinymce/skins/skin.js';
 // TODO: monolith intrgration (d2l_image d2l_isf d2l_equation fullscreen d2l_link d2l_equation d2l_code d2l_preview smallscreen)
 // TODO: explore color picker (tinymce's dropdown picker will not work in shadow-dom, and we prefer ours)
 // TODO: editor resize (ref monolith resize handler, updates editor size)
-
 
 const fontSizes = [
 	{value: '', text: 'Font Size'},
@@ -262,6 +264,12 @@ class HtmlEditor extends LocalizeStaticMixin(LitElement) {
 					<d2l-htmleditor-button data-key="insertHorizontalRule" text="Insert Line (native)"></d2l-htmleditor-button>
 					<d2l-htmleditor-button data-key="code" text="HTML Source Editor"></d2l-htmleditor-button>
 					<d2l-htmleditor-button-toggle data-key="fullscreen" text="Fullscreen"></d2l-htmleditor-button-toggle>
+					<d2l-dropdown data-key="insertTable">
+						<d2l-htmleditor-button class="d2l-dropdown-opener" text="Insert Table"></d2l-htmleditor-button>
+						<d2l-dropdown-content>
+							<d2l-htmleditor-table-size-selector></d2l-htmleditor-table-size-selector>
+						</d2l-dropdown-content>
+					</d2l-dropdown>
 				</div>
 				<div class="d2l-htmleditor-content">
 					<textarea id="${this._editorId}">${this._originalContent}</textarea>
@@ -381,10 +389,24 @@ tinymce.PluginManager.add('d2l-actions', function(editor) {
 
 	registerButtonToggle(editor, 'fullscreen', {
 		action: () => {
-			const elem = editor.getElement().getRootNode().querySelector(`[data-key="fullscreen"]`);
+			const elem = editor.getElement().getRootNode().querySelector('[data-key="fullscreen"]');
 			elem.active = !elem.active;
 			editor.getElement().getRootNode().host._fullscreen = elem.active;
 		}
+	});
+
+	const insertTableDropdown = editor.getElement().getRootNode().querySelector('[data-key="insertTable"]');
+	insertTableDropdown.addEventListener('d2l-dropdown-open', () => {
+		const selector = insertTableDropdown.querySelector('d2l-htmleditor-table-size-selector');
+		selector.selectedRows = 0;
+		selector.selectedColumns = 0;
+	});
+	insertTableDropdown.addEventListener('d2l-htmleditor-table-size-selected', (e) => {
+		insertTableDropdown.querySelector('d2l-dropdown-content').close();
+		if (!e.detail.rows || e.detail.rows < 1) return;
+		if (!e.detail.columns || e.detail.columns < 1) return;
+		const html = `<table><tbody>\n${`<tr>${'<td></td>'.repeat(e.detail.columns)}</tr>\n`.repeat(e.detail.rows)}</tbody></table>`;
+		editor.execCommand('mceInsertContent', false, html);
 	});
 
 });
