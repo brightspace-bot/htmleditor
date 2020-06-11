@@ -1,20 +1,21 @@
 import '@brightspace-ui/core/components/button/button.js';
 import '@brightspace-ui/core/components/colors/colors.js';
 import '@brightspace-ui/core/components/dialog/dialog.js';
+import '../toolbar/button.js';
 import { css, html, LitElement } from 'lit-element/lit-element.js';
 import { styleMap } from 'lit-html/directives/style-map.js';
 
 // TODO: polish symbol dialog UI
 // TODO: use arrow keys to move focus between symbols
-// TODO: localize
+// TODO: localize, RTL
 
-class Dialog extends LitElement {
+class SymbolButton extends LitElement {
 
 	static get properties() {
 		return {
-			fontFamily: { type: String, attribute: 'font-family' },
-			opened: { type: Boolean, reflect: true },
-			_selectedHtmlCode: { type: String }
+			_fontFamily: { type: String },
+			_htmlCode: { type: String },
+			_opened: { type: Boolean }
 		};
 	}
 
@@ -69,39 +70,52 @@ class Dialog extends LitElement {
 
 	constructor() {
 		super();
-		this.opened = false;
+		this._opened = false;
 	}
 
 	render() {
 		const styles = {
-			'font-family': this.fontFamily
+			'font-family': this._fontFamily
 		};
-		return html`<d2l-dialog title-text="Symbol" ?opened="${this.opened}" @d2l-dialog-close="${this._handleClose}">
-			<div class="d2l-htmleditor-symbols" style="${styleMap(styles)}">
-				${symbols.map((s) => html`
-					<div role="button" tabindex="0" data-html-code="${s.htmlCode}" aria-selected="${s.htmlCode === this._selectedHtmlCode ? 'true' : 'false'}" @click="${this._handleClick}">${s.value}</div>
-				`)}
-			</div>
-			<d2l-button slot="footer" primary data-dialog-action="insert" ?disabled="${!this._selectedHtmlCode}">Insert</d2l-button>
-			<d2l-button slot="footer" data-dialog-action="">Cancel</d2l-button>
-		</d2l-dialog>`;
+		return html`
+			<d2l-htmleditor-button @click="${this._openDialog}" text="Insert Symbol"></d2l-htmleditor-button>
+			<d2l-dialog title-text="Symbol" ?opened="${this._opened}" @d2l-dialog-close="${this._handleClose}">
+				<div class="d2l-htmleditor-symbols" style="${styleMap(styles)}">
+					${symbols.map((s) => html`
+						<div role="button" tabindex="0" data-html-code="${s.htmlCode}" aria-selected="${s.htmlCode === this._selectedHtmlCode ? 'true' : 'false'}" @click="${this._handleClick}">${s.value}</div>
+					`)}
+				</div>
+				<d2l-button slot="footer" primary data-dialog-action="insert" ?disabled="${!this._htmlCode}">Insert</d2l-button>
+				<d2l-button slot="footer" data-dialog-action="">Cancel</d2l-button>
+			</d2l-dialog>
+		`;
 	}
 
 	_handleClick(e) {
-		this._selectedHtmlCode = e.target.getAttribute('data-html-code');
+		this._htmlCode = e.target.getAttribute('data-html-code');
 	}
 
-	_handleClose(e) {
-		this.opened = false;
-		this.dispatchEvent(new CustomEvent(
-			'd2l-htmleditor-symbol-dialog-close', {
-				bubbles: true,
-				detail: { action: e.detail.action, htmlCode: this._selectedHtmlCode }
-			}
-		));
+	async _handleClose(e) {
+		this._opened = false;
+		if (e.detail.action !== 'insert') return;
+		const editor = await this.getRootNode().host.getEditor();
+		editor.execCommand('mceInsertContent', false, this._htmlCode);
+	}
+
+	async _openDialog() {
+		const editor = await this.getRootNode().host.getEditor();
+		//editor.execCommand('mceShowCharmap');
+		if (editor.selection) {
+			let node = editor.selection.getNode();
+			if (node.nodeType === Node.DOCUMENT_NODE) node = node.body;
+			this._fontFamily = window.getComputedStyle(node)['font-family'];
+		}
+		this._opened = true;
 	}
 
 }
+
+customElements.define('d2l-htmleditor-button-symbol', SymbolButton);
 
 const symbols = [
 	{ text: 'no-break space', numCode: '&#160;', htmlCode: '&nbsp;', value: ' ' },
@@ -305,5 +319,3 @@ const symbols = [
 	{ text: 'black heart suit', numCode: '&#9829;', htmlCode: '&hearts;', value: '♥' },
 	{ text: 'black diamond suit', numCode: '&#9830;', htmlCode: '&diams;', value: '♦' }
 ];
-
-customElements.define('d2l-htmleditor-symbol-dialog', Dialog);

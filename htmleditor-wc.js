@@ -1,26 +1,23 @@
-import '@brightspace-ui/core/components/button/button.js';
-import '@brightspace-ui/core/components/dialog/dialog.js';
-import '@brightspace-ui/core/components/dropdown/dropdown.js';
-import '@brightspace-ui/core/components/dropdown/dropdown-content.js';
+import './components/actions/accessibility.js';
 import './components/actions/code.js';
+import './components/actions/fullscreen.js';
 import './components/actions/hr.js';
 import './components/actions/symbol.js';
 import './components/actions/table.js';
+import './components/toolbar/button.js';
+import './components/toolbar/button-toggle.js';
+import './components/toolbar/select.js';
 import 'tinymce/tinymce.js';
 import 'tinymce/plugins/charmap/plugin.js';
 import 'tinymce/plugins/fullpage/plugin.js';
 import 'tinymce/themes/silver/theme.js';
 import { css, html, LitElement } from 'lit-element/lit-element.js';
-import { classMap} from 'lit-html/directives/class-map.js';
+import { fonts, fontSizes, formats } from './components/actions/format.js';
+import { classMap } from 'lit-html/directives/class-map.js';
 import { getUniqueId } from '@brightspace-ui/core/helpers/uniqueId.js';
 import { LocalizeStaticMixin } from '@brightspace-ui/core/mixins/localize-static-mixin.js';
-import { registerButton } from './components/toolbar/button.js';
-import { registerButtonToggle } from './components/toolbar/button-toggle.js';
-import { registerSelect } from './components/toolbar/select.js';
 import { tinymceStyles } from './tinymce/skins/skin.js';
 
-// TODO: experiment with editor in dialog
-// TODO: refactor action wire-up
 // TODO: set powerpaste_word_import based on paste formatting config value (clean, merge, prompt)
 // TODO: convert pasted local images if upload location provided (previously only allowed local images if provided)
 // TODO: review whether pasted content needs prepcessing to avoid pasted image links getting converted to images
@@ -37,47 +34,6 @@ import { tinymceStyles } from './tinymce/skins/skin.js';
 // TODO: monolith intrgration (d2l_image d2l_isf d2l_equation fullscreen d2l_link d2l_equation d2l_code d2l_preview smallscreen)
 // TODO: explore color picker (tinymce's dropdown picker will not work in shadow-dom, and we prefer ours)
 // TODO: editor resize (ref monolith resize handler, updates editor size)
-
-const fontSizes = [
-	{value: '', text: 'Font Size'},
-	{value: '8pt', text: '8pt'},
-	{value: '10pt', text: '10pt'},
-	{value: '12pt', text: '12pt'},
-	{value: '14pt', text: '14pt'},
-	{value: '18pt', text: '18pt'},
-	{value: '24pt', text: '24pt'},
-	{value: '36pt', text: '36pt'}
-];
-const formats = [
-	{value: '', text: 'Format'},
-	{value: 'p', text: 'Paragraph'},
-	{value: 'address', text: 'Address'},
-	{value: 'h1', text: 'Heading 1'},
-	{value: 'h2', text: 'Heading 2'},
-	{value: 'h3', text: 'Heading 3'},
-	{value: 'h4', text: 'Heading 4'},
-	{value: 'h5', text: 'Heading 5'},
-	{value: 'h6', text: 'Heading 6'}
-];
-const fonts = [
-	{value: '', text: 'Font Family'},
-	{value: 'arabic transparent,sans-serif', text: 'Arabic Transparent'},
-	{value: 'arial,helvetica,sans-serif', text: 'Arial (Recommended)'},
-	{value: 'comic sans ms,sans-serif', text: 'Comic Sans'},
-	{value: 'courier new,courier,sans-serif', text: 'Courier'},
-	{value: 'ezra sil,arial unicode ms,arial,sans-serif', text:'Ezra SIL'},
-	{value: 'georgia,serif', text: 'Georgia'},
-	{value: 'sbl hebrew,times new roman,serif', text: 'SBL Hebrew'},
-	{value: 'simplified arabic,sans-serif', text: 'Simplified Arabic'},
-	{value: 'tahoma,sans-serif', text: 'Tahoma'},
-	{value: 'times new roman,times,serif', text: 'Times New Roman'},
-	{value: 'traditional arabic,serif', text: 'Traditional Arabic'},
-	{value: 'trebuchet ms,helvetica,sans-serif', text: 'Trebuchet'},
-	{value: 'verdana,sans-serif', text: 'Verdana'},
-	{value: 'dotum,arial,helvetica,sans-serif', text: '돋움 (Dotum)'},
-	{value: 'simsun', text: '宋体 (Sim Sun)'},
-	{value: 'mingliu,arial,helvetica,sans-serif', text: '細明體 (Ming Liu)'}
-];
 
 class HtmlEditor extends LocalizeStaticMixin(LitElement) {
 
@@ -145,6 +101,9 @@ class HtmlEditor extends LocalizeStaticMixin(LitElement) {
 
 	constructor() {
 		super();
+		this._editorPromise = new Promise((resolve) => {
+			this._resolveEditorPromise = resolve;
+		});
 		this.fullPage = false;
 		this.height = '355px';
 		this.inline = false;
@@ -200,9 +159,15 @@ class HtmlEditor extends LocalizeStaticMixin(LitElement) {
 				language_url: `/tinymce/langs/${locale}.js`,
 				menubar: false,
 				object_resizing : true,
-				plugins: `a11ychecker charmap powerpaste d2l-actions ${this.fullPage ? 'fullpage' : ''}`,
+				plugins: `a11ychecker charmap powerpaste ${this.fullPage ? 'fullpage' : ''}`,
 				relative_urls: false,
-				setup: (editor) => { console.log(editor); },
+				setup: (editor) => {
+					editor.on('init', () => {
+						editor.undoManager.clear();
+					});
+					this._resolveEditorPromise(editor);
+					this._editor = editor;
+				},
 				skin_url: '/tinymce/skins',
 				statusbar: false,
 				target: textarea,
@@ -239,37 +204,32 @@ class HtmlEditor extends LocalizeStaticMixin(LitElement) {
 			return html`
 			<div class="${classMap(classes)}">
 				<div>
-					<d2l-htmleditor-button-toggle data-key="bold" text="${this.localize('bold')}"></d2l-htmleditor-button-toggle>
-					<d2l-htmleditor-button-toggle data-key="italic" text="${this.localize('italic')}"></d2l-htmleditor-button-toggle>
-					<d2l-htmleditor-button-toggle data-key="underline" text="${this.localize('underline')}"></d2l-htmleditor-button-toggle>
-					<d2l-htmleditor-button-toggle data-key="strikethrough" text="Strikethrough"></d2l-htmleditor-button-toggle>
-					<d2l-htmleditor-button-toggle data-key="subscript" text="Subscript"></d2l-htmleditor-button-toggle>
-					<d2l-htmleditor-button-toggle data-key="superscript" text="Superscript"></d2l-htmleditor-button-toggle>
-					<d2l-htmleditor-button-toggle data-key="insertUnorderedList" text="Unordered List"></d2l-htmleditor-button-toggle>
-					<d2l-htmleditor-button-toggle data-key="insertOrderedList" text="Ordered List"></d2l-htmleditor-button-toggle>
-					<d2l-htmleditor-button-toggle data-key="justifyLeft" text="Align Left"></d2l-htmleditor-button-toggle>
-					<d2l-htmleditor-button-toggle data-key="justifyRight" text="Align Right"></d2l-htmleditor-button-toggle>
-					<d2l-htmleditor-button-toggle data-key="justifyCenter" text="Align Center"></d2l-htmleditor-button-toggle>
-					<d2l-htmleditor-button-toggle data-key="justifyFull" text="Align Justify"></d2l-htmleditor-button-toggle>
-					<d2l-htmleditor-button data-key="indent" text="Indent"></d2l-htmleditor-button>
-					<d2l-htmleditor-button data-key="outdent" text="Outdent"></d2l-htmleditor-button>
-					<d2l-htmleditor-button data-key="a11ycheck" text="Accessibility"></d2l-htmleditor-button>
-					<d2l-htmleditor-button data-key="undo" text="${this.localize('undo')}"></d2l-htmleditor-button>
-					<d2l-htmleditor-button data-key="redo" text="${this.localize('redo')}"></d2l-htmleditor-button>
-					<d2l-htmleditor-select data-key="fontname" text="${this.localize('fontFamily')}" .options="${fonts}"></d2l-htmleditor-select>
-					<d2l-htmleditor-select data-key="fontsize" text="Font Size" .options="${fontSizes}"></d2l-htmleditor-select>
-					<d2l-htmleditor-select data-key="formatBlock" text="Format" .options="${formats}"></d2l-htmleditor-select>
-					<d2l-htmleditor-button data-key="symbol" text="Insert Symbol"></d2l-htmleditor-button>
-					<d2l-htmleditor-button-toggle data-key="hr" text="Insert Line"></d2l-htmleditor-button-toggle>
-					<d2l-htmleditor-button data-key="insertHorizontalRule" text="Insert Line (native)"></d2l-htmleditor-button>
-					<d2l-htmleditor-button data-key="code" text="HTML Source Editor"></d2l-htmleditor-button>
-					<d2l-htmleditor-button-toggle data-key="fullscreen" text="Fullscreen"></d2l-htmleditor-button-toggle>
-					<d2l-dropdown data-key="insertTable">
-						<d2l-htmleditor-button class="d2l-dropdown-opener" text="Insert Table"></d2l-htmleditor-button>
-						<d2l-dropdown-content>
-							<d2l-htmleditor-table-size-selector></d2l-htmleditor-table-size-selector>
-						</d2l-dropdown-content>
-					</d2l-dropdown>
+					<d2l-htmleditor-button-toggle cmd="bold" text="${this.localize('bold')}"></d2l-htmleditor-button-toggle>
+					<d2l-htmleditor-button-toggle cmd="italic" text="${this.localize('italic')}"></d2l-htmleditor-button-toggle>
+					<d2l-htmleditor-button-toggle cmd="underline" text="${this.localize('underline')}"></d2l-htmleditor-button-toggle>
+					<d2l-htmleditor-button-toggle cmd="strikethrough" text="Strikethrough"></d2l-htmleditor-button-toggle>
+					<d2l-htmleditor-button-toggle cmd="subscript" text="Subscript"></d2l-htmleditor-button-toggle>
+					<d2l-htmleditor-button-toggle cmd="superscript" text="Superscript"></d2l-htmleditor-button-toggle>
+					<d2l-htmleditor-button-toggle cmd="insertUnorderedList" text="Unordered List"></d2l-htmleditor-button-toggle>
+					<d2l-htmleditor-button-toggle cmd="insertOrderedList" text="Ordered List"></d2l-htmleditor-button-toggle>
+					<d2l-htmleditor-button-toggle cmd="justifyLeft" text="Align Left"></d2l-htmleditor-button-toggle>
+					<d2l-htmleditor-button-toggle cmd="justifyRight" text="Align Right"></d2l-htmleditor-button-toggle>
+					<d2l-htmleditor-button-toggle cmd="justifyCenter" text="Align Center"></d2l-htmleditor-button-toggle>
+					<d2l-htmleditor-button-toggle cmd="justifyFull" text="Align Justify"></d2l-htmleditor-button-toggle>
+					<d2l-htmleditor-button cmd="indent" text="Indent"></d2l-htmleditor-button>
+					<d2l-htmleditor-button cmd="outdent" text="Outdent"></d2l-htmleditor-button>
+					<d2l-htmleditor-button-a11y></d2l-htmleditor-button-a11y>
+					<d2l-htmleditor-button cmd="undo" text="${this.localize('undo')}"></d2l-htmleditor-button>
+					<d2l-htmleditor-button cmd="redo" text="${this.localize('redo')}"></d2l-htmleditor-button>
+					<d2l-htmleditor-select cmd="fontname" text="${this.localize('fontFamily')}" .options="${fonts}"></d2l-htmleditor-select>
+					<d2l-htmleditor-select cmd="fontsize" text="Font Size" .options="${fontSizes}"></d2l-htmleditor-select>
+					<d2l-htmleditor-select cmd="formatBlock" text="Format" .options="${formats}"></d2l-htmleditor-select>
+					<d2l-htmleditor-button-symbol></d2l-htmleditor-button-symbol>
+					<d2l-htmleditor-button cmd="insertHorizontalRule" text="Insert Line (native)"></d2l-htmleditor-button>
+					<d2l-htmleditor-button-hr></d2l-htmleditor-button-hr>
+					<d2l-htmleditor-button-code></d2l-htmleditor-button-code>
+					<d2l-htmleditor-button-fullscreen></d2l-htmleditor-button-fullscreen>
+					<d2l-htmleditor-button-table></d2l-htmleditor-button-table>
 				</div>
 				<div class="d2l-htmleditor-content">
 					<textarea id="${this._editorId}">${this._originalContent}</textarea>
@@ -283,130 +243,10 @@ class HtmlEditor extends LocalizeStaticMixin(LitElement) {
 		tinymce.EditorManager.get(this._editorId).focus();
 	}
 
+	getEditor() {
+		return this._editorPromise;
+	}
+
 }
 
 customElements.define('d2l-htmleditor', HtmlEditor);
-
-tinymce.PluginManager.add('d2l-actions', function(editor) {
-	registerButtonToggle(editor, 'bold');
-	registerButtonToggle(editor, 'italic');
-	registerButtonToggle(editor, 'underline');
-	registerButtonToggle(editor, 'strikethrough');
-	registerButtonToggle(editor, 'subscript');
-	registerButtonToggle(editor, 'superscript');
-	registerButtonToggle(editor, 'insertUnorderedList');
-	registerButtonToggle(editor, 'insertOrderedList');
-	registerButton(editor, 'indent');
-	registerButton(editor, 'outdent');
-	registerButtonToggle(editor, 'justifyLeft');
-	registerButtonToggle(editor, 'justifyRight');
-	registerButtonToggle(editor, 'justifyCenter');
-	registerButtonToggle(editor, 'justifyFull');
-	registerSelect(editor, 'fontname');
-	registerSelect(editor, 'fontsize');
-	registerSelect(editor, 'formatBlock');
-
-	editor.on('init', () => editor.undoManager.clear());
-	registerButton(editor, 'undo', {enabled: () => editor.undoManager.hasUndo()});
-	registerButton(editor, 'redo', {enabled: () => editor.undoManager.hasRedo()});
-
-	registerButton(editor, 'symbol', {
-		action: () => {
-			const dialog = document.createElement('d2l-htmleditor-symbol-dialog');
-			if (editor && editor.selection) {
-				let node = editor.selection.getNode();
-				if (node.nodeType === Node.DOCUMENT_NODE) node = node.body;
-				dialog.fontFamily = window.getComputedStyle(node)['font-family'];
-			}
-			editor.getElement().getRootNode().appendChild(dialog).opened = true;
-			dialog.addEventListener('d2l-htmleditor-symbol-dialog-close', (e) => {
-				if (e.detail.action !== 'insert') return;
-				editor.execCommand('mceInsertContent', false, e.detail.htmlCode);
-			}, { once: true });
-			//editor.execCommand('mceShowCharmap'));
-		}
-	});
-
-	registerButtonToggle(editor, 'hr', {
-		action: () => {
-			const dialog = document.createElement('d2l-htmleditor-hr-dialog');
-			if (editor && editor.selection) {
-				const node = editor.selection.getNode();
-				if (node.tagName === 'HR') {
-					const width = node.style.width;
-					const hrData = {};
-					if (width.indexOf('%') !== -1) {
-						hrData.width = {value: width.replace('%', ''), units: '%'};
-					} else if (width.indexOf('px') !== -1) {
-						hrData.width = {value: width.replace('px', ''), units: 'px'};
-					}
-					const height = node.style.height;
-					if (height === 'auto' || height.indexOf('px') === -1) {
-						hrData.height = 0;
-					} else {
-						hrData.height = height.replace('px', '');
-					}
-					hrData.hasShadow = (node.style.borderStyle === 'inset');
-					dialog.hrData = hrData;
-				}
-			}
-			editor.getElement().getRootNode().appendChild(dialog).opened = true;
-			dialog.addEventListener('d2l-htmleditor-hr-dialog-close', (e) => {
-				if (e.detail.action !== 'insert') return;
-				editor.execCommand('mceInsertContent', false, e.detail.html);
-			}, { once: true });
-		},
-		active: () => {
-			if (editor && editor.selection) {
-				const node = editor.selection.getNode();
-				return node.tagName === 'HR';
-			}
-			return false;
-		}
-	});
-
-	registerButton(editor, 'insertHorizontalRule');
-
-	registerButton(editor, 'code', {
-		action: () => {
-			const dialog = document.createElement('d2l-htmleditor-code-dialog');
-			dialog.html = editor.getContent({source_view: true});
-			editor.getElement().getRootNode().appendChild(dialog).opened = true;
-			dialog.addEventListener('d2l-htmleditor-code-dialog-close', (e) => {
-				if (e.detail.action !== 'insert') return;
-				// TODO: filter the HTML?
-				editor.setContent(e.detail.html, {source_view: true});
-			}, { once: true });
-		}
-	});
-
-	registerButton(editor, 'a11ycheck', {
-		action: () => {
-			editor.plugins.a11ychecker.toggleaudit();
-			//console.log(editor.plugins.a11ychecker.getReport());
-		}
-	});
-
-	registerButtonToggle(editor, 'fullscreen', {
-		action: () => {
-			const elem = editor.getElement().getRootNode().querySelector('[data-key="fullscreen"]');
-			elem.active = !elem.active;
-			editor.getElement().getRootNode().host._fullscreen = elem.active;
-		}
-	});
-
-	const insertTableDropdown = editor.getElement().getRootNode().querySelector('[data-key="insertTable"]');
-	insertTableDropdown.addEventListener('d2l-dropdown-open', () => {
-		const selector = insertTableDropdown.querySelector('d2l-htmleditor-table-size-selector');
-		selector.selectedRows = 0;
-		selector.selectedColumns = 0;
-	});
-	insertTableDropdown.addEventListener('d2l-htmleditor-table-size-selected', (e) => {
-		insertTableDropdown.querySelector('d2l-dropdown-content').close();
-		if (!e.detail.rows || e.detail.rows < 1) return;
-		if (!e.detail.columns || e.detail.columns < 1) return;
-		const html = `<table><tbody>\n${`<tr>${'<td></td>'.repeat(e.detail.columns)}</tr>\n`.repeat(e.detail.rows)}</tbody></table>`;
-		editor.execCommand('mceInsertContent', false, html);
-	});
-
-});

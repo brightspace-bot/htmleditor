@@ -1,22 +1,11 @@
 import { css, html, LitElement } from 'lit-element/lit-element.js';
 
-export function registerButtonToggle(editor, key, {action, command = key, active, enabled} = {}) {
-	const elem = editor.getElement().getRootNode().querySelector(`[data-key="${key}"]`);
-	if (!elem) return;
-	if (action) elem.addEventListener('click', () => action());
-	else if (command) elem.addEventListener('click', () => editor.execCommand(command));
-	editor.on('NodeChange', () => {
-		if (active) elem.active = active();
-		else elem.active = !!editor.queryCommandState(command);
-		if (enabled) elem.disabled = !enabled();
-	});
-}
-
 class ButtonToggle extends LitElement {
 
 	static get properties() {
 		return {
 			active: { type: Boolean },
+			cmd: { type: String },
 			disabled: { type: Boolean },
 			text: { type: String }
 		};
@@ -38,8 +27,23 @@ class ButtonToggle extends LitElement {
 		this._active = false;
 	}
 
+	async firstUpdated() {
+		super.firstUpdated();
+		if (!this.cmd) return;
+		const editor = await this.getRootNode().host.getEditor();
+		editor.on('NodeChange', () => {
+			this.active = !!editor.queryCommandState(this.cmd);
+		});
+	}
+
 	render() {
-		return html`<button ?disabled="${this.disabled}">${this.text} ${this.active}</button>`;
+		return html`<button @click="${this._handleClick}" ?disabled="${this.disabled}">${this.text} ${this.active}</button>`;
+	}
+
+	async _handleClick() {
+		if (!this.cmd) return;
+		const editor = await this.getRootNode().host.getEditor();
+		editor.execCommand(this.cmd);
 	}
 
 }
