@@ -14,7 +14,6 @@ import 'tinymce/themes/silver/theme.js';
 //import './tinymce/plugins/powerpaste/plugin.js';
 import { css, html, LitElement } from 'lit-element/lit-element.js';
 import { getUniqueId } from '@brightspace-ui/core/helpers/uniqueId.js';
-import { LocalizeStaticMixin } from '@brightspace-ui/core/mixins/localize-static-mixin.js';
 import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
 
 // To update from nre tinyMCE install
