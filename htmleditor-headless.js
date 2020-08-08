@@ -8,6 +8,7 @@ import './components/toolbar/button.js';
 import './components/toolbar/button-toggle.js';
 import './components/toolbar/select.js';
 import 'tinymce/tinymce.js';
+import 'tinymce/icons/default/icons.js'; // annoying we would have to include this to avoid a 404
 import 'tinymce/plugins/charmap/plugin.js';
 import 'tinymce/plugins/fullpage/plugin.js';
 import 'tinymce/themes/silver/theme.js';
@@ -16,7 +17,7 @@ import { fonts, fontSizes, formats } from './components/actions/format.js';
 import { classMap } from 'lit-html/directives/class-map.js';
 import { getUniqueId } from '@brightspace-ui/core/helpers/uniqueId.js';
 import { LocalizeStaticMixin } from '@brightspace-ui/core/mixins/localize-static-mixin.js';
-import { tinymceStyles } from './tinymce/skins/skin.js';
+import { tinymceStyles } from './tinymce/skins/ui/oxide/skin.js';
 
 // TODO: set powerpaste_word_import based on paste formatting config value (clean, merge, prompt)
 // TODO: convert pasted local images if upload location provided (previously only allowed local images if provided)
@@ -168,7 +169,7 @@ class HtmlEditor extends LocalizeStaticMixin(LitElement) {
 					this._resolveEditorPromise(editor);
 					this._editor = editor;
 				},
-				skin_url: '/tinymce/skins',
+				skin_url: '/tinymce/skins/ui/oxide',
 				statusbar: false,
 				target: textarea,
 				toolbar: false,
