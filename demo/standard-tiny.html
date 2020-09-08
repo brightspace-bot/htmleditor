@@ -11,11 +11,7 @@
 			class DemoWrapper extends LitElement {
 				render() {
 					return html`<div>
-						<d2l-htmleditor>
-							<template>
-								<p>Hello World!</p>
-							</template>
-						</d2l-htmleditor>
+						<d2l-htmleditor html="<p>Hello World!</p>"></d2l-htmleditor>
 					</div>`;
 				}
 			}
@@ -40,59 +36,61 @@
 			</div>
 
 			<d2l-demo-snippet>
-				<d2l-htmleditor>
-					<template>
-						<p>Hello World!</p>
-						<img src="https://www.nasa.gov/sites/default/files/thumbnails/image/img_0194.jpg" style="width: 426px; height: 639px;">
-						<p>Good night Moon!</p>
-						<script>
-							console.log('script from default editor');
-							document.querySelector('p').addEventListener('click', () => {console.log('clicked');});
-						</script>
-					</template>
-				</d2l-htmleditor>
+				<template>
+					<d2l-htmleditor id="default"></d2l-htmleditor>
+					<script>
+						document.querySelector('#default').html = getDemoHtml('#default-html');
+					</script>
+				</template>
 			</d2l-demo-snippet>
 
 			<h2>Full Document</h2>
 
 			<d2l-demo-snippet>
 				<template>
-					<d2l-htmleditor full-page full-page-font-color="#494c4e" full-page-font-family="verdana, sans-serif" full-page-font-size="12px">
-						<template>
-							<p>Hello World!</p>
-							<img src="https://www.nasa.gov/sites/default/files/thumbnails/image/img_0194.jpg" style="width: 426px; height: 639px;">
-							<p>Good night Moon!</p>
-							<script>
-								console.log('script from default editor');
-								document.querySelector('p').addEventListener('click', () => {console.log('clicked');});
-							</script>
-						</template>
-					</d2l-htmleditor>
+					<d2l-htmleditor id="full-page" full-page full-page-font-color="#494c4e" full-page-font-family="verdana, sans-serif" full-page-font-size="12px"></d2l-htmleditor>
+					<script>
+						document.querySelector('#full-page').html = getDemoHtml('#default-html');
+					</script>
 				</template>
 			</d2l-demo-snippet>
 
 			<h2>Extra Wrapping</h2>
 
 			<d2l-demo-snippet>
-				<d2l-demo-wrapper></d2l-demo-wrapper>
+				<template>
+					<d2l-demo-wrapper></d2l-demo-wrapper>
+				</template>
 			</d2l-demo-snippet>
 
 			<h2>Inline</h2>
 
 			<d2l-demo-snippet>
-				<d2l-htmleditor inline>
-					<template>
-						<p>Hello World!</p>
-					</template>
-				</d2l-htmleditor>
+				<template>
+					<d2l-htmleditor inline html="<p>Hello World!</p>"></d2l-htmleditor>
+				</template>
 			</d2l-demo-snippet>
 
 		</d2l-demo-page>
 
+		<template id="default-html">
+			<p>Hello World!</p>
+			<img src="https://www.nasa.gov/sites/default/files/thumbnails/image/img_0194.jpg" style="width: 426px; height: 639px;">
+			<p>Good night Moon!</p>
+			<script>
+				console.log('script from default editor');
+				document.querySelector('p').addEventListener('click', () => {console.log('clicked');});
+			</script>
+		</template>
+
 		<script>
-			document.querySelector('button').addEventListener('click', () => {
-				document.querySelector('d2l-htmleditor').focus();
-			});
+			const getDemoHtml = (id) => {
+				const template = document.querySelector(id);
+				const temp = document.createElement('div');
+				temp.appendChild(document.importNode(template.content, true));
+				return temp.innerHTML;
+			};
 		</script>
+
 	</body>
 </html>

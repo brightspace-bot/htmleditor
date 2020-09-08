@@ -50,6 +50,7 @@ class HtmlEditor extends RtlMixin(LitElement) {
 			fullPageFontFamily: { type: String, attribute: 'full-page-font-family' },
 			fullPageFontSize: { type: String, attribute: 'full-page-font-size' },
 			height: { type: String },
+			html: { type: String },
 			inline: { type: Boolean },
 			noSpellchecker: { type: Boolean, attribute: 'no-spellchecker'},
 			width: { type: String },
@@ -72,6 +73,7 @@ class HtmlEditor extends RtlMixin(LitElement) {
 		super();
 		this.fullPage = false;
 		this.height = '355px';
+		this.html = '';
 		this.inline = false;
 		this.noSpellchecker = false;
 		this.width = '100%';
@@ -145,21 +147,10 @@ class HtmlEditor extends RtlMixin(LitElement) {
 	}
 
 	render() {
-		if (!this._originalContent) {
-			const template = this.querySelector('template');
-			if (this.inline) {
-				this._originalContent = document.importNode(template.content, true);
-			} else {
-				const temp = document.createElement('div');
-				temp.appendChild(document.importNode(template.content, true));
-				this._originalContent = temp.innerHTML;
-			}
-		}
-
 		if (this.inline) {
-			return html`<div id="${this._editorId}">${this._originalContent}</div>`;
+			return html`<div id="${this._editorId}" .innerHTML="${this.html}"></div>`;
 		} else {
-			return html`<textarea id="${this._editorId}">${this._originalContent}</textarea>`;
+			return html`<textarea id="${this._editorId}">${this.html}</textarea>`;
 		}
 	}
 
