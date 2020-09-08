@@ -43,12 +43,32 @@
 				<d2l-htmleditor>
 					<template>
 						<p>Hello World!</p>
+						<img src="https://www.nasa.gov/sites/default/files/thumbnails/image/img_0194.jpg" style="width: 426px; height: 639px;">
+						<p>Good night Moon!</p>
 						<script>
 							console.log('script from default editor');
 							document.querySelector('p').addEventListener('click', () => {console.log('clicked');});
 						</script>
 					</template>
 				</d2l-htmleditor>
+			</d2l-demo-snippet>
+
+			<h2>Full Document</h2>
+
+			<d2l-demo-snippet>
+				<template>
+					<d2l-htmleditor full-page full-page-font-color="#494c4e" full-page-font-family="verdana, sans-serif" full-page-font-size="12px">
+						<template>
+							<p>Hello World!</p>
+							<img src="https://www.nasa.gov/sites/default/files/thumbnails/image/img_0194.jpg" style="width: 426px; height: 639px;">
+							<p>Good night Moon!</p>
+							<script>
+								console.log('script from default editor');
+								document.querySelector('p').addEventListener('click', () => {console.log('clicked');});
+							</script>
+						</template>
+					</d2l-htmleditor>
+				</template>
 			</d2l-demo-snippet>
 
 			<h2>Extra Wrapping</h2>
