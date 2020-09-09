@@ -85,12 +85,16 @@
 
 		<script>
 			// eslint-disable-next-line no-unused-vars
-			const getDemoHtml = (id) => {
+			window.getDemoHtml = (id) => {
 				const template = document.querySelector(id);
 				const temp = document.createElement('div');
 				temp.appendChild(document.importNode(template.content, true));
 				return temp.innerHTML;
 			};
+
+			document.querySelector('button').addEventListener('click', () => {
+				document.querySelector('d2l-htmleditor').focus();
+			});
 		</script>
 	</body>
 </html>
