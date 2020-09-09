@@ -172,7 +172,7 @@ class HtmlEditor extends RtlMixin(LitElement) {
 		if (this.inline) {
 			return html`<div id="${this._editorId}" .innerHTML="${this._html}"></div>`;
 		} else {
-			return html`<textarea id="${this._editorId}">${this._html}</textarea>`;
+			return html`<textarea id="${this._editorId}" aria-hidden="true" tabindex="-1">${this._html}</textarea>`;
 		}
 	}
 
