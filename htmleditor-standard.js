@@ -22,8 +22,8 @@ import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
 // 3. copy new enterprise plugins into tinymce/plugins
 
 // TODO: resolve language
+// TODO: localize font-families
 // TODO: configure formats
-// TODO: configure font-families
 // TODO: figure out how to load out own icons without getting 404s
 // TODO: deal with importing styles
 // TODO: find out why enterprise plugins are not loaded properly above but are when using external_plugins
@@ -142,6 +142,7 @@ class HtmlEditor extends RtlMixin(LitElement) {
 					'a11ychecker': '/tinymce/plugins/a11ychecker/plugin.js',
 					'powerpaste': '/tinymce/plugins/powerpaste/plugin.js'
 				},
+				font_formats: 'Arabic Transparent=arabic transparent,sans-serif; Arial (Recommended)=arial,helvetica,sans-serif; Comic Sans=comic sans ms,sans-serif; Courier=courier new,courier,sans-serif; Ezra SIL=ezra sil,arial unicode ms,arial,sans-serif; Georgia=georgia,serif; SBL Hebrew=sbl hebrew,times new roman,serif; Simplified Arabic=simplified arabic,sans-serif; Tahoma=tahoma,sans-serif; Times New Roman=times new roman,times,serif; Traditional Arabic=traditional arabic,serif; Trebuchet=trebuchet ms,helvetica,sans-serif; Verdana=verdana,sans-serif; 돋움 (Dotum)=dotum,arial,helvetica,sans-serif; 宋体 (Sim Sun)=simsun; 細明體 (Ming Liu)=mingliu,arial,helvetica,sans-serif',
 				fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt',
 				height: this.height,
 				inline: this.inline,
