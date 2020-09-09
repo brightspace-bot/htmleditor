@@ -73,11 +73,32 @@ class HtmlEditor extends RtlMixin(LitElement) {
 		super();
 		this.fullPage = false;
 		this.height = '355px';
-		this.html = '';
 		this.inline = false;
 		this.noSpellchecker = false;
 		this.width = '100%';
 		this._editorId = getUniqueId();
+		this._html = '';
+	}
+
+	get html() {
+		const editor = tinymce.EditorManager.get(this._editorId);
+		if (editor) {
+			return editor.getContent();
+		} else {
+			return this._html;
+		}
+	}
+
+	set html(val) {
+		const oldVal = this._html;
+		if (oldVal !== val) {
+			this._html = val;
+			const editor = tinymce.EditorManager.get(this._editorId);
+			if (editor) {
+				editor.setContent(this._html);
+			}
+			this.requestUpdate('html', oldVal);
+		}
 	}
 
 	firstUpdated(changedProperties) {
@@ -148,9 +169,9 @@ class HtmlEditor extends RtlMixin(LitElement) {
 
 	render() {
 		if (this.inline) {
-			return html`<div id="${this._editorId}" .innerHTML="${this.html}"></div>`;
+			return html`<div id="${this._editorId}" .innerHTML="${this._html}"></div>`;
 		} else {
-			return html`<textarea id="${this._editorId}">${this.html}</textarea>`;
+			return html`<textarea id="${this._editorId}">${this._html}</textarea>`;
 		}
 	}
 
