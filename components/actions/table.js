@@ -46,8 +46,8 @@ class TableButton extends LitElement {
 				border-top-color: var(--d2l-color-ferrite);
 			}
 			.d2l-htmleditor-table-size-row > div:first-child {
-				margin-left: 0;
 				border-left-color: var(--d2l-color-ferrite);
+				margin-left: 0;
 			}
 			.d2l-htmleditor-table-size-row > div[data-selected] {
 				background-color: var(--d2l-color-celestine-plus-2);

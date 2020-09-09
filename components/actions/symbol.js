@@ -33,8 +33,8 @@ class SymbolButton extends LitElement {
 			.d2l-htmleditor-symbols > div {
 				align-items: center;
 				background-color: transparent;
-				border-color: transparent;
 				border: 1px solid transparent;
+				border-color: transparent;
 				border-radius: 0.3rem;
 				box-sizing: border-box;
 				cursor: pointer;

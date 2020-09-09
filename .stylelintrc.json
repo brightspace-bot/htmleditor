@@ -1,0 +1,6 @@
+{
+  "extends": "@brightspace-ui/stylelint-config",
+  "ignoreFiles": [
+    "tinymce/**/*.*"
+  ]
+}

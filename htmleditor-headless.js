@@ -56,6 +56,7 @@ class HtmlEditor extends LocalizeStaticMixin(LitElement) {
 	static get styles() {
 		return [tinymceStyles, css`
 			:host {
+				display: inline-block;
 			}
 			:host([hidden]) {
 				display: none;
@@ -73,6 +74,7 @@ class HtmlEditor extends LocalizeStaticMixin(LitElement) {
 			.d2l-htmleditor-fullscreen .d2l-htmleditor-content {
 				flex: auto;
 			}
+			/* stylelint-disable-next-line selector-class-pattern */
 			.d2l-htmleditor-fullscreen .tox-tinymce {
 				height: 100% !important;
 			}
