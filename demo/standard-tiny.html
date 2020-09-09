@@ -11,7 +11,7 @@
 			class DemoWrapper extends LitElement {
 				render() {
 					return html`<div>
-						<d2l-htmleditor html="<p>Hello World!</p>"></d2l-htmleditor>
+						<d2l-htmleditor html="&lt;p&gt;Hello World!&lt;/p&gt;"></d2l-htmleditor>
 					</div>`;
 				}
 			}
@@ -39,7 +39,7 @@
 				<template>
 					<d2l-htmleditor id="default"></d2l-htmleditor>
 					<script>
-						document.querySelector('#default').html = getDemoHtml('#default-html');
+						document.querySelector('#default').html = window.getDemoHtml('#default-html');
 					</script>
 				</template>
 			</d2l-demo-snippet>
@@ -50,7 +50,7 @@
 				<template>
 					<d2l-htmleditor id="full-page" full-page full-page-font-color="#494c4e" full-page-font-family="verdana, sans-serif" full-page-font-size="12px"></d2l-htmleditor>
 					<script>
-						document.querySelector('#full-page').html = getDemoHtml('#default-html');
+						document.querySelector('#full-page').html = window.getDemoHtml('#default-html');
 					</script>
 				</template>
 			</d2l-demo-snippet>
@@ -84,6 +84,7 @@
 		</template>
 
 		<script>
+			// eslint-disable-next-line no-unused-vars
 			const getDemoHtml = (id) => {
 				const template = document.querySelector(id);
 				const temp = document.createElement('div');
@@ -91,6 +92,5 @@
 				return temp.innerHTML;
 			};
 		</script>
-
 	</body>
 </html>
