@@ -41,7 +41,6 @@ import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
 // TODO: monolith intrgration (d2l_image d2l_isf d2l_equation fullscreen d2l_link d2l_equation d2l_code d2l_preview smallscreen)
 // TODO: editor resize (ref monolith resize handler, updates editor size)
 
-
 const pathFromUrl = (url) => {
 	return url.substring(0, url.lastIndexOf('/'));
 };
