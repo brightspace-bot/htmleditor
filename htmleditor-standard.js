@@ -61,7 +61,7 @@ class HtmlEditor extends RtlMixin(LitElement) {
 	static get styles() {
 		return css`
 			:host {
-				display: inline-block;
+				display: block;
 			}
 			:host([hidden]) {
 				display: none;
