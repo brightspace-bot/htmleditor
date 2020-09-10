@@ -41,6 +41,13 @@ import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
 // TODO: monolith intrgration (d2l_image d2l_isf d2l_equation fullscreen d2l_link d2l_equation d2l_code d2l_preview smallscreen)
 // TODO: editor resize (ref monolith resize handler, updates editor size)
 
+
+const pathFromUrl = (url) => {
+	return url.substring(0, url.lastIndexOf('/'));
+};
+
+const baseImportPath = pathFromUrl(import.meta.url);
+
 class HtmlEditor extends RtlMixin(LitElement) {
 
 	static get properties() {
@@ -135,12 +142,12 @@ class HtmlEditor extends RtlMixin(LitElement) {
 				branding: false,
 				browser_spellcheck: !this.noSpellchecker,
 				convert_urls: false,
-				content_css: '/tinymce/skins/content/default/content.css',
+				content_css: `${baseImportPath}/tinymce/skins/content/default/content.css`,
 				directionality: this.dir ? this.dir : 'ltr',
 				extended_valid_elements: 'span[*]',
 				external_plugins: {
-					'a11ychecker': '/tinymce/plugins/a11ychecker/plugin.js',
-					'powerpaste': '/tinymce/plugins/powerpaste/plugin.js'
+					'a11ychecker': `${baseImportPath}/tinymce/plugins/a11ychecker/plugin.js`,
+					'powerpaste': `${baseImportPath}/tinymce/plugins/powerpaste/plugin.js`
 				},
 				font_formats: 'Arabic Transparent=arabic transparent,sans-serif; Arial (Recommended)=arial,helvetica,sans-serif; Comic Sans=comic sans ms,sans-serif; Courier=courier new,courier,sans-serif; Ezra SIL=ezra sil,arial unicode ms,arial,sans-serif; Georgia=georgia,serif; SBL Hebrew=sbl hebrew,times new roman,serif; Simplified Arabic=simplified arabic,sans-serif; Tahoma=tahoma,sans-serif; Times New Roman=times new roman,times,serif; Traditional Arabic=traditional arabic,serif; Trebuchet=trebuchet ms,helvetica,sans-serif; Verdana=verdana,sans-serif; 돋움 (Dotum)=dotum,arial,helvetica,sans-serif; 宋体 (Sim Sun)=simsun; 細明體 (Ming Liu)=mingliu,arial,helvetica,sans-serif',
 				fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt',
@@ -152,7 +159,7 @@ class HtmlEditor extends RtlMixin(LitElement) {
 				object_resizing : true,
 				plugins: `a11ychecker charmap code directionality ${this.fullPage ? 'fullpage' : ''} fullscreen hr lists powerpaste preview table`,
 				relative_urls: false,
-				skin_url: '/tinymce/skins/ui/oxide',
+				skin_url: `${baseImportPath}/tinymce/skins/ui/oxide`,
 				statusbar: false,
 				target: textarea,
 				toolbar: this.inline
