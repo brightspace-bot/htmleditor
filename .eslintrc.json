@@ -1,0 +1,11 @@
+{
+  "extends": "brightspace/lit-config",
+  "globals": {
+    "tinymce": false
+  },
+  "ignorePatterns": ["tinymce"],
+  "rules": {
+    "no-console": 0,
+    "prefer-arrow-callback": 0
+  }
+}
