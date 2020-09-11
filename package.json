@@ -7,7 +7,8 @@
     "access": "public"
   },
   "files": [
-    "htmleditor.js"
+    "htmleditor.js",
+    "/tinymce"
   ],
   "scripts": {
     "lint": "npm run lint:eslint && npm run lint:style && npm run lint:lit",

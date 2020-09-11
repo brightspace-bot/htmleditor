@@ -40,6 +40,7 @@ import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
 // TODO: review auto-focus and whether it should be on the API
 // TODO: monolith intrgration (d2l_image d2l_isf d2l_equation fullscreen d2l_link d2l_equation d2l_code d2l_preview smallscreen)
 // TODO: editor resize (ref monolith resize handler, updates editor size)
+// TODO: why do class-stream, assignment-editor, and rubric editor turn off object-resizing?
 
 const pathFromUrl = (url) => {
 	return url.substring(0, url.lastIndexOf('/'));
