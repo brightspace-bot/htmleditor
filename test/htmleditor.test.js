@@ -1,4 +1,4 @@
-import '../htmleditor-standard.js';
+import '../htmleditor.js';
 import { expect, fixture, html } from '@open-wc/testing';
 import { runConstructor } from '@brightspace-ui/core/tools/constructor-test-helper.js';
 
