@@ -59,7 +59,7 @@ class HtmlEditor extends RtlMixin(LitElement) {
 			height: { type: String },
 			html: { type: String },
 			inline: { type: Boolean },
-			noSpellchecker: { type: Boolean, attribute: 'no-spellchecker'},
+			noSpellchecker: { type: Boolean, attribute: 'no-spellchecker' },
 			width: { type: String },
 			_editorId: { type: String }
 		};

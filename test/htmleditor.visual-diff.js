@@ -10,7 +10,7 @@ describe('d2l-htmleditor', () => {
 	before(async() => {
 		browser = await puppeteer.launch();
 		page = await visualDiff.createPage(browser);
-		await page.goto(`${visualDiff.getBaseUrl()}/test/htmleditor.visual-diff.html`, {waitUntil: ['networkidle0', 'load']});
+		await page.goto(`${visualDiff.getBaseUrl()}/test/htmleditor.visual-diff.html`, { waitUntil: ['networkidle0', 'load'] });
 		await page.bringToFront();
 	});
 
