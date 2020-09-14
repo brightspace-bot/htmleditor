@@ -1,3 +1,4 @@
+import '@brightspace-ui/core/components/colors/colors.js';
 import 'tinymce/tinymce.js';
 import 'tinymce/icons/default/icons.js';
 import 'tinymce/plugins/charmap/plugin.js';
