@@ -73,6 +73,7 @@ class HtmlEditor extends RtlMixin(LitElement) {
 			:host([hidden]) {
 				display: none;
 			}
+			/* stylelint-disable-next-line selector-class-pattern */
 			.tox-tinymce.tox-fullscreen {
 				z-index: 1001;
 			}
