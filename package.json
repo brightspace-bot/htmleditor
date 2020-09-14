@@ -50,6 +50,6 @@
     "@brightspace-ui/core": "^1",
     "@webcomponents/webcomponentsjs": "^2",
     "lit-element": "^2",
-    "tinymce": "5.4.1"
+    "tinymce": "5.4.2"
   }
 }
