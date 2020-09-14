@@ -12,7 +12,7 @@ import 'tinymce/plugins/table/plugin.js';
 import 'tinymce/themes/silver/theme.js';
 //import './tinymce/plugins/a11ychecker/plugin.js';
 //import './tinymce/plugins/powerpaste/plugin.js';
-import { css, html, LitElement } from 'lit-element/lit-element.js';
+import { css, html, LitElement, unsafeCSS } from 'lit-element/lit-element.js';
 import { getUniqueId } from '@brightspace-ui/core/helpers/uniqueId.js';
 import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
 
@@ -25,7 +25,6 @@ import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
 // TODO: localize font-families
 // TODO: configure formats
 // TODO: figure out how to load out own icons without getting 404s
-// TODO: deal with importing styles
 // TODO: find out why enterprise plugins are not loaded properly above but are when using external_plugins
 // TODO: set powerpaste_word_import based on paste formatting config value (clean, merge, prompt)
 // TODO: convert pasted local images if upload location provided (previously only allowed local images if provided)
@@ -36,17 +35,38 @@ import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
 // TODO: refactor classic / inline if necessary (need Design discussion)
 // TODO: review allow_script_urls (ideally we can turn this off)
 // TODO: review resize (monolith specifies both, but this would require enabling statusbar)
-// TODO: content CSS (fragment and fullpage)
 // TODO: review auto-focus and whether it should be on the API
 // TODO: monolith intrgration (d2l_image d2l_isf d2l_equation fullscreen d2l_link d2l_equation d2l_code d2l_preview smallscreen)
 // TODO: editor resize (ref monolith resize handler, updates editor size)
 // TODO: why do class-stream, assignment-editor, and rubric editor turn off object-resizing?
+
+const rootFontSize = window.getComputedStyle(document.documentElement, null).getPropertyValue('font-size');
 
 const pathFromUrl = (url) => {
 	return url.substring(0, url.lastIndexOf('/'));
 };
 
 const baseImportPath = pathFromUrl(import.meta.url);
+
+const contentFragmentCss = css`
+	@import url("https://s.brightspace.com/lib/fonts/0.5.0/fonts.css");
+	html {
+		/* stylelint-disable-next-line function-name-case */
+		font-size: ${unsafeCSS(rootFontSize)};
+	}
+	body {
+		color: #494c4e;
+		font-family: 'Lato', sans-serif;
+		font-size: 0.95rem;
+		font-weight: normal;
+		letter-spacing: 0.01rem;
+		line-height: 1.4rem;
+	}
+	table {
+		font-family: 'Lato', sans-serif;
+		font-size: inherit;
+	}
+`.cssText;
 
 class HtmlEditor extends RtlMixin(LitElement) {
 
@@ -147,6 +167,7 @@ class HtmlEditor extends RtlMixin(LitElement) {
 				browser_spellcheck: !this.noSpellchecker,
 				convert_urls: false,
 				content_css: `${baseImportPath}/tinymce/skins/content/default/content.css`,
+				content_style: this.fullPage ? '' : contentFragmentCss,
 				directionality: this.dir ? this.dir : 'ltr',
 				extended_valid_elements: 'span[*]',
 				external_plugins: {
