@@ -1,7 +1,6 @@
 tinymce.addI18n('fi', {
   'Accessibility Checker': 'K\xE4ytett\xE4vyyden tarkistaja',
   'Checking...': 'Tarkistetaan...',
-  'Issue {0} of {1}': 'Ongelma {0} / {1}',
   'WCAG 2.0 reference - opens in a new window': 'WCAG 2.0 -viittaus \u2013 avautuu uuteen ikkunaan',
   'No accessibility issues detected': 'K\xE4ytett\xE4vyysongelmia ei havaittu',
   'Previous Issue': 'Edellinen ongelma',
@@ -43,5 +42,18 @@ tinymce.addI18n('fi', {
   'Text must have a contrast ratio of at least 7:1': 'Tekstin kontrastisuhteen on oltava ainakin 7:1',
   'Error': 'Virhe',
   'Warning': 'Varoitus',
-  'Informative': 'Informatiivinen'
+  'Informative': 'Informatiivinen',
+  'Success': 'Onnistui',
+  'Repair': 'Korjaa',
+  'Issue {0} of {1}': 'Ongelma {0} / {1}',
+  'Images must be marked as decorative or have an alternative text description': 'Kuvat on merkitt\xe4v\xe4 koristeellisiksi tai niiss\xe4 on oltava vaihtoehtoinen tekstikuvaus',
+  'Images must have an alternative text description. Decorative images are not allowed.': 'Kuvilla on oltava vaihtoehtoinen tekstikuvaus. Koristeelliset kuvat eiv\xe4t ole sallittuja.',
+  'Or provide alternative text:': 'Tai anna vaihtoehtoinen teksti:',
+  'Image is decorative': 'Kuva on koristeellinen',
+  'Make image decorative:': 'Tee kuvasta koristeellinen:',
+  'ID attribute must be unique': 'Tunnus-attribuutin pit\xe4\xe4 olla yksil\xf6llinen',
+  'Make ID unique': 'Tee tunnuksesta yksil\xf6llinen',
+  'Keep this ID and remove all others': 'Pid\xe4 t\xe4m\xe4 tunnus ja poista kaikki muut',
+  'Remove this ID': 'Poista t\xe4m\xe4 tunnus',
+  'Remove all IDs': 'Poista kaikki tunnukset'
 });

@@ -1,7 +1,6 @@
 tinymce.addI18n('zh_TW', {
   'Accessibility Checker': '\u9032\u5165\u6AA2\u67E5\u5668',
   'Checking...': '\u6B63\u5728\u6AA2\u67E5......',
-  'Issue {0} of {1}': '\u554F\u984C{0}\uFF0C\u5171{1}',
   'WCAG 2.0 reference - opens in a new window': 'WCAG 2.0\u53C3\u8003-\u5728\u65B0\u8996\u7A97\u4E2D\u6253\u958B',
   'No accessibility issues detected': '\u6C92\u6709\u6AA2\u6E2C\u5230\u9032\u5165\u554F\u984C',
   'Previous Issue': '\u4EE5\u524D\u7684\u554F\u984C',
@@ -43,5 +42,18 @@ tinymce.addI18n('zh_TW', {
   'Text must have a contrast ratio of at least 7:1': '\u6587\u5B57\u81F3\u5C11\u8981\u67097:1\u7684\u5C0D\u6BD4\u5EA6',
   'Error': '\u932F\u8AA4',
   'Warning': '\u8B66\u544A',
-  'Informative': '\u5167\u5BB9\u8C50\u5BCC'
+  'Informative': '\u5167\u5BB9\u8C50\u5BCC',
+  'Success': '\u6210\u529f',
+  'Repair': '\u4fee\u5fa9',
+  'Issue {0} of {1}': '\u554f\u984c{0}\uff0c\u5171{1}',
+  'Images must be marked as decorative or have an alternative text description': '\u5716\u7247\u5fc5\u9808\u6a19\u8a18\u70ba\u88dd\u98fe\u6027\u7684\uff0c\u6216\u5177\u6709\u66ff\u4ee3\u6587\u5b57\u8aaa\u660e',
+  'Images must have an alternative text description. Decorative images are not allowed.': '\u5716\u7247\u5fc5\u9808\u5177\u6709\u66ff\u4ee3\u6587\u5b57\u8aaa\u660e\u3002\u7981\u6b62\u4f7f\u7528\u88dd\u98fe\u6027\u5716\u7247\u3002',
+  'Or provide alternative text:': '\u6216\u63d0\u4f9b\u66ff\u4ee3\u6587\u5b57\ufe30',
+  'Image is decorative': '\u5716\u50cf\u662f\u88dd\u98fe\u6027\u7684',
+  'Make image decorative:': '\u4f7f\u5716\u7247\u5177\u6709\u88dd\u98fe\u6027\uff1a',
+  'ID attribute must be unique': 'ID\u5c6c\u6027\u5fc5\u9808\u662f\u552f\u4e00\u7684',
+  'Make ID unique': '\u4f7fID\u5177\u6709\u552f\u4e00\u6027',
+  'Keep this ID and remove all others': '\u4fdd\u7559\u6b64ID\u4e26\u522a\u9664\u6240\u6709\u5176\u4ed6ID',
+  'Remove this ID': '\u522a\u9664\u9019\u500bID',
+  'Remove all IDs': '\u522a\u9664\u6240\u6709ID'
 });

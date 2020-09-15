@@ -1,7 +1,6 @@
 tinymce.addI18n('fr_FR', {
   'Accessibility Checker': 'V\xE9rificateur d\'accessibilit\xE9',
   'Checking...': 'V\xE9rification en cours...',
-  'Issue {0} of {1}': 'Probl\xE8me {0} sur {1}',
   'WCAG 2.0 reference - opens in a new window': 'R\xE9f\xE9rence WCAG 2.0 - s\'ouvre dans une nouvelle fen\xEAtre',
   'No accessibility issues detected': 'Aucun probl\xE8me d\'accessibilit\xE9 d\xE9tect\xE9',
   'Previous Issue': 'Probl\xE8me pr\xE9c\xE9dent',
@@ -43,5 +42,18 @@ tinymce.addI18n('fr_FR', {
   'Text must have a contrast ratio of at least 7:1': 'Le texte doit poss\xE9der un rapport de contraste de 7:1 au minimum',
   'Error': 'Erreur',
   'Warning': 'Attention',
-  'Informative': 'Informatif'
+  'Informative': 'Informatif',
+  'Success': 'R\xe9ussite',
+  'Repair': 'R\xe9parer',
+  'Issue {0} of {1}': 'Probl\xe8me\xa0{0} sur\xa0{1}',
+  'Images must be marked as decorative or have an alternative text description': 'Les images doivent \xeatre marqu\xe9es comme d\xe9coratives ou avoir une description de texte de remplacement.',
+  'Images must have an alternative text description. Decorative images are not allowed.': 'Les images doivent avoir une description de texte de remplacement. Les images d\xe9coratives ne sont pas autoris\xe9es.',
+  'Or provide alternative text:': 'Ou fournissez un texte de remplacement\xa0:',
+  'Image is decorative': 'L\u2019image est d\xe9corative',
+  'Make image decorative:': 'Rendez l\u2019image d\xe9corative\xa0:',
+  'ID attribute must be unique': 'L\u2019attribut d\'ID doit \xeatre unique',
+  'Make ID unique': 'Rendez l\u2019ID unique',
+  'Keep this ID and remove all others': 'Conservez cet ID et supprimez tous les autres',
+  'Remove this ID': 'Supprimer cet ID',
+  'Remove all IDs': 'Supprimer tous les ID'
 });

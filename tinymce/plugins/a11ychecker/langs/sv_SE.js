@@ -1,7 +1,6 @@
 tinymce.addI18n('sv_SE', {
   'Accessibility Checker': 'Tillg\xE4nglighetskontroll',
   'Checking...': 'Kontrollerar...',
-  'Issue {0} of {1}': 'Problem {0} av {1}',
   'WCAG 2.0 reference - opens in a new window': 'WCAG 2.0-referens \u2013 \xF6ppnas i ett nytt f\xF6nster',
   'No accessibility issues detected': 'Inga tillg\xE4nglighetsproblem hittades',
   'Previous Issue': 'F\xF6reg\xE5ende problem',
@@ -43,5 +42,18 @@ tinymce.addI18n('sv_SE', {
   'Text must have a contrast ratio of at least 7:1': 'Text m\xE5ste ha ett kontrastf\xF6rh\xE5llande p\xE5 minst 7:1',
   'Error': 'Fel',
   'Warning': 'Varning',
-  'Informative': 'Informativt'
+  'Informative': 'Informativt',
+  'Success': 'Lyckades',
+  'Repair': 'Reparera',
+  'Issue {0} of {1}': 'Problem {0} av {1}',
+  'Images must be marked as decorative or have an alternative text description': 'Bilder m\xe5ste markeras som dekorativa eller ha en alternativ beskrivande text',
+  'Images must have an alternative text description. Decorative images are not allowed.': 'Bilder m\xe5ste ha en alternativ beskrivande text. Dekorativa bilder \xe4r inte till\xe5tna.',
+  'Or provide alternative text:': 'Eller ange alternativ text:',
+  'Image is decorative': 'Bilden \xe4r dekorativ',
+  'Make image decorative:': 'G\xf6r bilden dekorativ:',
+  'ID attribute must be unique': 'ID-attributet m\xe5ste vara unikt',
+  'Make ID unique': 'G\xf6r ID:t unikt',
+  'Keep this ID and remove all others': 'Bevara detta ID och ta bort alla andra',
+  'Remove this ID': 'Ta bort detta ID',
+  'Remove all IDs': 'Ta bort alla ID:n'
 });

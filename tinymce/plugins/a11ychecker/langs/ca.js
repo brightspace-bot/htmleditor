@@ -1,7 +1,6 @@
 tinymce.addI18n('ca', {
   'Accessibility Checker': 'Comprovaci\xF3 d\'accessibilitat',
   'Checking...': 'Comprovant...',
-  'Issue {0} of {1}': 'Problema {0} de {1}',
   'WCAG 2.0 reference - opens in a new window': 'Refer\xE8ncia WCAG 2,0 - s\'obre en una finestra nova',
   'No accessibility issues detected': 'No s\'han detectat problemes d\'accessibilitat',
   'Previous Issue': 'Problema anterior',
@@ -43,5 +42,18 @@ tinymce.addI18n('ca', {
   'Text must have a contrast ratio of at least 7:1': 'El text ha de tenir una relaci\xF3 de contrast de com a m\xEDnim 7:1',
   'Error': 'Error',
   'Warning': 'Advert\xE8ncia',
-  'Informative': 'Informaci\xF3'
+  'Informative': 'Informaci\xF3',
+  'Success': '\xc8xit',
+  'Repair': 'Reparar',
+  'Issue {0} of {1}': 'Problema {0} de {1}',
+  'Images must be marked as decorative or have an alternative text description': 'Les imatges han d\'estar marcades com a decoratives o tenir una descripci\xf3 de text alternativa',
+  'Images must have an alternative text description. Decorative images are not allowed.': 'Les imatges han de tenir una descripci\xf3 de text alternativa. No es permeten imatges decoratives.',
+  'Or provide alternative text:': 'O introdu\xefu un text alternatiu:',
+  'Image is decorative': 'La imatge \xe9s decorativa',
+  'Make image decorative:': 'Fer que la imatge sigui decorativa:',
+  'ID attribute must be unique': 'L\u2019ID de l\u2019atribut ha de ser \xfanic',
+  'Make ID unique': 'Fer que l\u2019ID sigui \xfanic',
+  'Keep this ID and remove all others': 'Conserveu aquest ID i elimineu tots els altres.',
+  'Remove this ID': 'Suprimir aquest ID',
+  'Remove all IDs': 'Suprimir tots els ID'
 });

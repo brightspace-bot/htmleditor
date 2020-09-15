@@ -1,7 +1,6 @@
 tinymce.addI18n('pt_PT', {
   'Accessibility Checker': 'Verificador de Acessibilidade',
   'Checking...': 'A verificar...',
-  'Issue {0} of {1}': 'Problema {0} de {1}',
   'WCAG 2.0 reference - opens in a new window': 'Refer\xEAncia WCAG 2.0 - abre numa nova janela',
   'No accessibility issues detected': 'N\xE3o foi detetado nenhum problema de acessibilidade',
   'Previous Issue': 'Problema anterior',
@@ -43,5 +42,18 @@ tinymce.addI18n('pt_PT', {
   'Text must have a contrast ratio of at least 7:1': 'O texto deve ter uma rela\xE7\xE3o de contraste m\xEDnima de 7:1',
   'Error': 'Erro',
   'Warning': 'Aviso',
-  'Informative': 'Informa\xE7\xE3o'
+  'Informative': 'Informa\xE7\xE3o',
+  'Success': 'Sucesso',
+  'Repair': 'Reparar',
+  'Issue {0} of {1}': 'Problema {0} de {1}',
+  'Images must be marked as decorative or have an alternative text description': 'As imagens devem estar assinaladas como decorativas ou ter uma descri\xe7\xe3o de texto alternativa',
+  'Images must have an alternative text description. Decorative images are not allowed.': 'As imagens devem ter uma descri\xe7\xe3o de texto alternativa. Imagens decorativas n\xe3o s\xe3o permitidas.',
+  'Or provide alternative text:': 'Ou forne\xe7a o texto alternativo:',
+  'Image is decorative': 'Imagem decorativa',
+  'Make image decorative:': 'Tornar imagem decorativa:',
+  'ID attribute must be unique': 'O atributo ID deve ser \xfanico',
+  'Make ID unique': 'Tornar ID \xfanico',
+  'Keep this ID and remove all others': 'Manter este ID e remover todos os restantes',
+  'Remove this ID': 'Remover este ID',
+  'Remove all IDs': 'Remover todos os IDs'
 });

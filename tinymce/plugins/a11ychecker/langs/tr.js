@@ -1,7 +1,6 @@
 tinymce.addI18n('tr', {
   'Accessibility Checker': 'Eri\u015Filebilirlik Denetleyicisi',
   'Checking...': 'Kontrol ediliyor...',
-  'Issue {0} of {1}': 'Sorun {0} / {1}',
   'WCAG 2.0 reference - opens in a new window': 'WCAG 2.0 referans - yeni pencerede a\xE7\u0131l\u0131r',
   'No accessibility issues detected': 'Hi\xE7bir eri\u015Filebilirlik sorunu tespit edilmedi',
   'Previous Issue': '\xD6nceki Sorun',
@@ -43,5 +42,18 @@ tinymce.addI18n('tr', {
   'Text must have a contrast ratio of at least 7:1': 'Metnin kontrast oran\u0131 en az 7:1 olmal\u0131d\u0131r',
   'Error': 'Hata',
   'Warning': 'Uyar\u0131',
-  'Informative': 'Bilgilendirici'
+  'Informative': 'Bilgilendirici',
+  'Success': 'Ba\u015far\u0131l\u0131 ',
+  'Repair': 'Onar',
+  'Issue {0} of {1}': 'Sorun {0} / {1}',
+  'Images must be marked as decorative or have an alternative text description': 'Resimler dekoratif olarak belirtilmi\u015f olmal\u0131 veya alternatif metin a\xe7\u0131klamas\u0131 olmal\u0131d\u0131r',
+  'Images must have an alternative text description. Decorative images are not allowed.': 'Resimlerin alternatif metin a\xe7\u0131klamas\u0131 olmal\u0131d\u0131r. Dekoratif resimlere izin verilmez.',
+  'Or provide alternative text:': 'Veya alternatif metin sunun:',
+  'Image is decorative': 'Resim dekoratif',
+  'Make image decorative:': 'Resmi dekoratif yap:',
+  'ID attribute must be unique': 'Kimlik \xf6zniteli\u011fi benzersiz olmal\u0131d\u0131r',
+  'Make ID unique': 'Kimli\u011fi benzersiz yap',
+  'Keep this ID and remove all others': 'Bu kimli\u011fi tut ve di\u011ferlerini kald\u0131r',
+  'Remove this ID': 'Bu kimli\u011fi kald\u0131r',
+  'Remove all IDs': 'T\xfcm kimlikleri kald\u0131r'
 });

@@ -1,7 +1,6 @@
 tinymce.addI18n('hr', {
   'Accessibility Checker': 'Provjeravanje pristupa\u010Dnosti',
   'Checking...': 'Provjeravanje...',
-  'Issue {0} of {1}': 'Problem {0} od {1}',
   'WCAG 2.0 reference - opens in a new window': 'WCAG 2,0 referenca - otvara se u novom prozoru',
   'No accessibility issues detected': 'Nisu prepoznati problemi pristupa\u010Dnosti',
   'Previous Issue': 'Prethodni problem',
@@ -43,5 +42,18 @@ tinymce.addI18n('hr', {
   'Text must have a contrast ratio of at least 7:1': 'Tekst mora imati omjer kontrasta najmanje 7:1',
   'Error': 'Pogre\u0161ka',
   'Warning': 'Upozorenje',
-  'Informative': 'Informativno'
+  'Informative': 'Informativno',
+  'Success': 'Uspje\u0161no',
+  'Repair': 'Popravak',
+  'Issue {0} of {1}': 'Problem {0} od {1}',
+  'Images must be marked as decorative or have an alternative text description': 'Slike moraju biti ozna\u010dene kao dekorativne ili imati alternativan tekstualni opis',
+  'Images must have an alternative text description. Decorative images are not allowed.': 'Slike moraju imati alternativan tekstualni opis. Dekorativne slike nisu dopu\u0161tene.',
+  'Or provide alternative text:': 'Ili unesite alternativni tekst:',
+  'Image is decorative': 'Slika je dekorativna',
+  'Make image decorative:': 'Pretvori sliku u dekorativnu:',
+  'ID attribute must be unique': 'Identifikacijski atribut mora biti jedinstven',
+  'Make ID unique': 'Pretvori identifikacijsku oznaku u jedinstvenu',
+  'Keep this ID and remove all others': 'Zadr\u017ei ovu identifikacijsku oznaku i ukloni sve ostale',
+  'Remove this ID': 'Ukloni ovu identifikacijsku oznaku',
+  'Remove all IDs': 'Ukloni sve identifikacijske oznake'
 });

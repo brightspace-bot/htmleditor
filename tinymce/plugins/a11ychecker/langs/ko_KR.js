@@ -1,7 +1,6 @@
 tinymce.addI18n('ko_KR', {
   'Accessibility Checker': '\uC811\uADFC\uC131 \uAC80\uC0AC\uAE30',
   'Checking...': '\uAC80\uC0AC \uC911...',
-  'Issue {0} of {1}': '\uBB38\uC81C: {0} of {1}',
   'WCAG 2.0 reference - opens in a new window': 'WCAG 2.0 \uCC38\uC870 - \uC0C8 \uCC3D\uC5D0 \uC5F4\uAE30',
   'No accessibility issues detected': '\uC811\uADFC\uC131\uC5D0 \uBB38\uC81C\uAC00 \uC5C6\uC2B5\uB2C8\uB2E4',
   'Previous Issue': '\uC774\uC804 \uBB38\uC81C',
@@ -43,5 +42,18 @@ tinymce.addI18n('ko_KR', {
   'Text must have a contrast ratio of at least 7:1': '\uD14D\uC2A4\uD2B8\uB294 \uCD5C\uC18C\uD55C 7:1\uC758 \uBA85\uC554\uBE44\uB97C \uAC00\uC838\uC57C \uD569\uB2C8\uB2E4.',
   'Error': '\uC624\uB958',
   'Warning': '\uACBD\uACE0',
-  'Informative': '\uC815\uBCF4'
+  'Informative': '\uC815\uBCF4',
+  'Success': '\uc131\uacf5',
+  'Repair': '\uc218\ub9ac',
+  'Issue {0} of {1}': '{1}\uc758 {0} \ubb38\uc81c',
+  'Images must be marked as decorative or have an alternative text description': '\uc774\ubbf8\uc9c0\ub294 \uc7a5\uc2dd\uc6a9 \uc774\ubbf8\uc9c0\ub85c \ud45c\uc2dc\ub418\uac70\ub098 \uc124\uba85\ud558\ub294 \ub300\uccb4 \ud14d\uc2a4\ud2b8\uac00 \uc788\uc5b4\uc57c \ud569\ub2c8\ub2e4',
+  'Images must have an alternative text description. Decorative images are not allowed.': '\uc774\ubbf8\uc9c0\ub294 \uc124\uba85\ud558\ub294 \ub300\uccb4 \ud14d\uc2a4\ud2b8\uac00 \uc788\uc5b4\uc57c \ud569\ub2c8\ub2e4. \uc7a5\uc2dd\uc6a9 \uc774\ubbf8\uc9c0\ub294 \ud5c8\uc6a9\ub418\uc9c0 \uc54a\uc2b5\ub2c8\ub2e4.',
+  'Or provide alternative text:': '\ub610\ub294 \ub300\uccb4 \ud14d\uc2a4\ud2b8 \uc81c\uacf5:',
+  'Image is decorative': '\uc7a5\uc2dd\uc6a9 \uc774\ubbf8\uc9c0',
+  'Make image decorative:': '\uc7a5\uc2dd\uc6a9 \uc774\ubbf8\uc9c0 \uc0dd\uc131:',
+  'ID attribute must be unique': 'ID \uc18d\uc131\uc740 \uace0\uc720\ud55c \uac83\uc774\uc5b4\uc57c \ud569\ub2c8\ub2e4.',
+  'Make ID unique': '\uace0\uc720 ID \uc0dd\uc131',
+  'Keep this ID and remove all others': '\uc774 ID\ub97c \uc720\uc9c0\ud558\uace0 \ub2e4\ub978 ID\ub294 \ubaa8\ub450 \uc81c\uac70',
+  'Remove this ID': '\uc774 ID \uc81c\uac70',
+  'Remove all IDs': '\ubaa8\ub4e0 ID \uc81c\uac70'
 });

@@ -1,3 +1,5 @@
+Version 2.2.1 (2020-06-09)
+  [BUG] Fixed missing translations for strings added in 2.2.0 #TINY-6056
 Version 2.2.0 (2020-02-13)
   [FEATURE] Added a rule to ensure that ID attributes on elements are unique in a document #FOAM-11
   [FEATURE] Added image alt text support to allow users to specify if an image is decorative or informative #FOAM-10
