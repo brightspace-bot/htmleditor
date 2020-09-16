@@ -15,8 +15,8 @@ import 'tinymce/themes/silver/theme.js';
 //import './tinymce/plugins/powerpaste/plugin.js';
 import { css, html, LitElement, unsafeCSS } from 'lit-element/lit-element.js';
 import { getUniqueId } from '@brightspace-ui/core/helpers/uniqueId.js';
-import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
 import { icons } from './icons.js';
+import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
 
 // To update from nre tinyMCE install
 // 1. copy skins from installed node_modules/tinymce into tinymce/skins

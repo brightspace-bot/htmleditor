@@ -97,8 +97,8 @@ const icons = {
 	'underline': underline
 };
 
-Object.keys(icons).forEach((key,index) => {
-	icons[key] = icons[key].replace( /fill="#494c4e"/g, 'fill-rule="nonzero"');
+Object.keys(icons).forEach((key) => {
+	icons[key] = icons[key].replace(/fill="#494c4e"/g, 'fill-rule="nonzero"');
 });
 
 export { icons };
