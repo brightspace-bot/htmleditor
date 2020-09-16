@@ -22,10 +22,6 @@ import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
 // 2. copy new language packs from https://www.tiny.cloud/get-tiny/language-packages/ into tinymce/langs
 // 3. copy new enterprise plugins into tinymce/plugins
 
-// TODO: resolve language
-// TODO: localize font-families
-// TODO: configure formats
-// TODO: figure out how to load out own icons without getting 404s
 // TODO: find out why enterprise plugins are not loaded properly above but are when using external_plugins
 // TODO: set powerpaste_word_import based on paste formatting config value (clean, merge, prompt)
 // TODO: convert pasted local images if upload location provided (previously only allowed local images if provided)
@@ -37,9 +33,6 @@ import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
 // TODO: review allow_script_urls (ideally we can turn this off)
 // TODO: review resize (monolith specifies both, but this would require enabling statusbar)
 // TODO: review auto-focus and whether it should be on the API
-// TODO: monolith intrgration (d2l_image d2l_isf d2l_equation fullscreen d2l_link d2l_equation d2l_code d2l_preview smallscreen)
-// TODO: editor resize (ref monolith resize handler, updates editor size)
-// TODO: why do class-stream, assignment-editor, and rubric editor turn off object-resizing?
 
 const rootFontSize = window.getComputedStyle(document.documentElement, null).getPropertyValue('font-size');
 
