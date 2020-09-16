@@ -1,7 +1,6 @@
 tinymce.addI18n('de', {
   'Accessibility Checker': 'Barrierefreiheitspr\xFCfung',
   'Checking...': 'Pr\xFCfung wird ausgef\xFChrt...',
-  'Issue {0} of {1}': 'Problem {0} von {1}',
   'WCAG 2.0 reference - opens in a new window': 'WCAG 2.0 Referenz - wird in einem neuen Fenster ge\xF6ffnet',
   'No accessibility issues detected': 'Keine Barrierefreiheitsprobleme gefunden',
   'Previous Issue': 'Vorheriges Problem',
@@ -43,5 +42,18 @@ tinymce.addI18n('de', {
   'Text must have a contrast ratio of at least 7:1': 'Text muss ein Kontrastverh\xE4ltnis von mindestens 7:1 aufweisen',
   'Error': 'Fehler',
   'Warning': 'Warnung',
-  'Informative': 'Wichtig'
+  'Informative': 'Wichtig',
+  'Success': 'Erfolgreich',
+  'Repair': 'Reparieren',
+  'Issue {0} of {1}': 'Problem {0} von {1}',
+  'Images must be marked as decorative or have an alternative text description': 'Bilder m\xfcssen als dekorativ gekennzeichnet sein oder eine alternative Textbeschreibung haben',
+  'Images must have an alternative text description. Decorative images are not allowed.': 'Bilder m\xfcssen eine alternative Textbeschreibung haben. Dekorative Bilder sind nicht erlaubt.',
+  'Or provide alternative text:': 'Oder alternativen Text bereitstellen:',
+  'Image is decorative': 'Bild ist dekorativ',
+  'Make image decorative:': 'Bild dekorativ machen:',
+  'ID attribute must be unique': 'Das ID-Attribut muss eindeutig sein',
+  'Make ID unique': 'ID eindeutig machen',
+  'Keep this ID and remove all others': 'Diese ID behalten und alla andere entfernen',
+  'Remove this ID': 'Diese ID entfernen',
+  'Remove all IDs': 'Alle IDs entfernen'
 });

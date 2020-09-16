@@ -1,7 +1,6 @@
 tinymce.addI18n('hu_HU', {
   'Accessibility Checker': 'Hozz\xE1f\xE9rhet\u0151s\xE9g-ellen\u0151rz\u0151',
   'Checking...': 'Ellen\u0151rz\xE9s...',
-  'Issue {0} of {1}': '{1}/{0} probl\xE9ma',
   'WCAG 2.0 reference - opens in a new window': 'WCAG 2.0 referencia \u2013 \xFAj ablakban ny\xEDlik meg',
   'No accessibility issues detected': 'Nincs probl\xE9ma a hozz\xE1f\xE9rhet\u0151s\xE9ggel',
   'Previous Issue': 'El\u0151z\u0151 probl\xE9ma',
@@ -43,5 +42,18 @@ tinymce.addI18n('hu_HU', {
   'Text must have a contrast ratio of at least 7:1': 'A sz\xF6veg kontrasztar\xE1ny\xE1nak legal\xE1bb 7:1 \xE9rt\xE9k\u0171nek kell lennie',
   'Error': 'Hiba',
   'Warning': 'Figyelmeztet\xE9s',
-  'Informative': '\xC9rtes\xEDt\xE9s'
+  'Informative': '\xC9rtes\xEDt\xE9s',
+  'Success': 'Sikeres m\u0171velet',
+  'Repair': 'Jav\xedt\xe1s',
+  'Issue {0} of {1}': '{0} / {1} probl\xe9ma',
+  'Images must be marked as decorative or have an alternative text description': 'A k\xe9peket illusztr\xe1ci\xf3k\xe9nt kell megjel\xf6lni vagy helyettes\xedt\u0151 sz\xf6veges le\xedr\xe1ssal kell rendelkezni\xfck',
+  'Images must have an alternative text description. Decorative images are not allowed.': 'A k\xe9peknek helyettes\xedt\u0151 sz\xf6veges le\xedr\xe1ssal kell rendelkezni\xfck. Illusztrat\xedv k\xe9pek nem enged\xe9lyezettek.',
+  'Or provide alternative text:': 'Vagy adjon meg helyettes\xedt\u0151 sz\xf6veget:',
+  'Image is decorative': 'A k\xe9p csak illusztr\xe1ci\xf3',
+  'Make image decorative:': 'A k\xe9p legyen illusztrat\xedv:',
+  'ID attribute must be unique': 'Az azonos\xedt\xf3attrib\xfatumnak egyedinek kell lennie',
+  'Make ID unique': 'Az azonos\xedt\xf3 legyen egyedi',
+  'Keep this ID and remove all others': 'Tartsa meg ezt az azonos\xedt\xf3t, a t\xf6bbit t\xf6r\xf6lje',
+  'Remove this ID': 'Azonos\xedt\xf3 t\xf6rl\xe9se',
+  'Remove all IDs': '\xd6sszes azonos\xedt\xf3 t\xf6rl\xe9se'
 });

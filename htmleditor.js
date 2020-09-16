@@ -190,7 +190,7 @@ class HtmlEditor extends RtlMixin(LitElement) {
 				target: textarea,
 				toolbar: this.inline
 					? 'bold italic underline'
-					: 'bold italic underline | strikethrough subscript superscript | bullist numlist | indent outdent | alignleft alignright aligncenter alignjustify | charmap hr | table | forecolor | styleselect fontselect fontsizeselect | undo redo | preview code fullscreen | ltr rtl',
+					: 'bold italic underline | strikethrough subscript superscript | bullist numlist | indent outdent | alignleft alignright aligncenter alignjustify | charmap hr | table | forecolor | styleselect fontselect fontsizeselect | undo redo | preview code fullscreen | ltr rtl | a11ycheck',
 				valid_elements: '*[*]',
 				width: this.width,
 				...fullPageConfig,

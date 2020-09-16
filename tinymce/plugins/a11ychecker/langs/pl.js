@@ -1,7 +1,6 @@
 tinymce.addI18n('pl', {
   'Accessibility Checker': 'Narz\u0119dzie do sprawdzania u\u0142atwie\u0144 dost\u0119pu',
   'Checking...': 'Sprawdzanie...',
-  'Issue {0} of {1}': 'Problem {0} z {1}',
   'WCAG 2.0 reference - opens in a new window': 'Skorowidz WCAG 2.0 \u2014 strona otwiera si\u0119 w nowym oknie',
   'No accessibility issues detected': 'Nie wykryto \u017Cadnych problem\xF3w z u\u0142atwieniami dost\u0119pu',
   'Previous Issue': 'Poprzedni problem',
@@ -43,5 +42,18 @@ tinymce.addI18n('pl', {
   'Text must have a contrast ratio of at least 7:1': 'Tekst musi si\u0119 charakteryzowa\u0107 wsp\xF3\u0142czynnikiem kontrastu co najmniej 7:1',
   'Error': 'B\u0142\u0105d',
   'Warning': 'Ostrze\u017Cenie',
-  'Informative': 'Informacja'
+  'Informative': 'Informacja',
+  'Success': 'Powodzenie',
+  'Repair': 'Napraw',
+  'Issue {0} of {1}': 'Problem {0} z {1}',
+  'Images must be marked as decorative or have an alternative text description': 'Obrazy musz\u0105 by\u0107 oznaczone jako dekoracyjne albo mie\u0107 alternatywne opisy tekstowe.',
+  'Images must have an alternative text description. Decorative images are not allowed.': 'Obrazy musz\u0105 mie\u0107 alternatywne opisy tekstowe. Obrazy dekoracyjne nie s\u0105 dozwolone.',
+  'Or provide alternative text:': 'Lub podaj tekst alternatywny:',
+  'Image is decorative': 'Obraz jest dekoracyjny',
+  'Make image decorative:': 'Nadaj obrazowi status dekoracyjnego:',
+  'ID attribute must be unique': 'Atrybut identyfikacyjny musi by\u0107 unikalny',
+  'Make ID unique': 'Zapewnij unikalno\u015b\u0107 identyfikatora',
+  'Keep this ID and remove all others': 'Zachowaj ten identyfikator i usu\u0144 pozosta\u0142e',
+  'Remove this ID': 'Usu\u0144 ten identyfikator',
+  'Remove all IDs': 'Usu\u0144 wszystkie identyfikatory'
 });

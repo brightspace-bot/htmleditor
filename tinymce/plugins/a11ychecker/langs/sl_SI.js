@@ -1,7 +1,6 @@
 tinymce.addI18n('sl_SI', {
   'Accessibility Checker': 'Pregledovalnik dostopnosti',
   'Checking...': 'Preverjanje ...',
-  'Issue {0} of {1}': 'Te\u017Eava {0} od {1}',
   'WCAG 2.0 reference - opens in a new window': 'Referenca WCAG 2.0\u200F \u2013 odpre se v novem oknu',
   'No accessibility issues detected': 'Ni bilo zaznanih te\u017Eav z dostopom',
   'Previous Issue': 'Prej\u0161nja te\u017Eava',
@@ -43,5 +42,18 @@ tinymce.addI18n('sl_SI', {
   'Text must have a contrast ratio of at least 7:1': 'Besedilo mora imeti kontrastno razmerje vsaj 7 : 1',
   'Error': 'Napaka',
   'Warning': 'Opozorilo',
-  'Informative': 'Informativno'
+  'Informative': 'Informativno',
+  'Success': 'Uspelo',
+  'Repair': 'Popravi',
+  'Issue {0} of {1}': 'Izdaja {0} od {1}',
+  'Images must be marked as decorative or have an alternative text description': 'Slike morajo biti ozna\u010dene kot okrasne ali pa imeti alternativni opis besedila',
+  'Images must have an alternative text description. Decorative images are not allowed.': 'Slike morajo imeti alternativni opis besedila. Okrasne slike niso dovoljene.',
+  'Or provide alternative text:': 'Ali vnesite alternativno besedilo:',
+  'Image is decorative': 'Slika je okrasna',
+  'Make image decorative:': 'Spremeni sliko v okrasno:',
+  'ID attribute must be unique': 'Atribut ID mora biti edinstven',
+  'Make ID unique': 'Napravi ID edinstveno',
+  'Keep this ID and remove all others': 'Obdr\u017ei to ID in odstrani vse druge',
+  'Remove this ID': 'Odstrani to ID',
+  'Remove all IDs': 'Odstrani vse ID'
 });

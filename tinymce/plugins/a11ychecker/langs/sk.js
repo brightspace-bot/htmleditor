@@ -1,7 +1,6 @@
 tinymce.addI18n('sk', {
   'Accessibility Checker': 'Kontrola zjednodu\u0161enia ovl\xE1dania',
   'Checking...': 'Kontroluje sa...',
-  'Issue {0} of {1}': 'Probl\xE9m {0} z {1}',
   'WCAG 2.0 reference - opens in a new window': 'Referencia WCAG 2.0 \u2013 otvor\xED sa v novom okne',
   'No accessibility issues detected': 'Nezistili sa \u017Eiadne probl\xE9my so zjednodu\u0161en\xEDm ovl\xE1dania',
   'Previous Issue': 'Predch\xE1dzaj\xFAci probl\xE9m',
@@ -43,5 +42,18 @@ tinymce.addI18n('sk', {
   'Text must have a contrast ratio of at least 7:1': 'Text mus\xED ma\u0165 kontrastn\xFD pomer aspo\u0148 7 : 1',
   'Error': 'Chyba',
   'Warning': 'Upozornenie',
-  'Informative': 'Informat\xEDvne'
+  'Informative': 'Informat\xEDvne',
+  'Success': '\xdaspe\u0161ne',
+  'Repair': 'Opravi\u0165',
+  'Issue {0} of {1}': 'Probl\xe9m {0} z {1}',
+  'Images must be marked as decorative or have an alternative text description': 'Obr\xe1zky musia by\u0165 ozna\u010den\xe9 ako dekorat\xedvne a ma\u0165 alternat\xedvny textov\xfd popis',
+  'Images must have an alternative text description. Decorative images are not allowed.': 'Obr\xe1zky musia ma\u0165 alternat\xedvny textov\xfd popis. Dekorat\xedvne obr\xe1zky nie s\xfa povolen\xe9.',
+  'Or provide alternative text:': 'Alebo uve\u010fte alternat\xedvny text:',
+  'Image is decorative': 'Obr\xe1zok je dekorat\xedvny',
+  'Make image decorative:': 'Zmeni\u0165 obr\xe1zok na dekorat\xedvny:',
+  'ID attribute must be unique': 'Atrib\xfat ID mus\xed by\u0165 jedine\u010dn\xfd',
+  'Make ID unique': 'Vytvori\u0165 jedine\u010dn\xe9 ID',
+  'Keep this ID and remove all others': 'Ponecha\u0165 toto ID a odstr\xe1ni\u0165 v\u0161etky ostatn\xe9',
+  'Remove this ID': 'Odstr\xe1ni\u0165 toto ID',
+  'Remove all IDs': 'Odstr\xe1ni\u0165 v\u0161etky ID'
 });

@@ -1,7 +1,6 @@
 tinymce.addI18n('ro', {
   'Accessibility Checker': 'Verificator accesibilitate',
   'Checking...': '\xCEn curs de verificare...',
-  'Issue {0} of {1}': 'Problema {0} din {1}',
   'WCAG 2.0 reference - opens in a new window': 'WCAG 2.0 referin\u021B\u0103 - se deschide \xEEntr-o fereastr\u0103 nou\u0103',
   'No accessibility issues detected': 'Nu au fost detectate probleme de accesibilitate',
   'Previous Issue': 'Problema anterioar\u0103',
@@ -43,5 +42,18 @@ tinymce.addI18n('ro', {
   'Text must have a contrast ratio of at least 7:1': 'Textul trebuie s\u0103 aib\u0103 o rat\u0103 de contrast de cel pu\u021Bin 7:1',
   'Error': 'Eroare',
   'Warning': 'Avertisment',
-  'Informative': 'Informativ'
+  'Informative': 'Informativ',
+  'Success': 'Succes',
+  'Repair': 'Reparare',
+  'Issue {0} of {1}': 'Problema {0} din {1}',
+  'Images must be marked as decorative or have an alternative text description': 'Imaginile trebuie marcate ca decorative sau trebuie s\u0103 aib\u0103 o descriere text alternativ',
+  'Images must have an alternative text description. Decorative images are not allowed.': 'Imaginile trebuie s\u0103 aib\u0103 o descriere text alternativ. Nu sunt permise imaginile decorative.',
+  'Or provide alternative text:': 'Sau furnizeaz\u0103 text alternativ:',
+  'Image is decorative': 'Imaginea este decorativ\u0103',
+  'Make image decorative:': 'Creeaz\u0103 imagine decorativ\u0103:',
+  'ID attribute must be unique': 'Atributul ID-ului trebuie s\u0103 fie unic',
+  'Make ID unique': 'Creeaz\u0103 ID unic',
+  'Keep this ID and remove all others': 'P\u0103streaz\u0103 acest ID \u0219i elimin\u0103-le pe toate celelalte',
+  'Remove this ID': 'Elimin\u0103 acest ID',
+  'Remove all IDs': 'Elimin\u0103 toate ID-urile'
 });

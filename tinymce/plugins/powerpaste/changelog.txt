@@ -1,3 +1,14 @@
+Version 5.3.2 (2020-08-18)
+  [BUG] Fixed an exception thrown on IE 11 due to using `String.startsWith` #TINY-6269
+  [BUG] Fixed an issue where lists would become corrupt on IE 11 due to invalid empty font elements #TINY-6270
+  [BUG] Fixed multiple new lines collapsing into a single new line when pasting plain text #TINY-6063
+  [BUG] Fixed cut and copy not working with table selections #TINY-6117
+  [BUG] Fixed tabs in plain text converted to a single space and added new `paste_tab_spaces` setting to control how many spaces are used to represent a tab #TINY-6237
+Version 5.3.1 (2020-07-08)
+  [BUG] Fixed the editor `referrer_policy` setting not working when loading additional resources #TINY-5087
+  [BUG] Fixed PowerPaste not able to load the `wordimport.js` resource when bundled #TINY-5087
+Version 5.3.0 (2020-05-21)
+  [IMPROVEMENT] Added pre- and post-processing events and callbacks to image drop #TINY-5939
 Version 5.2.3 (2020-04-22)
   [SECURITY] Fixed an issue where clipboard HTML content wasn't sanitized in some cases #POW-50
 Version 5.2.2 (2020-03-25)

@@ -1,7 +1,6 @@
 tinymce.addI18n('cs', {
   'Accessibility Checker': 'Kontrola dostupnosti',
   'Checking...': 'Prob\xEDh\xE1 ov\u011B\u0159ov\xE1n\xED...',
-  'Issue {0} of {1}': 'Probl\xE9m {0} z {1}',
   'WCAG 2.0 reference - opens in a new window': 'Odkaz na WCAG 2.0 \u2013 otev\u0159e se v nov\xE9m okn\u011B',
   'No accessibility issues detected': 'Nebyly zji\u0161t\u011Bny \u017E\xE1dn\xE9 probl\xE9my s dostupnost\xED',
   'Previous Issue': 'P\u0159edchoz\xED probl\xE9m',
@@ -43,5 +42,18 @@ tinymce.addI18n('cs', {
   'Text must have a contrast ratio of at least 7:1': 'Text mus\xED m\xEDt kontrastn\xED pom\u011Br alespo\u0148 7:1',
   'Error': 'Chyba',
   'Warning': 'Upozorn\u011Bn\xED',
-  'Informative': 'Informace'
+  'Informative': 'Informace',
+  'Success': '\xdasp\u011bch',
+  'Repair': 'Opravit',
+  'Issue {0} of {1}': 'Probl\xe9m {0} z {1}',
+  'Images must be marked as decorative or have an alternative text description': 'Obr\xe1zky musej\xed b\xfdt ozna\u010deny jako dekorativn\xed nebo musej\xed m\xedt popisek s alternativn\xedm textem',
+  'Images must have an alternative text description. Decorative images are not allowed.': 'Obr\xe1zky musej\xed m\xedt popisek s alternativn\xedm textem: Dekorativn\xed obr\xe1zky nejsou povoleny.',
+  'Or provide alternative text:': 'Nebo zadejte alternativn\xed text:',
+  'Image is decorative': 'Obr\xe1zek je dekorativn\xed',
+  'Make image decorative:': 'Zm\u011b\u0148te obr\xe1zek na dekorativn\xed:',
+  'ID attribute must be unique': 'Atribut ID mus\xed b\xfdt jedine\u010dn\xfd',
+  'Make ID unique': 'Vytvo\u0159it jedine\u010dn\xe9 ID',
+  'Keep this ID and remove all others': 'Ponechat toto ID a odebrat v\u0161echna ostatn\xed',
+  'Remove this ID': 'Odebrat toto ID',
+  'Remove all IDs': 'Odebrat v\u0161echna ID'
 });

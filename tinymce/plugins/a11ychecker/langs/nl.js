@@ -1,7 +1,6 @@
 tinymce.addI18n('nl', {
   'Accessibility Checker': 'Toegankelijkheidscontrole',
   'Checking...': 'Bezig met controle...',
-  'Issue {0} of {1}': 'Probleem {0} van {1}',
   'WCAG 2.0 reference - opens in a new window': 'WCAG 2.0 referentie - opent in een nieuw venster',
   'No accessibility issues detected': 'Geen toegankelijkheidsproblemen gedetecteerd',
   'Previous Issue': 'Vorig probleem',
@@ -43,5 +42,18 @@ tinymce.addI18n('nl', {
   'Text must have a contrast ratio of at least 7:1': 'Tekst moet een contrastverhouding van 7:1 of hoger hebben',
   'Error': 'Fout',
   'Warning': 'Waarschuwing',
-  'Informative': 'Informatief'
+  'Informative': 'Informatief',
+  'Success': 'Succes',
+  'Repair': 'Oplossen',
+  'Issue {0} of {1}': 'Probleem {0} of {1}',
+  'Images must be marked as decorative or have an alternative text description': 'Afbeeldingen moeten zijn gemarkeerd als decoratief of ze moeten een alternatieve tekstbeschrijving hebben',
+  'Images must have an alternative text description. Decorative images are not allowed.': 'Afbeeldingen moeten een alternatieve tekstbeschrijving hebben. Decoratieve afbeeldingen zijn niet toegestaan.',
+  'Or provide alternative text:': 'Of geef een alternatieve tekst op:',
+  'Image is decorative': 'Afbeelding is decoratief',
+  'Make image decorative:': 'Afbeelding decoratief maken:',
+  'ID attribute must be unique': 'ID-kenmerk moet uniek zijn',
+  'Make ID unique': 'ID uniek maken',
+  'Keep this ID and remove all others': 'Dit ID behouden en alle anderen verwijderen',
+  'Remove this ID': 'Dit ID verwijderen',
+  'Remove all IDs': 'Alle ID\u2019s verwijderen'
 });

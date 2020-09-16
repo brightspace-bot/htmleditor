@@ -1,7 +1,6 @@
 tinymce.addI18n('pt_BR', {
   'Accessibility Checker': 'Verificador de Acessibilidade',
   'Checking...': 'Verificando...',
-  'Issue {0} of {1}': 'Problema {0} de {1}',
   'WCAG 2.0 reference - opens in a new window': 'Refer\xEAncia WCAG 2.0 - abre em nova janela',
   'No accessibility issues detected': 'N\xE3o foi detectado nenhum problema de acessibilidade',
   'Previous Issue': 'Problema anterior',
@@ -43,5 +42,18 @@ tinymce.addI18n('pt_BR', {
   'Text must have a contrast ratio of at least 7:1': 'O texto deve ter uma rela\xE7\xE3o de contraste m\xEDnima de 7:1',
   'Error': 'Erro',
   'Warning': 'Aviso',
-  'Informative': 'Informa\xE7\xE3o'
+  'Informative': 'Informa\xE7\xE3o',
+  'Success': 'Sucesso',
+  'Repair': 'Reparar',
+  'Issue {0} of {1}': 'Problema {0} de {1}',
+  'Images must be marked as decorative or have an alternative text description': 'As imagens devem ser identificadas como decorativas ou ter um texto alternativo descritivo',
+  'Images must have an alternative text description. Decorative images are not allowed.': 'As imagens devem ter um texto alternativo descritivo. Imagens decorativas n\xe3o s\xe3o permitidas.',
+  'Or provide alternative text:': 'Ou forne\xe7a o texto alternativo:',
+  'Image is decorative': 'A imagem \xe9 decorativa',
+  'Make image decorative:': 'Torne a imagem decorativa:',
+  'ID attribute must be unique': 'O atributo ID deve ser exclusivo',
+  'Make ID unique': 'Tornar o ID exclusivo',
+  'Keep this ID and remove all others': 'Manter este ID e remover todos os outros',
+  'Remove this ID': 'Remover este ID',
+  'Remove all IDs': 'Remover todos os IDs'
 });

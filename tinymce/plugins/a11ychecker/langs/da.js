@@ -1,7 +1,6 @@
 tinymce.addI18n('da', {
   'Accessibility Checker': 'Kontrolprogram til hj\xE6lp til handicappede',
   'Checking...': 'Kontrollerer...',
-  'Issue {0} of {1}': 'Problem {0} af {1}',
   'WCAG 2.0 reference - opens in a new window': 'WCAG 2,0 reference \u2013 \xE5bner i et nyt vindue',
   'No accessibility issues detected': 'Ingen problemer vedr\xF8rende hj\xE6lp til handicappede registreret',
   'Previous Issue': 'Forrige problem',
@@ -43,5 +42,18 @@ tinymce.addI18n('da', {
   'Text must have a contrast ratio of at least 7:1': 'Tekst skal have et kontrastforhold p\xE5 mindst 7:1',
   'Error': 'Fejl',
   'Warning': 'Advarsel',
-  'Informative': 'Vigtigt'
+  'Informative': 'Vigtigt',
+  'Success': 'Udf\xf8rt',
+  'Repair': 'Reparer',
+  'Issue {0} of {1}': 'Problem {0} af {1}',
+  'Images must be marked as decorative or have an alternative text description': 'Billeder skal markeres som dekorative eller have en alternativ tekstbeskrivelse',
+  'Images must have an alternative text description. Decorative images are not allowed.': 'Billeder skal have en alternativ tekstbeskrivelse. Dekorative billeder er ikke tilladt.',
+  'Or provide alternative text:': 'Eller angiv alternativ tekst:',
+  'Image is decorative': 'Billede er dekorativt',
+  'Make image decorative:': 'G\xf8r billedet dekorativt:',
+  'ID attribute must be unique': 'Id-attribut skal v\xe6re unik',
+  'Make ID unique': 'G\xf8r id\u2019et unikt',
+  'Keep this ID and remove all others': 'Behold dette id og fjern alle andre',
+  'Remove this ID': 'Fjern dette id',
+  'Remove all IDs': 'Fjern alle id\u2019er'
 });

@@ -1,7 +1,6 @@
 tinymce.addI18n('nb_NO', {
   'Accessibility Checker': 'Tilgjengelighetssjekker',
   'Checking...': 'Sjekker ...',
-  'Issue {0} of {1}': 'Problem {0} av {1}',
   'WCAG 2.0 reference - opens in a new window': 'Referanse WCAG 2.0 - \xE5pnes i et nytt vindu',
   'No accessibility issues detected': 'Ingen problemer med tilgjengelighet funnet',
   'Previous Issue': 'Forrige problem',
@@ -43,5 +42,18 @@ tinymce.addI18n('nb_NO', {
   'Text must have a contrast ratio of at least 7:1': 'Tekst m\xE5 ha et kontrastforhold p\xE5 minst 7:1',
   'Error': 'Feil',
   'Warning': 'Advarsel',
-  'Informative': 'Informativ'
+  'Informative': 'Informativ',
+  'Success': 'Vellykket',
+  'Repair': 'Reparer',
+  'Issue {0} of {1}': 'Problem {0} av {1}',
+  'Images must be marked as decorative or have an alternative text description': 'Bilder m\xe5 merkes som dekorative eller ha en alternativ tekstbeskrivelse',
+  'Images must have an alternative text description. Decorative images are not allowed.': 'Bilder m\xe5 ha en alternativ tekstbeskrivelse. Dekorative bilder er ikke tillatt.',
+  'Or provide alternative text:': 'Eller angi alternativ tekst:',
+  'Image is decorative': 'Bildet er dekorativt',
+  'Make image decorative:': 'Gj\xf8r bilde dekorativt:',
+  'ID attribute must be unique': 'ID-attributt m\xe5 v\xe6re unik',
+  'Make ID unique': 'Gj\xf8r ID unik',
+  'Keep this ID and remove all others': 'Behold denne ID-en og fjern alle andre',
+  'Remove this ID': 'Fjern denne ID-en',
+  'Remove all IDs': 'Fjern alle ID-er'
 });
