@@ -16,6 +16,7 @@ import 'tinymce/themes/silver/theme.js';
 import { css, html, LitElement, unsafeCSS } from 'lit-element/lit-element.js';
 import { getUniqueId } from '@brightspace-ui/core/helpers/uniqueId.js';
 import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
+import { icons } from './icons.js';
 
 // To update from nre tinyMCE install
 // 1. copy skins from installed node_modules/tinymce into tinymce/skins
@@ -185,6 +186,42 @@ class HtmlEditor extends RtlMixin(LitElement) {
 				object_resizing : true,
 				plugins: `a11ychecker charmap code directionality ${this.fullPage ? 'fullpage' : ''} fullscreen hr lists powerpaste preview table`,
 				relative_urls: false,
+				setup: (editor) => {
+					editor.ui.registry.addIcon('accessibility-check', icons['accessibility-check']);
+					editor.ui.registry.addIcon('align-center', icons['align-center']);
+					editor.ui.registry.addIcon('align-justify', icons['align-full']);
+					editor.ui.registry.addIcon('align-left', icons['align-left']);
+					editor.ui.registry.addIcon('align-right', icons['align-right']);
+					editor.ui.registry.addIcon('bold', icons['bold']);
+					editor.ui.registry.addIcon('ltr', icons['direction-ltr']);
+					editor.ui.registry.addIcon('rtl', icons['direction-rtl']);
+					editor.ui.registry.addIcon('outdent', icons['indent-decrease']);
+					editor.ui.registry.addIcon('indent', icons['indent-increase']);
+					editor.ui.registry.addIcon('italic', icons['italic']);
+					editor.ui.registry.addIcon('unordered-list', icons['list-bullet']);
+					editor.ui.registry.addIcon('ordered-list', icons['list-ordered']);
+					editor.ui.registry.addIcon('sourcecode', icons['source-editor']);
+					editor.ui.registry.addIcon('strike-through', icons['strikethrough']);
+					editor.ui.registry.addIcon('subscript', icons['subscript']);
+					editor.ui.registry.addIcon('superscript', icons['superscript']);
+					editor.ui.registry.addIcon('insert-character', icons['symbol']);
+					editor.ui.registry.addIcon('table-merge-cells', icons['table-cell-merge']);
+					editor.ui.registry.addIcon('table-cell-properties', icons['table-cell-properties']);
+					editor.ui.registry.addIcon('table-split-cells', icons['table-cell-split']);
+					editor.ui.registry.addIcon('table-insert-column-after', icons['table-column-insert-after']);
+					editor.ui.registry.addIcon('table-insert-column-before', icons['table-column-insert-before']);
+					editor.ui.registry.addIcon('table-delete-column', icons['table-column-remove']);
+					editor.ui.registry.addIcon('table-delete-table', icons['table-delete']);
+					editor.ui.registry.addIcon('cut-row', icons['table-row-cut']);
+					editor.ui.registry.addIcon('duplicate-row', icons['table-row-copy']);
+					editor.ui.registry.addIcon('table-insert-row-after', icons['table-row-insert-after']);
+					editor.ui.registry.addIcon('table-insert-row-above', icons['table-row-insert-before']);
+					editor.ui.registry.addIcon('paste-row-after', icons['table-row-paste-below']);
+					editor.ui.registry.addIcon('paste-row-before', icons['table-row-paste-above']);
+					editor.ui.registry.addIcon('table-row-properties', icons['table-row-properties']);
+					editor.ui.registry.addIcon('table-delete-row', icons['table-row-remove']);
+					editor.ui.registry.addIcon('underline', icons['underline']);
+				},
 				skin_url: `${baseImportPath}/tinymce/skins/ui/oxide`,
 				statusbar: false,
 				target: textarea,
