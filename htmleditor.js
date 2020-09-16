@@ -26,7 +26,6 @@ import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
 // TODO: resolve language
 // TODO: localize font-families
 // TODO: configure formats
-// TODO: figure out how to load out own icons without getting 404s
 // TODO: find out why enterprise plugins are not loaded properly above but are when using external_plugins
 // TODO: set powerpaste_word_import based on paste formatting config value (clean, merge, prompt)
 // TODO: convert pasted local images if upload location provided (previously only allowed local images if provided)
