@@ -9,9 +9,12 @@
   "files": [
     "htmleditor.js",
     "icons.js",
+    "/generated",
     "/tinymce"
   ],
   "scripts": {
+    "build:langs": "node ./cli/lang-generator.js",
+    "build": "npm run build:langs",
     "lint": "npm run lint:eslint && npm run lint:style && npm run lint:lit",
     "lint:eslint": "eslint . --ext .js,.html",
     "lint:lit": "lit-analyzer htmleditor.js demo test",
@@ -33,6 +36,7 @@
     "@open-wc/testing": "^2",
     "@open-wc/testing-karma": "^4",
     "babel-eslint": "^10",
+    "chalk": "^4",
     "deepmerge": "^4.2.2",
     "es-dev-server": "^1",
     "eslint": "^7",
