@@ -4,6 +4,7 @@ jobs:
   include:
     - stage: Unit tests
       script:
+      - npm run build
       - npm run lint
       - |
         if [ $TRAVIS_PULL_REQUEST != false ] && [ $TRAVIS_SECURE_ENV_VARS == true ]; then
@@ -19,6 +20,7 @@ jobs:
         - secure: QYfjasquwtyUakYPOMjde7YfEawbW71fX2F4rtxTUaKBZy+sKp9xPEA/0p3L/lNumHLMuvTfLuRhNWJ3Ag5gahka1DO40Fr5zXN4aIyzUvbFkAcp46AvaYibFEn7SzAkbGSE3pSGWEESdC/Dq6eokQvvn28jyO8LAn5nW+Dlhsh21HjDsLdlsogjpVznOLl8WRFEsryW6m4kxy4F+K9XycBPAfgyNOm/4B/bmWUmZCem1rjmBQRQ5Y6DSTDJ02TEbUQg2IJEosEDJy4GXeq3jOTwDKY953VbNcLispGnVZKfH1BOnvqbdNkVRhw6q5Wc7eUr8gl+ifr6oCHDSY6S0ot7bVSe/LLjL+ZUXS0L5KV4pMCQgqe2Nltld57GcPJZBsVXu4+RLpYGz+PIz0IEg17aRSm+SxMVd37H30fZ7O1tgisGN5cFq9cqBX7Jtzn8xhAtyT1TyzgQTIpVaHS7ry6P1iuCJTTT4A0Tt2gl7aBeNlvttWl6ZB3lIr5FoTAqM+JOQG7dxgmQXrVe5Gh/vhbFQHFW6DX292u3odJ70Vxy4lDb3pEO8EDKSiSJXTlv25GijaK9AJ4jU7GS6a6ibojLHB4+yuhDF2nfgPxF9mHc8jynPhOu42OWGfkOysY1xHVvRYIuhaLdnqjO6Sx8LTTpoJw0aVS63DO69mf3B8M=
     - stage: Visual-difference-tests
       script:
+      - npm run build
       - if [ $TRAVIS_SECURE_ENV_VARS == true ]; then
           echo "Running visual difference tests...";
           npm run test:diff || travis_terminate 1;
