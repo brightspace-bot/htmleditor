@@ -17,6 +17,7 @@ import { css, html, LitElement, unsafeCSS } from 'lit-element/lit-element.js';
 import { getUniqueId } from '@brightspace-ui/core/helpers/uniqueId.js';
 import { icons } from './icons.js';
 import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
+import { tinymceLangs } from './generated/langs.js';
 
 // To update from nre tinyMCE install
 // 1. copy skins from installed node_modules/tinymce into tinymce/skins
@@ -32,10 +33,23 @@ import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
 // TODO: review whether we need to stop pasting of image addresses (see fra editor)
 // TODO: refactor classic / inline if necessary (need Design discussion)
 // TODO: review allow_script_urls (ideally we can turn this off)
-// TODO: review resize (monolith specifies both, but this would require enabling statusbar)
 // TODO: review auto-focus and whether it should be on the API
 
 const rootFontSize = window.getComputedStyle(document.documentElement, null).getPropertyValue('font-size');
+
+const documentLang = (document.documentElement.getAttribute('lang') ?? 'en').replace('-', '_');
+
+let tinymceLang = documentLang;
+if (!tinymceLangs.includes(documentLang)) {
+	const cultureIndex = tinymceLang.indexOf('_');
+	if (cultureIndex !== -1) tinymceLang = tinymceLang.substring(0, cultureIndex);
+	if (!tinymceLangs.includes(tinymceLang)) {
+		tinymceLang = tinymceLangs.find((lang) => {
+			return lang.startsWith(tinymceLang);
+		});
+		if (!tinymceLang) tinymceLang = 'en';
+	}
+}
 
 const pathFromUrl = (url) => {
 	return url.substring(0, url.lastIndexOf('/'));
@@ -141,7 +155,6 @@ class HtmlEditor extends RtlMixin(LitElement) {
 		requestAnimationFrame(() => {
 
 			const textarea = this.shadowRoot.querySelector(`#${this._editorId}`);
-			const locale = 'en-US';
 
 			const fullPageConfig = {};
 			if (this.fullPage) {
@@ -181,8 +194,8 @@ class HtmlEditor extends RtlMixin(LitElement) {
 				fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt',
 				height: this.height,
 				inline: this.inline,
-				language: locale !== 'en-US' ? locale : null,
-				language_url: `/tinymce/langs/${locale}.js`,
+				language: tinymceLang,
+				language_url: `/tinymce/langs/${tinymceLang}.js`,
 				menubar: false,
 				object_resizing : true,
 				plugins: `a11ychecker charmap code directionality ${this.fullPage ? 'fullpage' : ''} fullscreen hr lists powerpaste preview table`,
