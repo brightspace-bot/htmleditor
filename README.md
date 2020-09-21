@@ -1,7 +1,6 @@
 # d2l-htmleditor
 
 [![NPM version](https://img.shields.io/npm/v/@brightspace-ui/htmleditor.svg)](https://www.npmjs.org/package/@brightspace-ui/htmleditor)
-[![Dependabot badge](https://flat.badgen.net/dependabot/BrightspaceUI/htmleditor?icon=dependabot)](https://app.dependabot.com/)
 [![Build status](https://travis-ci.com/@brightspace-ui/htmleditor.svg?branch=master)](https://travis-ci.com/@brightspace-ui/htmleditor)
 
 An HTML editor that integrates with Brightspace.  Coming soon!
