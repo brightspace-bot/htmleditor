@@ -15,6 +15,7 @@ import 'tinymce/themes/silver/theme.js';
 //import './tinymce/plugins/powerpaste/plugin.js';
 import { css, html, LitElement, unsafeCSS } from 'lit-element/lit-element.js';
 import { getUniqueId } from '@brightspace-ui/core/helpers/uniqueId.js';
+import { icons } from './icons.js';
 import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
 
 // To update from nre tinyMCE install
@@ -90,6 +91,14 @@ class HtmlEditor extends RtlMixin(LitElement) {
 			/* stylelint-disable-next-line selector-class-pattern */
 			.tox-tinymce.tox-fullscreen {
 				z-index: 1001;
+			}
+			/* stylelint-disable-next-line selector-class-pattern */
+			.tox .tox-statusbar {
+				border-top: none;
+			}
+			/* stylelint-disable-next-line selector-class-pattern */
+			.tox .tox-statusbar__text-container {
+				display: none;
 			}
 		`;
 	}
@@ -178,8 +187,12 @@ class HtmlEditor extends RtlMixin(LitElement) {
 				object_resizing : true,
 				plugins: `a11ychecker charmap code directionality ${this.fullPage ? 'fullpage' : ''} fullscreen hr lists powerpaste preview table`,
 				relative_urls: false,
+				resize: true,
+				setup: (editor) => {
+					editor.ui.registry.addIcon('resize-handle', icons['resize-handle']);
+				},
 				skin_url: `${baseImportPath}/tinymce/skins/ui/oxide`,
-				statusbar: false,
+				statusbar: true,
 				target: textarea,
 				toolbar: this.inline
 					? 'bold italic underline'
