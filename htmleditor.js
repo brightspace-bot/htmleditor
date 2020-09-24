@@ -114,6 +114,18 @@ class HtmlEditor extends RtlMixin(LitElement) {
 			.tox .tox-statusbar__text-container {
 				display: none;
 			}
+			/* stylelint-disable-next-line selector-class-pattern */
+			.tox-tinymce .tox-toolbar-overlord > div:nth-child(2) {
+				display: none;
+			}
+			/* stylelint-disable-next-line selector-class-pattern */
+			.tox-tinymce.tox-fullscreen .tox-toolbar-overlord > div:nth-child(1) {
+				display: none;
+			}
+			/* stylelint-disable-next-line selector-class-pattern */
+			.tox-tinymce.tox-fullscreen .tox-toolbar-overlord > div:nth-child(2) {
+				display: flex;
+			}
 		`;
 	}
 
@@ -207,9 +219,10 @@ class HtmlEditor extends RtlMixin(LitElement) {
 				skin_url: `${baseImportPath}/tinymce/skins/ui/oxide`,
 				statusbar: true,
 				target: textarea,
-				toolbar: this.inline
-					? 'bold italic underline'
-					: 'bold italic underline | strikethrough subscript superscript | bullist numlist | indent outdent | alignleft alignright aligncenter alignjustify | charmap hr | table | forecolor | styleselect fontselect fontsizeselect | undo redo | preview code fullscreen | ltr rtl | a11ycheck',
+				toolbar: this.inline ? 'bold italic underline' : [
+					'bold italic underline | bullist numlist | fullscreen',
+					'bold italic underline | styleselect fontselect fontsizeselect | forecolor a11ycheck | bullist numlist | indent outdent | alignleft alignright aligncenter alignjustify | strikethrough subscript superscript | charmap hr | table | undo redo | ltr rtl | preview code fullscreen'
+				],
 				valid_elements: '*[*]',
 				width: this.width,
 				...fullPageConfig,
