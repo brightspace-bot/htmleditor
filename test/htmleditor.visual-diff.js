@@ -20,9 +20,20 @@ describe('d2l-htmleditor', () => {
 
 	after(async() => await browser.close());
 
-	it('first diff', async function() {
-		const rect = await visualDiff.getRect(page, '#default');
-		await visualDiff.screenshotAndCompare(page, this.test.fullTitle(), { clip: rect });
+	describe('inline full', () => {
+
+		it('normal', async function() {
+			const rect = await visualDiff.getRect(page, '#inline-full');
+			await visualDiff.screenshotAndCompare(page, this.test.fullTitle(), { clip: rect });
+		});
+
+		it('fullscreen', async function() {
+			await page.$eval('#inline-full', (elem) => {
+				tinymce.EditorManager.get(elem._editorId).execCommand('mceFullScreen');
+			});
+			await visualDiff.screenshotAndCompare(page, this.test.fullTitle());
+		});
+
 	});
 
 });
