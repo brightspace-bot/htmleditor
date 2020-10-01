@@ -1,3 +1,4 @@
+import './components/quicklink-dialog.js';
 import '@brightspace-ui/core/components/colors/colors.js';
 import 'tinymce/tinymce.js';
 import 'tinymce/icons/default/icons.js';
@@ -19,7 +20,7 @@ import { icons } from './icons.js';
 import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
 import { tinymceLangs } from './generated/langs.js';
 
-// To update from nre tinyMCE install
+// To update from new tinyMCE install
 // 1. copy skins from installed node_modules/tinymce into tinymce/skins
 // 2. copy new language packs from https://www.tiny.cloud/get-tiny/language-packages/ into tinymce/langs
 // 3. copy new enterprise plugins into tinymce/plugins
@@ -210,7 +211,7 @@ class HtmlEditor extends RtlMixin(LitElement) {
 				language_url: `/tinymce/langs/${tinymceLang}.js`,
 				menubar: false,
 				object_resizing : true,
-				plugins: `a11ychecker charmap code directionality ${this.fullPage ? 'fullpage' : ''} fullscreen hr lists powerpaste preview table`,
+				plugins: `a11ychecker charmap code directionality ${this.fullPage ? 'fullpage' : ''} fullscreen hr lists powerpaste preview table d2l-quicklink`,
 				relative_urls: false,
 				resize: true,
 				setup: (editor) => {
@@ -220,7 +221,7 @@ class HtmlEditor extends RtlMixin(LitElement) {
 				statusbar: true,
 				target: textarea,
 				toolbar: this.inline ? 'bold italic underline' : [
-					'bold italic underline | bullist numlist | fullscreen',
+					'bold italic underline | bullist numlist | d2l-quicklink | fullscreen',
 					'bold italic underline | styleselect fontselect fontsizeselect | forecolor a11ycheck | bullist numlist | indent outdent | alignleft alignright aligncenter alignjustify | strikethrough subscript superscript | charmap hr | table | undo redo | ltr rtl | preview code fullscreen'
 				],
 				valid_elements: '*[*]',
