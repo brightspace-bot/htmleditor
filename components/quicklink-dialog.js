@@ -1,11 +1,12 @@
-import '@brightspace-ui/core/components/colors/colors.js';
 import 'tinymce/tinymce.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { getComposedActiveElement } from '@brightspace-ui/core/helpers/focus.js';
 import { icons } from '../icons.js';
+import { RequesterMixin } from '@brightspace-ui/core/mixins/provider-mixin.js';
 
 // TODO: localize the tooltip
-// TODO: resolve correct org unit id
+
+let orgUnitId;
 
 tinymce.PluginManager.add('d2l-quicklink', function(editor) {
 
@@ -52,7 +53,7 @@ tinymce.PluginManager.add('d2l-quicklink', function(editor) {
 
 });
 
-class QuicklinkDialog extends LitElement {
+class QuicklinkDialog extends RequesterMixin(LitElement) {
 
 	static get properties() {
 		return {
@@ -79,6 +80,11 @@ class QuicklinkDialog extends LitElement {
 		this.text = '';
 	}
 
+	connectedCallback() {
+		super.connectedCallback();
+		orgUnitId = this.requestInstance('d2l-orgUnitId');
+	}
+
 	firstUpdated(changedProperties) {
 		super.firstUpdated(changedProperties);
 	}
@@ -94,7 +100,7 @@ class QuicklinkDialog extends LitElement {
 		if (this.opened) {
 			const result = await (new Promise((resolve) => {
 
-				let selectUrl = new D2L.LP.Web.Http.UrlLocation(`/d2l/lp/quicklinks/manage/6606/createdialog?typeKey=&initialViewType=Default&outputFormat=html&selectedText=${this.text}&parentModuleId=0&canChangeType=true&showCancelButton=true&urlShowTarget=true&urlShowCancelButtonInline=false&contextId=`);
+				let selectUrl = new D2L.LP.Web.Http.UrlLocation(`/d2l/lp/quicklinks/manage/${orgUnitId}/createdialog?typeKey=&initialViewType=Default&outputFormat=html&selectedText=${this.text}&parentModuleId=0&canChangeType=true&showCancelButton=true&urlShowTarget=true&urlShowCancelButtonInline=false&contextId=`);
 				if (this.quicklink) selectUrl = selectUrl.WithQueryString(
 					'itemData',
 					new D2L.LP.QuickLinks.Web.Desktop.Controls.QuickLinkSelector.ItemData(
@@ -122,7 +128,7 @@ class QuicklinkDialog extends LitElement {
 
 					const createResult = D2L.LP.Web.UI.Rpc.ConnectObject(
 						'POST',
-						new D2L.LP.Web.Http.UrlLocation('/d2l/lp/quicklinks/manage/6606/createmultiple'),
+						new D2L.LP.Web.Http.UrlLocation('/d2l/lp/quicklinks/manage/${orgUnitId}/createmultiple'),
 						{ 'items': quicklinks }
 					);
 

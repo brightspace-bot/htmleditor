@@ -17,6 +17,7 @@ import 'tinymce/themes/silver/theme.js';
 import { css, html, LitElement, unsafeCSS } from 'lit-element/lit-element.js';
 import { getUniqueId } from '@brightspace-ui/core/helpers/uniqueId.js';
 import { icons } from './icons.js';
+import { ProviderMixin } from '@brightspace-ui/core/mixins/provider-mixin.js';
 import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
 import { tinymceLangs } from './generated/langs.js';
 
@@ -35,6 +36,8 @@ import { tinymceLangs } from './generated/langs.js';
 // TODO: refactor classic / inline if necessary (need Design discussion)
 // TODO: review allow_script_urls (ideally we can turn this off)
 // TODO: review auto-focus and whether it should be on the API
+
+const context = JSON.parse(document.documentElement.getAttribute('data-he-context'));
 
 const rootFontSize = window.getComputedStyle(document.documentElement, null).getPropertyValue('font-size');
 
@@ -78,7 +81,7 @@ const contentFragmentCss = css`
 	}
 `.cssText;
 
-class HtmlEditor extends RtlMixin(LitElement) {
+class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 
 	static get properties() {
 		return {
@@ -139,6 +142,9 @@ class HtmlEditor extends RtlMixin(LitElement) {
 		this.width = '100%';
 		this._editorId = getUniqueId();
 		this._html = '';
+		if (context) {
+			this.provideInstance('d2l-orgUnitId', context.orgUnitId);
+		}
 	}
 
 	get html() {

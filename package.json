@@ -9,6 +9,7 @@
   "files": [
     "htmleditor.js",
     "icons.js",
+    "/components",
     "/generated",
     "/tinymce"
   ],
