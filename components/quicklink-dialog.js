@@ -1,4 +1,3 @@
-import '@brightspace-ui/core/components/colors/colors.js';
 import 'tinymce/tinymce.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { getComposedActiveElement } from '@brightspace-ui/core/helpers/focus.js';
