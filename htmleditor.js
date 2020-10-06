@@ -1,4 +1,4 @@
-import './components/quicklink-dialog.js';
+import './components/quicklink.js';
 import '@brightspace-ui/core/components/colors/colors.js';
 import 'tinymce/tinymce.js';
 import 'tinymce/icons/default/icons.js';
@@ -17,6 +17,7 @@ import 'tinymce/themes/silver/theme.js';
 import { css, html, LitElement, unsafeCSS } from 'lit-element/lit-element.js';
 import { getUniqueId } from '@brightspace-ui/core/helpers/uniqueId.js';
 import { icons } from './icons.js';
+import { isfStyles } from './components/isf.js';
 import { ProviderMixin } from '@brightspace-ui/core/mixins/provider-mixin.js';
 import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
 import { tinymceLangs } from './generated/langs.js';
@@ -61,7 +62,7 @@ const pathFromUrl = (url) => {
 
 const baseImportPath = pathFromUrl(import.meta.url);
 
-const contentFragmentCss = css`
+const contentFragmentStyles = css`
 	@import url("https://s.brightspace.com/lib/fonts/0.5.0/fonts.css");
 	html {
 		/* stylelint-disable-next-line function-name-case */
@@ -92,6 +93,7 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 			height: { type: String },
 			html: { type: String },
 			inline: { type: Boolean },
+			noFilter: { type: Boolean, attribute: 'no-filter' },
 			noSpellchecker: { type: Boolean, attribute: 'no-spellchecker' },
 			width: { type: String },
 			_editorId: { type: String }
@@ -135,6 +137,7 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 
 	constructor() {
 		super();
+		this.noFilter = false;
 		this.fullPage = false;
 		this.height = '355px';
 		this.inline = false;
@@ -143,8 +146,11 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 		this._editorId = getUniqueId();
 		this._html = '';
 		if (context) {
-			this.provideInstance('d2l-orgUnitId', context.orgUnitId);
+			this.provideInstance('orgUnitId', context.orgUnitId);
 		}
+		setTimeout(() => {
+			this.provideInstance('noFilter', this.noFilter);
+		}, 0);
 	}
 
 	get html() {
@@ -202,7 +208,7 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 				browser_spellcheck: !this.noSpellchecker,
 				convert_urls: false,
 				content_css: `${baseImportPath}/tinymce/skins/content/default/content.css`,
-				content_style: this.fullPage ? '' : contentFragmentCss,
+				content_style: this.fullPage ? isfStyles : `${contentFragmentStyles} ${isfStyles}`,
 				directionality: this.dir ? this.dir : 'ltr',
 				extended_valid_elements: 'span[*]',
 				external_plugins: {
@@ -217,7 +223,7 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 				language_url: `/tinymce/langs/${tinymceLang}.js`,
 				menubar: false,
 				object_resizing : true,
-				plugins: `a11ychecker charmap code directionality ${this.fullPage ? 'fullpage' : ''} fullscreen hr lists powerpaste preview table d2l-quicklink`,
+				plugins: `a11ychecker charmap code directionality ${this.fullPage ? 'fullpage' : ''} fullscreen hr lists powerpaste preview table d2l-isf d2l-quicklink`,
 				relative_urls: false,
 				resize: true,
 				setup: (editor) => {
@@ -227,7 +233,7 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 				statusbar: true,
 				target: textarea,
 				toolbar: this.inline ? 'bold italic underline' : [
-					'bold italic underline | bullist numlist | d2l-quicklink | fullscreen',
+					'bold italic underline | bullist numlist | d2l-quicklink d2l-isf | fullscreen',
 					'bold italic underline | styleselect fontselect fontsizeselect | forecolor a11ycheck | bullist numlist | indent outdent | alignleft alignright aligncenter alignjustify | strikethrough subscript superscript | charmap hr | table | undo redo | ltr rtl | preview code fullscreen'
 				],
 				valid_elements: '*[*]',

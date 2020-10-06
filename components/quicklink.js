@@ -6,8 +6,6 @@ import { RequesterMixin } from '@brightspace-ui/core/mixins/provider-mixin.js';
 
 // TODO: localize the tooltip
 
-let orgUnitId;
-
 tinymce.PluginManager.add('d2l-quicklink', function(editor) {
 
 	// bail if no LMS context
@@ -82,11 +80,7 @@ class QuicklinkDialog extends RequesterMixin(LitElement) {
 
 	connectedCallback() {
 		super.connectedCallback();
-		orgUnitId = this.requestInstance('d2l-orgUnitId');
-	}
-
-	firstUpdated(changedProperties) {
-		super.firstUpdated(changedProperties);
+		this._orgUnitId = this.requestInstance('orgUnitId');
 	}
 
 	render() {
@@ -100,7 +94,7 @@ class QuicklinkDialog extends RequesterMixin(LitElement) {
 		if (this.opened) {
 			const result = await (new Promise((resolve) => {
 
-				let selectUrl = new D2L.LP.Web.Http.UrlLocation(`/d2l/lp/quicklinks/manage/${orgUnitId}/createdialog?typeKey=&initialViewType=Default&outputFormat=html&selectedText=${this.text}&parentModuleId=0&canChangeType=true&showCancelButton=true&urlShowTarget=true&urlShowCancelButtonInline=false&contextId=`);
+				let selectUrl = new D2L.LP.Web.Http.UrlLocation(`/d2l/lp/quicklinks/manage/${this._orgUnitId}/createdialog?typeKey=&initialViewType=Default&outputFormat=html&selectedText=${this.text}&parentModuleId=0&canChangeType=true&showCancelButton=true&urlShowTarget=true&urlShowCancelButtonInline=false&contextId=`);
 				if (this.quicklink) selectUrl = selectUrl.WithQueryString(
 					'itemData',
 					new D2L.LP.QuickLinks.Web.Desktop.Controls.QuickLinkSelector.ItemData(
@@ -128,7 +122,7 @@ class QuicklinkDialog extends RequesterMixin(LitElement) {
 
 					const createResult = D2L.LP.Web.UI.Rpc.ConnectObject(
 						'POST',
-						new D2L.LP.Web.Http.UrlLocation('/d2l/lp/quicklinks/manage/${orgUnitId}/createmultiple'),
+						new D2L.LP.Web.Http.UrlLocation(`/d2l/lp/quicklinks/manage/${this._orgUnitId}/createmultiple`),
 						{ 'items': quicklinks }
 					);
 
