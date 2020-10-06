@@ -53,9 +53,7 @@ tinymce.PluginManager.add('d2l-isf', function(editor) {
 			dialog.opened = true;
 			dialog.addEventListener('d2l-htmleditor-isf-dialog-close', (e) => {
 				const html = e.detail.html;
-				if (html) {
-					editor.execCommand('mceInsertContent', false, html);
-				}
+				if (html) editor.execCommand('mceInsertContent', false, html);
 			}, { once: true });
 
 		}
