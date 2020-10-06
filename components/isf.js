@@ -152,7 +152,7 @@ tinymce.PluginManager.add('d2l-isf', function(editor) {
 		const altLabel = tinymce.EditorManager.i18n.translate('Insert stuff placeholder');
 
 		// create an image with the encoded content
-		return `<img alt="${altLabel}" width="${width}" height="${height}" class="${getImageClassName(classId)} d2l-html-editor" data-isf-content="${encodeURIComponent(html)}" src="data:image/gif;base64,R0lGODlhFAAUAIAAAP///////yH+EUNyZWF0ZWQgd2l0aCBHSU1QACH5BAEKAAEALAAAAAAUABQAAAIRjI+py+0Po5y02ouz3rz7rxUAOw==" />`;
+		return `<img alt="${altLabel}" width="${width}" height="${height}" class="${getImageClassName(classId)}" data-isf-content="${encodeURIComponent(html)}" src="data:image/gif;base64,R0lGODlhFAAUAIAAAP///////yH+EUNyZWF0ZWQgd2l0aCBHSU1QACH5BAEKAAEALAAAAAAUABQAAAIRjI+py+0Po5y02ouz3rz7rxUAOw==" />`;
 	};
 
 	const setDefaultImageStyle = (context) => {
