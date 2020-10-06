@@ -30,7 +30,14 @@ tinymce.PluginManager.add('d2l-isf', function(editor) {
 	// bail if no LMS context
 	if (!D2L.LP) return;
 
-	const isWindowModeOpaque = true;
+	const event = new CustomEvent('d2l-request-instance', {
+		detail: { key: 'wmodeOpaque' },
+		bubbles: true,
+		composed: true,
+		cancelable: true
+	});
+	editor.getElement().dispatchEvent(event);
+	const wmodeOpaque = event.detail.instance;
 
 	editor.ui.registry.addIcon('d2l-isf', icons['media']);
 
@@ -282,7 +289,7 @@ tinymce.PluginManager.add('d2l-isf', function(editor) {
 
 						iFrameHtml = iFrameHtml.replace(iFrameSrcRe, function(srcHtml) {
 
-							if (isWindowModeOpaque) {
+							if (wmodeOpaque) {
 								if (srcHtml.indexOf('wmode') === -1) {
 									if (srcHtml.indexOf('?') === -1) {
 										return `${srcHtml.substring(0, srcHtml.length - 1)}?wmode=opaque${srcHtml.substring(srcHtml.length - 1)}`;

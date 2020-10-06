@@ -147,6 +147,7 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 		this._html = '';
 		if (context) {
 			this.provideInstance('orgUnitId', context.orgUnitId);
+			this.provideInstance('wmodeOpaque', context.wmodeOpaque);
 		}
 		setTimeout(() => {
 			this.provideInstance('noFilter', this.noFilter);
