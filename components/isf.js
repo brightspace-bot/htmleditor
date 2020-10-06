@@ -2,7 +2,7 @@ import 'tinymce/tinymce.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { getComposedActiveElement } from '@brightspace-ui/core/helpers/focus.js';
 import { icons } from '../icons.js';
-import { RequesterMixin } from '@brightspace-ui/core/mixins/provider-mixin.js';
+import { requestInstance, RequesterMixin } from '@brightspace-ui/core/mixins/provider-mixin.js';
 
 // TODO: localize the tooltip
 
@@ -30,14 +30,7 @@ tinymce.PluginManager.add('d2l-isf', function(editor) {
 	// bail if no LMS context
 	if (!D2L.LP) return;
 
-	const event = new CustomEvent('d2l-request-instance', {
-		detail: { key: 'wmodeOpaque' },
-		bubbles: true,
-		composed: true,
-		cancelable: true
-	});
-	editor.getElement().dispatchEvent(event);
-	const wmodeOpaque = event.detail.instance;
+	const wmodeOpaque = requestInstance(editor.getElement(), 'wmodeOpaque');
 
 	editor.ui.registry.addIcon('d2l-isf', icons['media']);
 
