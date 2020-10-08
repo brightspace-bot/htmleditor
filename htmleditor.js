@@ -126,15 +126,15 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 				display: none;
 			}
 			/* stylelint-disable-next-line selector-class-pattern */
-			.tox-tinymce .tox-toolbar-overlord > div:nth-child(2) {
+			:host([type="inline"]) .tox-tinymce .tox-toolbar-overlord > div:nth-child(2) {
 				display: none;
 			}
 			/* stylelint-disable-next-line selector-class-pattern */
-			.tox-tinymce.tox-fullscreen .tox-toolbar-overlord > div:nth-child(1) {
+			:host([type="inline"]) .tox-tinymce.tox-fullscreen .tox-toolbar-overlord > div:nth-child(1) {
 				display: none;
 			}
 			/* stylelint-disable-next-line selector-class-pattern */
-			.tox-tinymce.tox-fullscreen .tox-toolbar-overlord > div:nth-child(2) {
+			:host([type="inline"]) .tox-tinymce.tox-fullscreen .tox-toolbar-overlord > div:nth-child(2) {
 				display: flex;
 			}
 			/* stylelint-disable-next-line selector-class-pattern */
