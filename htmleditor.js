@@ -12,8 +12,6 @@ import 'tinymce/plugins/lists/plugin.js';
 import 'tinymce/plugins/preview/plugin.js';
 import 'tinymce/plugins/table/plugin.js';
 import 'tinymce/themes/silver/theme.js';
-//import './tinymce/plugins/a11ychecker/plugin.js';
-//import './tinymce/plugins/powerpaste/plugin.js';
 import { css, html, LitElement, unsafeCSS } from 'lit-element/lit-element.js';
 import { getUniqueId } from '@brightspace-ui/core/helpers/uniqueId.js';
 import { icons } from './icons.js';
@@ -27,7 +25,6 @@ import { tinymceLangs } from './generated/langs.js';
 // 2. copy new language packs from https://www.tiny.cloud/get-tiny/language-packages/ into tinymce/langs
 // 3. copy new enterprise plugins into tinymce/plugins
 
-// TODO: find out why enterprise plugins are not loaded properly above but are when using external_plugins
 // TODO: set powerpaste_word_import based on paste formatting config value (clean, merge, prompt)
 // TODO: convert pasted local images if upload location provided (previously only allowed local images if provided)
 // TODO: review whether pasted content needs prepcessing to avoid pasted image links getting converted to images
