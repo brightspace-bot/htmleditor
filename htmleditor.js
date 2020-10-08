@@ -292,6 +292,18 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 
 	}
 
+	render() {
+		//if (this.type === editorTypes.INLINE || this.type === editorTypes.INLINE_LIMITED) {
+		//	return html`<div id="${this._editorId}" .innerHTML="${this._html}"></div>`;
+		//} else {
+		return html`<textarea id="${this._editorId}" aria-hidden="true" tabindex="-1">${this._html}</textarea>`;
+		//}
+	}
+
+	focus() {
+		tinymce.EditorManager.get(this._editorId).focus();
+	}
+
 	_getToolbarConfig() {
 		if (this.type === editorTypes.INLINE_LIMITED) {
 			return 'bold italic underline | d2l-list d2l-isf emoticons';
@@ -303,18 +315,6 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 		} else {
 			return 'styleselect | bold italic underline d2l-inline forecolor a11ycheck | d2l-align d2l-list d2l-dir | d2l-isf d2l-quicklink | table | charmap emoticons hr | fontselect | fontsizeselect | preview code fullscreen';
 		}
-	}
-
-	render() {
-		//if (this.type === editorTypes.INLINE || this.type === editorTypes.INLINE_LIMITED) {
-		//	return html`<div id="${this._editorId}" .innerHTML="${this._html}"></div>`;
-		//} else {
-			return html`<textarea id="${this._editorId}" aria-hidden="true" tabindex="-1">${this._html}</textarea>`;
-		//}
-	}
-
-	focus() {
-		tinymce.EditorManager.get(this._editorId).focus();
 	}
 
 }
