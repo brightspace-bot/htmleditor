@@ -126,23 +126,17 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 				display: none;
 			}
 			/* stylelint-disable-next-line selector-class-pattern */
-			/*
 			.tox-tinymce .tox-toolbar-overlord > div:nth-child(2) {
 				display: none;
 			}
-			*/
 			/* stylelint-disable-next-line selector-class-pattern */
-			/*
 			.tox-tinymce.tox-fullscreen .tox-toolbar-overlord > div:nth-child(1) {
 				display: none;
 			}
-			*/
 			/* stylelint-disable-next-line selector-class-pattern */
-			/*
 			.tox-tinymce.tox-fullscreen .tox-toolbar-overlord > div:nth-child(2) {
 				display: flex;
 			}
-			*/
 			/* stylelint-disable-next-line selector-class-pattern */
 			.tox-tinymce.tox-fullscreen .tox-statusbar__resize-handle {
 				display: none;
@@ -234,7 +228,7 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 				font_formats: 'Arabic Transparent=arabic transparent,sans-serif; Arial (Recommended)=arial,helvetica,sans-serif; Comic Sans=comic sans ms,sans-serif; Courier=courier new,courier,sans-serif; Ezra SIL=ezra sil,arial unicode ms,arial,sans-serif; Georgia=georgia,serif; SBL Hebrew=sbl hebrew,times new roman,serif; Simplified Arabic=simplified arabic,sans-serif; Tahoma=tahoma,sans-serif; Times New Roman=times new roman,times,serif; Traditional Arabic=traditional arabic,serif; Trebuchet=trebuchet ms,helvetica,sans-serif; Verdana=verdana,sans-serif; 돋움 (Dotum)=dotum,arial,helvetica,sans-serif; 宋体 (Sim Sun)=simsun; 細明體 (Ming Liu)=mingliu,arial,helvetica,sans-serif',
 				fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt',
 				height: this.height,
-				inline: this.type === editorTypes.INLINE || this.type === editorTypes.INLINE_LIMITED,
+				// inline: this.type === editorTypes.INLINE || this.type === editorTypes.INLINE_LIMITED,
 				language: tinymceLang,
 				language_url: `/tinymce/langs/${tinymceLang}.js`,
 				menubar: false,
@@ -287,30 +281,36 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 				skin_url: `${baseImportPath}/tinymce/skins/ui/oxide`,
 				statusbar: true,
 				target: textarea,
-				toolbar: 'styleselect | bold italic underline d2l-inline forecolor a11ycheck | d2l-align d2l-list d2l-dir | d2l-isf d2l-quicklink | table | charmap emoticons hr | fontselect | fontsizeselect | preview code fullscreen',
+				toolbar: this._getToolbarConfig(),
 				valid_elements: '*[*]',
 				width: this.width,
 				...fullPageConfig,
 				...powerPasteConfig
 			});
 
-			/*
-			toolbar: this.inline ? 'bold italic underline' : [
-				'bold italic underline | bullist numlist | d2l-quicklink d2l-isf | fullscreen',
-				'bold italic underline | styleselect fontselect fontsizeselect | forecolor a11ycheck | bullist numlist | indent outdent | alignleft alignright aligncenter alignjustify | strikethrough subscript superscript | charmap hr | table | undo redo | ltr rtl | preview code fullscreen'
-			],
-			*/
-
 		});
 
 	}
 
-	render() {
-		if (this.type === editorTypes.INLINE || this.type === editorTypes.INLINE_LIMITED) {
-			return html`<div id="${this._editorId}" .innerHTML="${this._html}"></div>`;
+	_getToolbarConfig() {
+		if (this.type === editorTypes.INLINE_LIMITED) {
+			return 'bold italic underline | d2l-list d2l-isf emoticons';
+		} else if (this.type === editorTypes.INLINE) {
+			return [
+				'bold italic underline | d2l-align d2l-list d2l-isf | fullscreen',
+				'styleselect | bold italic underline d2l-inline forecolor a11ycheck | d2l-align d2l-list d2l-dir | d2l-isf d2l-quicklink | table | charmap emoticons hr | fontselect | fontsizeselect | preview code fullscreen'
+			];
 		} else {
-			return html`<textarea id="${this._editorId}" aria-hidden="true" tabindex="-1">${this._html}</textarea>`;
+			return 'styleselect | bold italic underline d2l-inline forecolor a11ycheck | d2l-align d2l-list d2l-dir | d2l-isf d2l-quicklink | table | charmap emoticons hr | fontselect | fontsizeselect | preview code fullscreen';
 		}
+	}
+
+	render() {
+		//if (this.type === editorTypes.INLINE || this.type === editorTypes.INLINE_LIMITED) {
+		//	return html`<div id="${this._editorId}" .innerHTML="${this._html}"></div>`;
+		//} else {
+			return html`<textarea id="${this._editorId}" aria-hidden="true" tabindex="-1">${this._html}</textarea>`;
+		//}
 	}
 
 	focus() {
