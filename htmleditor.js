@@ -278,7 +278,7 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 					]);
 
 				},
-				skin_url: `${baseImportPath}/tinymce/skins/ui/oxide`,
+				skin_url: `${baseImportPath}/tinymce/skins/ui/naked`,
 				statusbar: true,
 				target: textarea,
 				toolbar: this._getToolbarConfig(),
