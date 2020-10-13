@@ -19,12 +19,12 @@ npm install @brightspace-ui/htmleditor
 <script type="module">
     import '@brightspace-ui/htmleditor/htmleditor.js';
 </script>
-<d2l-htmleditor>My element</d2l-htmleditor>
+<d2l-htmleditor html="..."></d2l-htmleditor>
 ```
 
 ## Developing, Testing and Contributing
 
-After cloning the repo, run `npm install` to install dependencies.
+After cloning the repo, run `npm install` to install dependencies, `npm run build` to extract the supported tinyMCE languages.
 
 ### Running the demos
 
