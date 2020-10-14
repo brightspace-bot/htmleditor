@@ -117,20 +117,21 @@ tinymce.PluginManager.add('d2l-equation', function(editor) {
 			const annotationMatch = annotationRegex.exec(match);
 
 			let removeAnnotation = false;
-			let classString = 'equation';
+			let imageClass;
 			if (annotationMatch === null) {
-				classString += ' mathmlequation';
+				imageClass = 'mathmlequation';
 				removeAnnotation = true;
 			} else {
 				if (annotationMatch[1].indexOf('wiris') > -1) {
-					classString += ' graphicalequation';
+					imageClass = 'graphicalequation';
 				} else if (annotationMatch[1] === 'latex') {
-					classString += ' latexequation';
+					imageClass = 'latexequation';
 				} else {
-					classString += ' mathmlequation';
+					imageClass = 'mathmlequation';
 					removeAnnotation = true;
 				}
 			}
+			imageClass = `equation ${imageClass}`;
 
 			// remove whitespace and annotation markup to reduce query length
 			let trimmedMml = match.replace(/>\s+</g, '><');
@@ -149,7 +150,7 @@ tinymce.PluginManager.add('d2l-equation', function(editor) {
 			const onError = `if (this.src != ${placeholderImageSrc}) this.src = ${placeholderImageSrc};
 				this.alt = ${placeholderImageTitle};
 				this.title = ${placeholderImageTitle};`;
-			const imageHtml = `<img class="${classString}"
+			const imageHtml = `<img class="${imageClass}"
 				title="${title}"
 				alt="${title}"
 				src="${previewImageSrc}"
