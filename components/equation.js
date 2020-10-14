@@ -1,3 +1,5 @@
+/* eslint no-useless-escape: 0 */
+
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { getComposedActiveElement } from '@brightspace-ui/core/helpers/focus.js';
 import { icons } from '../icons.js';
@@ -144,12 +146,18 @@ tinymce.PluginManager.add('d2l-equation', function(editor) {
 			const placeholderImageTitle = "'Preview image not available for this equation'";
 
 			// if there's an error loading preview image, placeholder image will be shown instead
-			const imageHtml = '<img class="' + classString + '" title="' + title + '" alt="' + title + '" src="' + previewImageSrc
-					+ '" style="vertical-align:middle;" hspace="5" vspace="5" onerror="if (this.src != ' + placeholderImageSrc
-					+ ") this.src = " + placeholderImageSrc
-					+ "; this.alt = " + placeholderImageTitle
-					+ "; this.title = " + placeholderImageTitle
-					+ '" data-d2l-mathml="' + encodedMml + '" \/>';
+			const onError = `if (this.src != ${placeholderImageSrc}) this.src = ${placeholderImageSrc};
+				this.alt = ${placeholderImageTitle};
+				this.title = ${placeholderImageTitle};`;
+			const imageHtml = `<img class="${classString}"
+				title="${title}"
+				alt="${title}"
+				src="${previewImageSrc}"
+				style="vertical-align: middle;"
+				hspace="5"
+				vspace="5"
+				onerror="${onError}"
+				data-d2l-mathml="${encodedMml}" \/>`;
 
 			return imageHtml;
 		};
