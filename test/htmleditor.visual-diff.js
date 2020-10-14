@@ -28,9 +28,10 @@ describe('d2l-htmleditor', () => {
 		});
 
 		it('fullscreen', async function() {
-			await page.$eval('#full', (elem) => {
+			await page.$eval('#full', async (elem) => {
 				tinymce.EditorManager.get(elem._editorId).execCommand('mceFullScreen');
 			});
+			await page.hover('body');
 			await visualDiff.screenshotAndCompare(page, this.test.fullTitle());
 		});
 
