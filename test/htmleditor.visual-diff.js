@@ -28,7 +28,7 @@ describe('d2l-htmleditor', () => {
 		});
 
 		it('fullscreen', async function() {
-			await page.$eval('#full', async (elem) => {
+			await page.$eval('#full', (elem) => {
 				tinymce.EditorManager.get(elem._editorId).execCommand('mceFullScreen');
 			});
 			await page.hover('body');
