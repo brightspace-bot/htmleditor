@@ -67,14 +67,22 @@
 
 			<d2l-demo-snippet>
 				<template>
-					<d2l-htmleditor inline html="<p>Hello World!</p>"></d2l-htmleditor>
+					<d2l-htmleditor type="inline" height="250px" width="400px" html="<p>Hello World!</p>"></d2l-htmleditor>
+				</template>
+			</d2l-demo-snippet>
+
+			<h2>Inline Limited</h2>
+
+			<d2l-demo-snippet>
+				<template>
+					<d2l-htmleditor type="inline-limited" height="250px" width="400px" html="<p>Hello World!</p>"></d2l-htmleditor>
 				</template>
 			</d2l-demo-snippet>
 
 		</d2l-demo-page>
 
 		<template id="default-html">
-			<p>Hello World!</p>
+			<p>Hello World! <a href="https://www.nasa.gov/">Nasa</a></p>
 			<img src="https://www.nasa.gov/sites/default/files/thumbnails/image/img_0194.jpg" style="width: 426px; height: 639px;">
 			<p>Good night Moon!</p>
 			<script>
