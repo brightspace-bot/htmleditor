@@ -35,7 +35,7 @@ tinymce.PluginManager.add('d2l-quicklink', function(editor) {
 			}
 
 			dialog.opened = true;
-			dialog.addEventListener('d2l-htmleditor-quicklink-dialog-close', (e) => {
+			dialog.addEventListener('d2l-quicklink-dialog-close', (e) => {
 				const html = e.detail.html;
 				if (html) {
 					if (contextNode && contextNode.tagName === 'A') {
@@ -146,7 +146,7 @@ class QuicklinkDialog extends RequesterMixin(LitElement) {
 			this.opened = false;
 
 			this.dispatchEvent(new CustomEvent(
-				'd2l-htmleditor-quicklink-dialog-close', {
+				'd2l-quicklink-dialog-close', {
 					bubbles: true,
 					detail: { html: result }
 				}
