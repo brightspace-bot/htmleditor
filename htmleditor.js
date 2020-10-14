@@ -1,4 +1,5 @@
 import './components/quicklink.js';
+import './components/equation.js';
 import '@brightspace-ui/core/components/colors/colors.js';
 import 'tinymce/tinymce.js';
 import 'tinymce/icons/default/icons.js';
@@ -233,7 +234,7 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 				language_url: `/tinymce/langs/${tinymceLang}.js`,
 				menubar: false,
 				object_resizing : true,
-				plugins: `a11ychecker charmap code directionality emoticons ${this.fullPage ? 'fullpage' : ''} fullscreen hr lists powerpaste preview table d2l-isf d2l-quicklink`,
+				plugins: `a11ychecker charmap code directionality emoticons ${this.fullPage ? 'fullpage' : ''} fullscreen hr lists powerpaste preview table d2l-equation d2l-isf d2l-quicklink`,
 				relative_urls: false,
 				resize: true,
 				setup: (editor) => {
@@ -310,10 +311,10 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 		} else if (this.type === editorTypes.INLINE) {
 			return [
 				'bold italic underline | d2l-align d2l-list d2l-isf | fullscreen',
-				'styleselect | bold italic underline d2l-inline forecolor a11ycheck | d2l-align d2l-list d2l-dir | d2l-isf d2l-quicklink | table | charmap emoticons hr | fontselect | fontsizeselect | preview code fullscreen'
+				'styleselect | bold italic underline d2l-inline forecolor a11ycheck | d2l-align d2l-list d2l-dir | d2l-isf d2l-quicklink | table d2l-equation | charmap emoticons hr | fontselect | fontsizeselect | preview code fullscreen'
 			];
 		} else {
-			return 'styleselect | bold italic underline d2l-inline forecolor a11ycheck | d2l-align d2l-list d2l-dir | d2l-isf d2l-quicklink | table | charmap emoticons hr | fontselect | fontsizeselect | preview code fullscreen';
+			return 'styleselect | bold italic underline d2l-inline forecolor a11ycheck | d2l-align d2l-list d2l-dir | d2l-isf d2l-quicklink | table d2l-equation | charmap emoticons hr | fontselect | fontsizeselect | preview code fullscreen';
 		}
 	}
 

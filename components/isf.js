@@ -44,7 +44,7 @@ tinymce.PluginManager.add('d2l-isf', function(editor) {
 			if (!dialog) dialog = root.appendChild(document.createElement('d2l-isf-dialog'));
 
 			dialog.opened = true;
-			dialog.addEventListener('d2l-htmleditor-isf-dialog-close', (e) => {
+			dialog.addEventListener('d2l-isf-dialog-close', (e) => {
 				const html = e.detail.html;
 				if (html) editor.execCommand('mceInsertContent', false, html);
 			}, { once: true });
@@ -454,7 +454,7 @@ class IsfDialog extends RequesterMixin(LitElement) {
 			this.opened = false;
 
 			this.dispatchEvent(new CustomEvent(
-				'd2l-htmleditor-isf-dialog-close', {
+				'd2l-isf-dialog-close', {
 					bubbles: true,
 					detail: { html: result }
 				}
