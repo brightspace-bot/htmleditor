@@ -20,15 +20,15 @@ describe('d2l-htmleditor', () => {
 
 	after(async() => await browser.close());
 
-	describe('inline full', () => {
+	describe('full', () => {
 
 		it('normal', async function() {
-			const rect = await visualDiff.getRect(page, '#inline-full');
+			const rect = await visualDiff.getRect(page, '#full');
 			await visualDiff.screenshotAndCompare(page, this.test.fullTitle(), { clip: rect });
 		});
 
 		it('fullscreen', async function() {
-			await page.$eval('#inline-full', (elem) => {
+			await page.$eval('#full', (elem) => {
 				tinymce.EditorManager.get(elem._editorId).execCommand('mceFullScreen');
 			});
 			await visualDiff.screenshotAndCompare(page, this.test.fullTitle());
