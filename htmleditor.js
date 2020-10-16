@@ -10,6 +10,8 @@ import 'tinymce/plugins/emoticons/js/emojis.js';
 import 'tinymce/plugins/fullpage/plugin.js';
 import 'tinymce/plugins/fullscreen/plugin.js';
 import 'tinymce/plugins/hr/plugin.js';
+import 'tinymce/plugins/image/plugin.js';
+import 'tinymce/plugins/imagetools/plugin.js';
 import 'tinymce/plugins/lists/plugin.js';
 import 'tinymce/plugins/preview/plugin.js';
 import 'tinymce/plugins/table/plugin.js';
@@ -87,6 +89,18 @@ const contentFragmentStyles = css`
 	}
 `.cssText;
 
+class FileData {
+
+	constructor(fileSystemType, fileId, fileName, size, src) {
+		this.fileSystemType = fileSystemType;
+		this.fileId = fileId;
+		this.fileName = fileName;
+		this.size = size;
+		this.src = src;
+	}
+
+}
+
 class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 
 	static get properties() {
@@ -101,7 +115,10 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 			noSpellchecker: { type: Boolean, attribute: 'no-spellchecker' },
 			type: { type: String },
 			width: { type: String },
-			_editorId: { type: String }
+			localImagePasting: { type: Boolean, attribute: 'local-image-pasting' },
+			files: { type: Array, },
+			filesQueued: { type: Number, attribute: 'files_queued' },
+			_editorId: { type: String },
 		};
 	}
 
@@ -152,8 +169,12 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 		this.noSpellchecker = false;
 		this.type = editorTypes.FULL;
 		this.width = '100%';
+		this.localImagePasting = false;
+		this.files = [];
+		this.filesQueued = 0;
 		this._editorId = getUniqueId();
 		this._html = '';
+		this._uploadImageCount = 0;
 		if (context) {
 			this.provideInstance('orgUnitId', context.orgUnitId);
 			this.provideInstance('wmodeOpaque', context.wmodeOpaque);
@@ -199,10 +220,16 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 			}
 
 			const powerPasteConfig = {
-				powerpaste_allow_local_images: true,
-				powerpaste_block_drop : false,
-				powerpaste_word_import: 'merge'
+				powerpaste_allow_local_images: this.localImagePasting,
+				powerpaste_block_drop: !this.localImagePasting
 			};
+
+			if (context) {
+				powerPasteConfig.powerpaste_word_import = context.pasteFormatting;
+			} else {
+				powerPasteConfig.powerpaste_word_import = 'merge';
+			}
+
 			/*
 			paste_preprocess: function(plugin, data) {
 				// Stops Paste plugin from converting pasted image links to image
@@ -228,16 +255,23 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 				font_formats: 'Arabic Transparent=arabic transparent,sans-serif; Arial (Recommended)=arial,helvetica,sans-serif; Comic Sans=comic sans ms,sans-serif; Courier=courier new,courier,sans-serif; Ezra SIL=ezra sil,arial unicode ms,arial,sans-serif; Georgia=georgia,serif; SBL Hebrew=sbl hebrew,times new roman,serif; Simplified Arabic=simplified arabic,sans-serif; Tahoma=tahoma,sans-serif; Times New Roman=times new roman,times,serif; Traditional Arabic=traditional arabic,serif; Trebuchet=trebuchet ms,helvetica,sans-serif; Verdana=verdana,sans-serif; 돋움 (Dotum)=dotum,arial,helvetica,sans-serif; 宋体 (Sim Sun)=simsun; 細明體 (Ming Liu)=mingliu,arial,helvetica,sans-serif',
 				fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt',
 				height: this.height,
+				images_upload_handler: (blobinfo, success, failure) => this._imageUploadHandler(blobinfo, success, failure),
 				// inline: this.type === editorTypes.INLINE || this.type === editorTypes.INLINE_LIMITED,
 				language: tinymceLang,
 				language_url: `/tinymce/langs/${tinymceLang}.js`,
 				menubar: false,
 				object_resizing : true,
-				plugins: `a11ychecker charmap code directionality emoticons ${this.fullPage ? 'fullpage' : ''} fullscreen hr lists powerpaste preview table d2l-isf d2l-quicklink`,
+				plugins: `a11ychecker charmap code directionality emoticons ${this.fullPage ? 'fullpage' : ''} fullscreen hr image ${this.localImagePasting ? 'imagetools' : ''} lists powerpaste preview table d2l-isf d2l-quicklink`,
 				relative_urls: false,
 				resize: true,
 				setup: (editor) => {
 					editor.ui.registry.addIcon('resize-handle', icons['resize-handle']);
+
+					if (this.localImagePasting) {
+						editor.on('blur', () => {
+							editor.uploadImages();
+						});
+					}
 
 					const createSplitButton = (name, icon, tooltip, cmd, items) => {
 						editor.ui.registry.addSplitButton(name, {
@@ -317,5 +351,63 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 		}
 	}
 
+	_imageUploadHandler(blobInfo, success, failure) {
+		this._uploadImageCount++;
+		if (this._uploadImageCount === 1) { // only fire the upload started event on the first image being uploaded
+			this.dispatchEvent(new CustomEvent(
+				'd2l-htmleditor-image-upload-started', {
+					bubbles: true
+				}
+			));
+		}
+
+		// Local image upload requires an LMS context for now
+		if (!D2L.LP || !context || context.orgUnitId === null || context.maxFileSize === null) return;
+
+		const fileName = blobInfo.filename().replace('blobid', 'pic');
+		const blob = blobInfo.blob();
+		blob.name = fileName;
+
+		const uploadLocation = new D2L.LP.Web.Http.UrlLocation(
+			`/d2l/lp/fileupload/${context.orgUnitId}?maxFileSize=${context.maxFileSize}`
+		);
+
+		D2L.LP.Web.UI.Html.Files.FileUpload.XmlHttpRequest.UploadFiles(
+			[blob],
+			{
+				UploadLocation: uploadLocation,
+				OnFileComplete: (uploadedFile) => {
+					const src = `/d2l/lp/files/temp/${uploadedFile.FileId}/View`;
+
+					this.filesQueued++;
+					this.files.push(
+						new FileData(
+							uploadedFile.FileSystemType,
+							uploadedFile.FileId,
+							uploadedFile.FileName,
+							uploadedFile.Size,
+							src
+						)
+					);
+
+					success(src);
+
+					this._uploadImageCount--;
+					if (this._uploadImageCount <= 0) {
+						this.dispatchEvent(new CustomEvent(
+							'd2l-htmleditor-image-upload-completed', {
+								bubbles: true
+							}
+						));
+					}
+				},
+				OnAbort: (errorResponse) => failure(errorResponse),
+				OnError: (errorResponse) => failure(errorResponse),
+				OnProgress: () => { }
+			}
+		);
+	}
+
 }
+
 customElements.define('d2l-htmleditor', HtmlEditor);
