@@ -89,18 +89,6 @@ const contentFragmentStyles = css`
 	}
 `.cssText;
 
-class FileData {
-
-	constructor(fileSystemType, fileId, fileName, size, src) {
-		this.fileSystemType = fileSystemType;
-		this.fileId = fileId;
-		this.fileName = fileName;
-		this.size = size;
-		this.src = src;
-	}
-
-}
-
 class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 
 	static get properties() {
@@ -221,14 +209,9 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 
 			const powerPasteConfig = {
 				powerpaste_allow_local_images: this.localImagePasting,
-				powerpaste_block_drop: !this.localImagePasting
+				powerpaste_block_drop: !this.localImagePasting,
+				powerpaste_word_import: context ? context.pasteFormatting : 'merge'
 			};
-
-			if (context) {
-				powerPasteConfig.powerpaste_word_import = context.pasteFormatting;
-			} else {
-				powerPasteConfig.powerpaste_word_import = 'merge';
-			}
 
 			/*
 			paste_preprocess: function(plugin, data) {
@@ -255,7 +238,7 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 				font_formats: 'Arabic Transparent=arabic transparent,sans-serif; Arial (Recommended)=arial,helvetica,sans-serif; Comic Sans=comic sans ms,sans-serif; Courier=courier new,courier,sans-serif; Ezra SIL=ezra sil,arial unicode ms,arial,sans-serif; Georgia=georgia,serif; SBL Hebrew=sbl hebrew,times new roman,serif; Simplified Arabic=simplified arabic,sans-serif; Tahoma=tahoma,sans-serif; Times New Roman=times new roman,times,serif; Traditional Arabic=traditional arabic,serif; Trebuchet=trebuchet ms,helvetica,sans-serif; Verdana=verdana,sans-serif; 돋움 (Dotum)=dotum,arial,helvetica,sans-serif; 宋体 (Sim Sun)=simsun; 細明體 (Ming Liu)=mingliu,arial,helvetica,sans-serif',
 				fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt',
 				height: this.height,
-				images_upload_handler: (blobinfo, success, failure) => this._imageUploadHandler(blobinfo, success, failure),
+				images_upload_handler: (blobInfo, success, failure) => this._imageUploadHandler(blobInfo, success, failure),
 				// inline: this.type === editorTypes.INLINE || this.type === editorTypes.INLINE_LIMITED,
 				language: tinymceLang,
 				language_url: `/tinymce/langs/${tinymceLang}.js`,
@@ -377,20 +360,20 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 			{
 				UploadLocation: uploadLocation,
 				OnFileComplete: (uploadedFile) => {
-					const src = `/d2l/lp/files/temp/${uploadedFile.FileId}/View`;
+					const location = `/d2l/lp/files/temp/${uploadedFile.FileId}/View`;
 
 					this.filesQueued++;
 					this.files.push(
-						new FileData(
+						new FileData( // eslint-disable-line no-use-before-define
 							uploadedFile.FileSystemType,
 							uploadedFile.FileId,
 							uploadedFile.FileName,
 							uploadedFile.Size,
-							src
+							location
 						)
 					);
 
-					success(src);
+					success(location);
 
 					this._uploadImageCount--;
 					if (this._uploadImageCount <= 0) {
@@ -406,6 +389,18 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 				OnProgress: () => { }
 			}
 		);
+	}
+
+}
+
+class FileData {
+
+	constructor(fileSystemType, id, fileName, size, location) {
+		this.FileSystemType = fileSystemType;
+		this.Id = id;
+		this.FileName = fileName;
+		this.Size = size;
+		this.Location = location;
 	}
 
 }
