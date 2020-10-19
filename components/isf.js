@@ -432,7 +432,11 @@ class IsfDialog extends RequesterMixin(LitElement) {
 
 				const selectResult = D2L.LP.Web.UI.Legacy.MasterPages.Dialog.Open(
 					getComposedActiveElement(),
-					new D2L.LP.Web.Http.UrlLocation(`/d2l/common/dialogs/isf/selectItem.d2l?ou=${this._orgUnitId}&extensionPoint=${this._isfContextId ? this._isfContextId : ''}&filterMode=${this._noFilter ? 'None' : 'Strict'}`),
+					new D2L.LP.Web.Http.UrlLocation(`/d2l/common/dialogs/isf/selectItem.d2l
+						?ou=${this._orgUnitId}
+						&extensionPoint=${this._isfContextId ? this._isfContextId : ''}
+						&filterMode=${this._noFilter ? 'None' : 'Strict'}
+					`),
 					'GetSelectedItem',
 					null,
 					'itemSource',
