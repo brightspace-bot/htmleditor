@@ -94,6 +94,7 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 
 	static get properties() {
 		return {
+			files: { type: Array, },
 			fullPage: { type: Boolean, attribute: 'full-page' },
 			fullPageFontColor: { type: String, attribute: 'full-page-font-color' },
 			fullPageFontFamily: { type: String, attribute: 'full-page-font-family' },
@@ -102,11 +103,10 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 			html: { type: String },
 			noFilter: { type: Boolean, attribute: 'no-filter' },
 			noSpellchecker: { type: Boolean, attribute: 'no-spellchecker' },
+			pasteLocalImages: { type: Boolean, attribute: 'paste-local-images' },
 			type: { type: String },
 			width: { type: String },
-			localImagePasting: { type: Boolean, attribute: 'local-image-pasting' },
-			files: { type: Array, },
-			_editorId: { type: String },
+			_editorId: { type: String }
 		};
 	}
 
@@ -157,7 +157,7 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 		this.noSpellchecker = false;
 		this.type = editorTypes.FULL;
 		this.width = '100%';
-		this.localImagePasting = false;
+		this.pasteLocalImages = false;
 		this.files = [];
 		this._editorId = getUniqueId();
 		this._html = '';
@@ -207,8 +207,8 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 			}
 
 			const powerPasteConfig = {
-				powerpaste_allow_local_images: this.localImagePasting,
-				powerpaste_block_drop: !this.localImagePasting,
+				powerpaste_allow_local_images: this.pasteLocalImages,
+				powerpaste_block_drop: !this.pasteLocalImages,
 				powerpaste_word_import: context ? context.pasteFormatting : 'merge'
 			};
 
@@ -243,13 +243,13 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 				language_url: `/tinymce/langs/${tinymceLang}.js`,
 				menubar: false,
 				object_resizing : true,
-				plugins: `a11ychecker charmap code directionality emoticons ${this.fullPage ? 'fullpage' : ''} fullscreen hr image ${this.localImagePasting ? 'imagetools' : ''} lists powerpaste preview table d2l-equation d2l-isf d2l-quicklink`,
+				plugins: `a11ychecker charmap code directionality emoticons ${this.fullPage ? 'fullpage' : ''} fullscreen hr image ${this.pasteLocalImages ? 'imagetools' : ''} lists powerpaste preview table d2l-equation d2l-isf d2l-quicklink`,
 				relative_urls: false,
 				resize: true,
 				setup: (editor) => {
 					editor.ui.registry.addIcon('resize-handle', icons['resize-handle']);
 
-					if (this.localImagePasting) editor.on('blur', editor.uploadImages);
+					if (this.pasteLocalImages) editor.on('blur', editor.uploadImages);
 
 					const createSplitButton = (name, icon, tooltip, cmd, items) => {
 						editor.ui.registry.addSplitButton(name, {
