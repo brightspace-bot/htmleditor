@@ -106,7 +106,6 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 			width: { type: String },
 			localImagePasting: { type: Boolean, attribute: 'local-image-pasting' },
 			files: { type: Array, },
-			filesQueued: { type: Number, attribute: 'files_queued' },
 			_editorId: { type: String },
 		};
 	}
@@ -160,7 +159,6 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 		this.width = '100%';
 		this.localImagePasting = false;
 		this.files = [];
-		this.filesQueued = 0;
 		this._editorId = getUniqueId();
 		this._html = '';
 		this._uploadImageCount = 0;
@@ -363,7 +361,6 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 				OnFileComplete: (uploadedFile) => {
 					const location = `/d2l/lp/files/temp/${uploadedFile.FileId}/View`;
 
-					this.filesQueued++;
 					this.files.push(
 						new FileData( // eslint-disable-line no-use-before-define
 							uploadedFile.FileSystemType,
