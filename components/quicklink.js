@@ -14,7 +14,7 @@ tinymce.PluginManager.add('d2l-quicklink', function(editor) {
 	editor.ui.registry.addIcon('d2l-quicklink', icons['link']);
 
 	editor.ui.registry.addButton('d2l-quicklink', {
-		tooltip: 'QuickLink',
+		tooltip: 'Insert QuickLink',
 		icon: 'd2l-quicklink',
 		onAction: () => {
 			const root = editor.getElement().getRootNode();
