@@ -249,7 +249,7 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 				setup: (editor) => {
 					editor.ui.registry.addIcon('resize-handle', icons['resize-handle']);
 
-					if (this.pasteLocalImages) editor.on('blur', editor.uploadImages);
+					if (this.pasteLocalImages) editor.on('blur', () => editor.uploadImages());
 
 					const createSplitButton = (name, icon, tooltip, cmd, items) => {
 						editor.ui.registry.addSplitButton(name, {
