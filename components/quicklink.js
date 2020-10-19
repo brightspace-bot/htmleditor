@@ -36,7 +36,14 @@ tinymce.PluginManager.add('d2l-quicklink', function(editor) {
 
 			dialog.opened = true;
 			dialog.addEventListener('d2l-htmleditor-quicklink-dialog-close', (e) => {
-				const html = e.detail.html;
+
+				const quicklinks = e.detail.quicklinks;
+				if (!quicklinks || quicklinks.length === 0) return;
+
+				const html = quicklinks.reduce((acc, cur) => {
+					return acc += cur.html;
+				}, '');
+
 				if (html) {
 					if (contextNode && contextNode.tagName === 'A') {
 						// expand selection if necessary to replace current link
@@ -139,18 +146,8 @@ class QuicklinkDialog extends RequesterMixin(LitElement) {
 					);
 
 					createResult.AddReleaseListener(resolve);
-					createResult.AddListener(quicklinks => {
+					createResult.AddListener(quicklinks => resolve(quicklinks));
 
-						if (!quicklinks || quicklinks.length === 0) {
-							resolve();
-							return;
-						}
-
-						resolve(quicklinks.reduce((acc, cur) => {
-							return acc += cur.html;
-						}, ''));
-
-					});
 				});
 
 			}));
@@ -160,7 +157,7 @@ class QuicklinkDialog extends RequesterMixin(LitElement) {
 			this.dispatchEvent(new CustomEvent(
 				'd2l-htmleditor-quicklink-dialog-close', {
 					bubbles: true,
-					detail: { html: result }
+					detail: { quicklinks: result }
 				}
 			));
 
