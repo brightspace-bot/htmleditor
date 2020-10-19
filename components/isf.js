@@ -449,9 +449,7 @@ class IsfDialog extends RequesterMixin(LitElement) {
 				);
 
 				selectResult.AddReleaseListener(resolve);
-				selectResult.AddListener(stuff => {
-					resolve(stuff);
-				});
+				selectResult.AddListener(stuff => resolve(stuff));
 
 			}));
 
