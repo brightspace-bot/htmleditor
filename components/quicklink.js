@@ -19,8 +19,8 @@ tinymce.PluginManager.add('d2l-quicklink', function(editor) {
 		onAction: () => {
 			const root = editor.getElement().getRootNode();
 
-			let dialog = root.querySelector('d2l-quicklink-dialog');
-			if (!dialog) dialog = root.appendChild(document.createElement('d2l-quicklink-dialog'));
+			let dialog = root.querySelector('d2l-htmleditor-quicklink-dialog');
+			if (!dialog) dialog = root.appendChild(document.createElement('d2l-htmleditor-quicklink-dialog'));
 
 			const contextNode = (editor.selection ? editor.selection.getNode() : null);
 
@@ -35,7 +35,7 @@ tinymce.PluginManager.add('d2l-quicklink', function(editor) {
 			}
 
 			dialog.opened = true;
-			dialog.addEventListener('d2l-quicklink-dialog-close', (e) => {
+			dialog.addEventListener('d2l-htmleditor-quicklink-dialog-close', (e) => {
 				const html = e.detail.html;
 				if (html) {
 					if (contextNode && contextNode.tagName === 'A') {
@@ -158,7 +158,7 @@ class QuicklinkDialog extends RequesterMixin(LitElement) {
 			this.opened = false;
 
 			this.dispatchEvent(new CustomEvent(
-				'd2l-quicklink-dialog-close', {
+				'd2l-htmleditor-quicklink-dialog-close', {
 					bubbles: true,
 					detail: { html: result }
 				}
@@ -169,4 +169,4 @@ class QuicklinkDialog extends RequesterMixin(LitElement) {
 	}
 
 }
-customElements.define('d2l-quicklink-dialog', QuicklinkDialog);
+customElements.define('d2l-htmleditor-quicklink-dialog', QuicklinkDialog);
