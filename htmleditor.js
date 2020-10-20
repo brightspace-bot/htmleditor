@@ -1,3 +1,4 @@
+import './components/image.js';
 import './components/quicklink.js';
 import './components/equation.js';
 import '@brightspace-ui/core/components/colors/colors.js';
@@ -94,7 +95,9 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 
 	static get properties() {
 		return {
-			files: { type: Array, },
+			attachedImagesOnly: { type: Boolean, attribute: 'attached-images-only' },
+			fileUploadForAllUsers: { type: Boolean, attribute: 'file-upload-for-all-users' },
+			files: { type: Array },
 			fullPage: { type: Boolean, attribute: 'full-page' },
 			fullPageFontColor: { type: String, attribute: 'full-page-font-color' },
 			fullPageFontFamily: { type: String, attribute: 'full-page-font-family' },
@@ -164,9 +167,14 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 		this._uploadImageCount = 0;
 		if (context) {
 			this.provideInstance('orgUnitId', context.orgUnitId);
+			this.provideInstance('orgUnitPath', context.orgUnitPath);
+			this.provideInstance('uploadFiles', context.uploadFiles);
+			this.provideInstance('viewFiles', context.viewFiles);
 			this.provideInstance('wmodeOpaque', context.wmodeOpaque);
 		}
 		setTimeout(() => {
+			this.provideInstance('attachedImagesOnly', this.attachedImagesOnly);
+			this.provideInstance('fileUploadForAllUsers', this.fileUploadForAllUsers);
 			this.provideInstance('noFilter', this.noFilter);
 		}, 0);
 	}
@@ -243,7 +251,7 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 				language_url: `/tinymce/langs/${tinymceLang}.js`,
 				menubar: false,
 				object_resizing : true,
-				plugins: `a11ychecker charmap code directionality emoticons ${this.fullPage ? 'fullpage' : ''} fullscreen hr image ${this.pasteLocalImages ? 'imagetools' : ''} lists powerpaste preview table d2l-equation d2l-isf d2l-quicklink`,
+				plugins: `a11ychecker charmap code directionality emoticons ${this.fullPage ? 'fullpage' : ''} fullscreen hr image ${this.pasteLocalImages ? 'imagetools' : ''} lists powerpaste preview table d2l-equation d2l-image d2l-isf d2l-quicklink`,
 				relative_urls: false,
 				resize: true,
 				setup: (editor) => {
@@ -322,10 +330,10 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 		} else if (this.type === editorTypes.INLINE) {
 			return [
 				'bold italic underline | d2l-align d2l-list d2l-isf | fullscreen',
-				'styleselect | bold italic underline d2l-inline forecolor a11ycheck | d2l-align d2l-list d2l-dir | d2l-isf d2l-quicklink | table d2l-equation | charmap emoticons hr | fontselect | fontsizeselect | preview code fullscreen'
+				'styleselect | bold italic underline d2l-inline forecolor a11ycheck | d2l-align d2l-list d2l-dir | d2l-isf d2l-quicklink d2l-image | table d2l-equation | charmap emoticons hr | fontselect | fontsizeselect | preview code fullscreen'
 			];
 		} else {
-			return 'styleselect | bold italic underline d2l-inline forecolor a11ycheck | d2l-align d2l-list d2l-dir | d2l-isf d2l-quicklink | table d2l-equation | charmap emoticons hr | fontselect | fontsizeselect | preview code fullscreen';
+			return 'styleselect | bold italic underline d2l-inline forecolor a11ycheck | d2l-align d2l-list d2l-dir | d2l-isf d2l-quicklink d2l-image | table d2l-equation | charmap emoticons hr | fontselect | fontsizeselect | preview code fullscreen';
 		}
 	}
 
