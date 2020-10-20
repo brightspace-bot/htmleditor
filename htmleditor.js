@@ -3,6 +3,7 @@ import './components/equation.js';
 import '@brightspace-ui/core/components/colors/colors.js';
 import 'tinymce/tinymce.js';
 import 'tinymce/icons/default/icons.js';
+import 'tinymce/plugins/autosave/plugin.js';
 import 'tinymce/plugins/charmap/plugin.js';
 import 'tinymce/plugins/code/plugin.js';
 import 'tinymce/plugins/directionality/plugin.js';
@@ -94,7 +95,8 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 
 	static get properties() {
 		return {
-			files: { type: Array, },
+			autosave: { type: Boolean },
+			files: { type: Array },
 			fullPage: { type: Boolean, attribute: 'full-page' },
 			fullPageFontColor: { type: String, attribute: 'full-page-font-color' },
 			fullPageFontFamily: { type: String, attribute: 'full-page-font-family' },
@@ -159,6 +161,7 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 		this.width = '100%';
 		this.pasteLocalImages = false;
 		this.files = [];
+		this.autosave = false;
 		this._editorId = getUniqueId();
 		this._html = '';
 		this._uploadImageCount = 0;
@@ -223,6 +226,9 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 				a11ychecker_allow_decorative_images: true,
 				allow_html_in_named_anchor: true,
 				allow_script_urls: true,
+				autosave_ask_before_unload: this.autosave,
+				autosave_restore_when_empty: false,
+				autosave_retention: "0s",
 				branding: false,
 				browser_spellcheck: !this.noSpellchecker,
 				convert_urls: false,
@@ -238,12 +244,17 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 				fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt',
 				height: this.height,
 				images_upload_handler: (blobInfo, success, failure) => this._imageUploadHandler(blobInfo, success, failure),
+				init_instance_callback: (editor) => {
+					if (editor && editor.plugins && editor.plugins.autosave) {
+						delete editor.plugins.autosave; // removing the autosave plugin prevents saving of content but retains the "ask_before_unload" behaviour
+					}
+				},
 				// inline: this.type === editorTypes.INLINE || this.type === editorTypes.INLINE_LIMITED,
 				language: tinymceLang,
 				language_url: `/tinymce/langs/${tinymceLang}.js`,
 				menubar: false,
 				object_resizing : true,
-				plugins: `a11ychecker charmap code directionality emoticons ${this.fullPage ? 'fullpage' : ''} fullscreen hr image ${this.pasteLocalImages ? 'imagetools' : ''} lists powerpaste preview table d2l-equation d2l-isf d2l-quicklink`,
+				plugins: `a11ychecker ${this.autosave ? 'autosave' : ''} charmap code directionality emoticons ${this.fullPage ? 'fullpage' : ''} fullscreen hr image ${this.pasteLocalImages ? 'imagetools' : ''} lists powerpaste preview table d2l-equation d2l-isf d2l-quicklink`,
 				relative_urls: false,
 				resize: true,
 				setup: (editor) => {
