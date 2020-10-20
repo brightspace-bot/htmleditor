@@ -96,8 +96,8 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 	static get properties() {
 		return {
 			attachedImagesOnly: { type: Boolean, attribute: 'attached-images-only' },
-			fileUploadForAllUsers: { type: Boolean, attribute: 'file-upload-for-all-users' },
 			files: { type: Array },
+			fileUploadForAllUsers: { type: Boolean, attribute: 'file-upload-for-all-users' },
 			fullPage: { type: Boolean, attribute: 'full-page' },
 			fullPageFontColor: { type: String, attribute: 'full-page-font-color' },
 			fullPageFontFamily: { type: String, attribute: 'full-page-font-family' },
@@ -154,14 +154,17 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 
 	constructor() {
 		super();
-		this.noFilter = false;
+		this.attachedImagesOnly = false;
+		this.files = [];
+		this.fileUploadForAllUsers = false;
 		this.fullPage = false;
+		this.fullPageFontColor = '#494c4e';
 		this.height = '355px';
+		this.noFilter = false;
 		this.noSpellchecker = false;
+		this.pasteLocalImages = false;
 		this.type = editorTypes.FULL;
 		this.width = '100%';
-		this.pasteLocalImages = false;
-		this.files = [];
 		this._editorId = getUniqueId();
 		this._html = '';
 		this._uploadImageCount = 0;
