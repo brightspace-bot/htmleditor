@@ -215,6 +215,12 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 				powerpaste_word_import: context ? context.pasteFormatting : 'merge'
 			};
 
+			const autosaveConfig = {
+				autosave_ask_before_unload: this.autosave,
+				autosave_restore_when_empty: false,
+				autosave_retention: "0s"
+			}
+
 			/*
 			paste_preprocess: function(plugin, data) {
 				// Stops Paste plugin from converting pasted image links to image
@@ -226,9 +232,6 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 				a11ychecker_allow_decorative_images: true,
 				allow_html_in_named_anchor: true,
 				allow_script_urls: true,
-				autosave_ask_before_unload: this.autosave,
-				autosave_restore_when_empty: false,
-				autosave_retention: "0s",
 				branding: false,
 				browser_spellcheck: !this.noSpellchecker,
 				convert_urls: false,
@@ -308,7 +311,8 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 				valid_elements: '*[*]',
 				width: this.width,
 				...fullPageConfig,
-				...powerPasteConfig
+				...powerPasteConfig,
+				...autosaveConfig
 			});
 
 		});
