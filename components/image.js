@@ -11,6 +11,75 @@ const fileTypes = {
 	Image: 1
 };
 
+class FileData {
+	constructor(fileSystemType, id, fileName, size, location) {
+		this.FileSystemType = fileSystemType;
+		this.Id = id;
+		this.FileName = fileName;
+		this.Size = size;
+		this.Location = location;
+	}
+}
+
+export function uploadImage(editor, blobInfo, success, failure) {
+
+	// bail if no LMS context (local file upload relies on LMS context for now)
+	if (!D2L.LP) return;
+
+	const orgUnitId = requestInstance(editor, 'orgUnitId');
+	const maxFileSize = requestInstance(editor, 'maxFileSize');
+
+	editor._uploadImageCount++;
+	if (editor._uploadImageCount === 1) { // only fire the upload started event on the first image being uploaded
+		editor.dispatchEvent(new CustomEvent(
+			'd2l-htmleditor-image-upload-started', {
+				bubbles: true
+			}
+		));
+	}
+
+	const fileName = blobInfo.filename().replace('blobid', 'pic');
+	const blob = blobInfo.blob();
+	blob.name = fileName;
+
+	D2L.LP.Web.UI.Html.Files.FileUpload.XmlHttpRequest.UploadFiles(
+		[blob],
+		{
+			UploadLocation: new D2L.LP.Web.Http.UrlLocation(
+				`/d2l/lp/fileupload/${orgUnitId}?maxFileSize=${maxFileSize}`
+			),
+			OnFileComplete: uploadedFile => {
+				const location = `/d2l/lp/files/temp/${uploadedFile.FileId}/View`;
+
+				editor._addFile(
+					new FileData(
+						uploadedFile.FileSystemType,
+						uploadedFile.FileId,
+						uploadedFile.FileName,
+						uploadedFile.Size,
+						location
+					)
+				);
+
+				success(location);
+
+				editor._uploadImageCount--;
+				if (editor._uploadImageCount <= 0) {
+					editor.dispatchEvent(new CustomEvent(
+						'd2l-htmleditor-image-upload-completed', {
+							bubbles: true
+						}
+					));
+				}
+			},
+			OnAbort: (errorResponse) => failure(errorResponse),
+			OnError: (errorResponse) => failure(errorResponse),
+			OnProgress: () => { }
+		}
+	);
+
+}
+
 tinymce.PluginManager.add('d2l-image', function(editor) {
 
 	// bail if no LMS context
@@ -75,19 +144,15 @@ tinymce.PluginManager.add('d2l-image', function(editor) {
 					src = file.FileId;
 				}
 
-				root.dispatchEvent(new CustomEvent(
-					'd2l-htmleditor-file-add', {
-						bubbles: true,
-						composed: true,
-						detail: {
-							type: file.FileSystemType,
-							id: file.FileId,
-							name: file.FileName,
-							size: file.Size,
-							src: src
-						}
-					}
-				));
+				root.host._addFile(
+					new FileData(
+						file.FileSystemType,
+						file.FileId,
+						file.FileName,
+						file.Size,
+						src
+					)
+				);
 
 				const tempImg = document.createElement('img');
 				tempImg.setAttribute('src', src);
