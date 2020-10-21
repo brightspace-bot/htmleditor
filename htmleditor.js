@@ -95,7 +95,7 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 
 	static get properties() {
 		return {
-			autosave: { type: Boolean },
+			autoSave: { type: Boolean, attribute: 'auto-save' },
 			files: { type: Array },
 			fullPage: { type: Boolean, attribute: 'full-page' },
 			fullPageFontColor: { type: String, attribute: 'full-page-font-color' },
@@ -153,15 +153,15 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 
 	constructor() {
 		super();
-		this.noFilter = false;
+		this.autoSave = false;
+		this.files = [];
 		this.fullPage = false;
 		this.height = '355px';
+		this.noFilter = false;
 		this.noSpellchecker = false;
+		this.pasteLocalImages = false;
 		this.type = editorTypes.FULL;
 		this.width = '100%';
-		this.pasteLocalImages = false;
-		this.files = [];
-		this.autosave = false;
 		this._editorId = getUniqueId();
 		this._html = '';
 		this._uploadImageCount = 0;
@@ -215,11 +215,11 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 				powerpaste_word_import: context ? context.pasteFormatting : 'merge'
 			};
 
-			const autosaveConfig = {
-				autosave_ask_before_unload: this.autosave,
+			const autoSaveConfig = {
+				autosave_ask_before_unload: this.autoSave,
 				autosave_restore_when_empty: false,
-				autosave_retention: "0s"
-			}
+				autosave_retention: '0s'
+			};
 
 			/*
 			paste_preprocess: function(plugin, data) {
@@ -257,7 +257,7 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 				language_url: `/tinymce/langs/${tinymceLang}.js`,
 				menubar: false,
 				object_resizing : true,
-				plugins: `a11ychecker ${this.autosave ? 'autosave' : ''} charmap code directionality emoticons ${this.fullPage ? 'fullpage' : ''} fullscreen hr image ${this.pasteLocalImages ? 'imagetools' : ''} lists powerpaste preview table d2l-equation d2l-isf d2l-quicklink`,
+				plugins: `a11ychecker ${this.autoSave ? 'autosave' : ''} charmap code directionality emoticons ${this.fullPage ? 'fullpage' : ''} fullscreen hr image ${this.pasteLocalImages ? 'imagetools' : ''} lists powerpaste preview table d2l-equation d2l-isf d2l-quicklink`,
 				relative_urls: false,
 				resize: true,
 				setup: (editor) => {
@@ -310,9 +310,9 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 				toolbar: this._getToolbarConfig(),
 				valid_elements: '*[*]',
 				width: this.width,
+				...autoSaveConfig,
 				...fullPageConfig,
-				...powerPasteConfig,
-				...autosaveConfig
+				...powerPasteConfig
 			});
 
 		});
