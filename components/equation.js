@@ -45,8 +45,8 @@ tinymce.PluginManager.add('d2l-equation', function(editor) {
 	const launchEditor = (editorType) => {
 		const root = editor.getElement().getRootNode();
 
-		let dialog = root.querySelector('d2l-equation-dialog');
-		if (!dialog) dialog = root.appendChild(document.createElement('d2l-equation-dialog'));
+		let dialog = root.querySelector('d2l-htmleditor-equation-dialog');
+		if (!dialog) dialog = root.appendChild(document.createElement('d2l-htmleditor-equation-dialog'));
 
 		const contextNode = getSelectedMathImage();
 		if (contextNode && getEditorTypeForImage(contextNode) === editorType) {
@@ -55,7 +55,7 @@ tinymce.PluginManager.add('d2l-equation', function(editor) {
 
 		dialog.type = editorType;
 		dialog.opened = true;
-		dialog.addEventListener('d2l-equation-dialog-close', (e) => {
+		dialog.addEventListener('d2l-htmleditor-equation-dialog-close', (e) => {
 			const html = e.detail.html;
 			if (html) editor.execCommand('mceInsertContent', false, html);
 		}, { once: true });
@@ -261,7 +261,7 @@ class EditorDialog extends LitElement {
 			this.opened = false;
 
 			this.dispatchEvent(new CustomEvent(
-				'd2l-equation-dialog-close', {
+				'd2l-htmleditor-equation-dialog-close', {
 					bubbles: true,
 					detail: { html: result }
 				}
@@ -272,4 +272,4 @@ class EditorDialog extends LitElement {
 	}
 
 }
-customElements.define('d2l-equation-dialog', EditorDialog);
+customElements.define('d2l-htmleditor-equation-dialog', EditorDialog);

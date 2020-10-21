@@ -14,13 +14,13 @@ tinymce.PluginManager.add('d2l-quicklink', function(editor) {
 	editor.ui.registry.addIcon('d2l-quicklink', icons['link']);
 
 	editor.ui.registry.addButton('d2l-quicklink', {
-		tooltip: 'QuickLink',
+		tooltip: 'Insert QuickLink',
 		icon: 'd2l-quicklink',
 		onAction: () => {
 			const root = editor.getElement().getRootNode();
 
-			let dialog = root.querySelector('d2l-quicklink-dialog');
-			if (!dialog) dialog = root.appendChild(document.createElement('d2l-quicklink-dialog'));
+			let dialog = root.querySelector('d2l-htmleditor-quicklink-dialog');
+			if (!dialog) dialog = root.appendChild(document.createElement('d2l-htmleditor-quicklink-dialog'));
 
 			const contextNode = (editor.selection ? editor.selection.getNode() : null);
 
@@ -35,8 +35,15 @@ tinymce.PluginManager.add('d2l-quicklink', function(editor) {
 			}
 
 			dialog.opened = true;
-			dialog.addEventListener('d2l-quicklink-dialog-close', (e) => {
-				const html = e.detail.html;
+			dialog.addEventListener('d2l-htmleditor-quicklink-dialog-close', (e) => {
+
+				const quicklinks = e.detail.quicklinks;
+				if (!quicklinks || quicklinks.length === 0) return;
+
+				const html = quicklinks.reduce((acc, cur) => {
+					return acc += cur.html;
+				}, '');
+
 				if (html) {
 					if (contextNode && contextNode.tagName === 'A') {
 						// expand selection if necessary to replace current link
@@ -94,7 +101,19 @@ class QuicklinkDialog extends RequesterMixin(LitElement) {
 		if (this.opened) {
 			const result = await (new Promise((resolve) => {
 
-				let selectUrl = new D2L.LP.Web.Http.UrlLocation(`/d2l/lp/quicklinks/manage/${this._orgUnitId}/createdialog?typeKey=&initialViewType=Default&outputFormat=html&selectedText=${this.text}&parentModuleId=0&canChangeType=true&showCancelButton=true&urlShowTarget=true&urlShowCancelButtonInline=false&contextId=`);
+				let selectUrl = new D2L.LP.Web.Http.UrlLocation(`/d2l/lp/quicklinks/manage/${this._orgUnitId}/createdialog
+					?typeKey=
+					&initialViewType=Default
+					&outputFormat=html
+					&selectedText=${this.text}
+					&parentModuleId=0
+					&canChangeType=true
+					&showCancelButton=true
+					&urlShowTarget=true
+					&urlShowCancelButtonInline=false
+					&contextId=
+				`);
+
 				if (this.quicklink) selectUrl = selectUrl.WithQueryString(
 					'itemData',
 					new D2L.LP.QuickLinks.Web.Desktop.Controls.QuickLinkSelector.ItemData(
@@ -127,18 +146,8 @@ class QuicklinkDialog extends RequesterMixin(LitElement) {
 					);
 
 					createResult.AddReleaseListener(resolve);
-					createResult.AddListener(quicklinks => {
+					createResult.AddListener(quicklinks => resolve(quicklinks));
 
-						if (!quicklinks || quicklinks.length === 0) {
-							resolve();
-							return;
-						}
-
-						resolve(quicklinks.reduce((acc, cur) => {
-							return acc += cur.html;
-						}, ''));
-
-					});
 				});
 
 			}));
@@ -146,9 +155,9 @@ class QuicklinkDialog extends RequesterMixin(LitElement) {
 			this.opened = false;
 
 			this.dispatchEvent(new CustomEvent(
-				'd2l-quicklink-dialog-close', {
+				'd2l-htmleditor-quicklink-dialog-close', {
 					bubbles: true,
-					detail: { html: result }
+					detail: { quicklinks: result }
 				}
 			));
 
@@ -157,4 +166,4 @@ class QuicklinkDialog extends RequesterMixin(LitElement) {
 	}
 
 }
-customElements.define('d2l-quicklink-dialog', QuicklinkDialog);
+customElements.define('d2l-htmleditor-quicklink-dialog', QuicklinkDialog);
