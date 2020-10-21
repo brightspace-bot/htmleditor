@@ -25,7 +25,7 @@ tinymce.PluginManager.add('d2l-replace-strings', function(editor) {
 
 	editor.ui.registry.addAutocompleter('d2l-replace-strings', {
 		ch: '{',
-		minChars: 1,
+		minChars: 0,
 		columns: 1,
 		fetch: pattern => {
 			const matchedChars = replaceStrings.filter(char => {
