@@ -51,7 +51,7 @@ export function uploadImage(editor, blobInfo, success, failure) {
 			OnFileComplete: uploadedFile => {
 				const location = `/d2l/lp/files/temp/${uploadedFile.FileId}/View`;
 
-				editor._addFile(
+				editor.files.push(
 					new FileData(
 						uploadedFile.FileSystemType,
 						uploadedFile.FileId,
@@ -144,7 +144,7 @@ tinymce.PluginManager.add('d2l-image', function(editor) {
 					src = file.FileId;
 				}
 
-				root.host._addFile(
+				root.host.files.push(
 					new FileData(
 						file.FileSystemType,
 						file.FileId,

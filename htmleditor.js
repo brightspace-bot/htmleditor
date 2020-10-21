@@ -339,10 +339,6 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 		tinymce.EditorManager.get(this._editorId).focus();
 	}
 
-	_addFile(file) {
-		this.files.push(file);
-	}
-
 	_getToolbarConfig() {
 		if (this.type === editorTypes.INLINE_LIMITED) {
 			return 'bold italic underline | d2l-list d2l-isf emoticons';
