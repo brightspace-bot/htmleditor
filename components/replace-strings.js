@@ -38,7 +38,7 @@ tinymce.PluginManager.add('d2l-replace-strings', function(editor) {
 						value: char.value,
 						text: char.text,
 						icon: null
-					}
+					};
 				});
 				resolve(results);
 			});
