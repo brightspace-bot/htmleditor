@@ -40,11 +40,11 @@ tinymce.PluginManager.add('d2l-isf', function(editor) {
 		onAction: () => {
 			const root = editor.getElement().getRootNode();
 
-			let dialog = root.querySelector('d2l-isf-dialog');
-			if (!dialog) dialog = root.appendChild(document.createElement('d2l-isf-dialog'));
+			let dialog = root.querySelector('d2l-htmleditor-isf-dialog');
+			if (!dialog) dialog = root.appendChild(document.createElement('d2l-htmleditor-isf-dialog'));
 
 			dialog.opened = true;
-			dialog.addEventListener('d2l-isf-dialog-close', (e) => {
+			dialog.addEventListener('d2l-htmleditor-isf-dialog-close', (e) => {
 				const html = e.detail.html;
 				if (html) editor.execCommand('mceInsertContent', false, html);
 			}, { once: true });
@@ -432,7 +432,11 @@ class IsfDialog extends RequesterMixin(LitElement) {
 
 				const selectResult = D2L.LP.Web.UI.Legacy.MasterPages.Dialog.Open(
 					getComposedActiveElement(),
-					new D2L.LP.Web.Http.UrlLocation(`/d2l/common/dialogs/isf/selectItem.d2l?ou=${this._orgUnitId}&extensionPoint=${this._isfContextId ? this._isfContextId : ''}&filterMode=${this._noFilter ? 'None' : 'Strict'}`),
+					new D2L.LP.Web.Http.UrlLocation(`/d2l/common/dialogs/isf/selectItem.d2l
+						?ou=${this._orgUnitId}
+						&extensionPoint=${this._isfContextId ? this._isfContextId : ''}
+						&filterMode=${this._noFilter ? 'None' : 'Strict'}
+					`),
 					'GetSelectedItem',
 					null,
 					'itemSource',
@@ -445,16 +449,14 @@ class IsfDialog extends RequesterMixin(LitElement) {
 				);
 
 				selectResult.AddReleaseListener(resolve);
-				selectResult.AddListener(stuff => {
-					resolve(stuff);
-				});
+				selectResult.AddListener(stuff => resolve(stuff));
 
 			}));
 
 			this.opened = false;
 
 			this.dispatchEvent(new CustomEvent(
-				'd2l-isf-dialog-close', {
+				'd2l-htmleditor-isf-dialog-close', {
 					bubbles: true,
 					detail: { html: result }
 				}
@@ -465,4 +467,4 @@ class IsfDialog extends RequesterMixin(LitElement) {
 	}
 
 }
-customElements.define('d2l-isf-dialog', IsfDialog);
+customElements.define('d2l-htmleditor-isf-dialog', IsfDialog);
