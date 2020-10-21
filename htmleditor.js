@@ -4,6 +4,7 @@ import './components/equation.js';
 import '@brightspace-ui/core/components/colors/colors.js';
 import 'tinymce/tinymce.js';
 import 'tinymce/icons/default/icons.js';
+import 'tinymce/plugins/autosave/plugin.js';
 import 'tinymce/plugins/charmap/plugin.js';
 import 'tinymce/plugins/code/plugin.js';
 import 'tinymce/plugins/directionality/plugin.js';
@@ -96,6 +97,7 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 	static get properties() {
 		return {
 			attachedImagesOnly: { type: Boolean, attribute: 'attached-images-only' },
+			autoSave: { type: Boolean, attribute: 'auto-save' },
 			files: { type: Array },
 			fileUploadForAllUsers: { type: Boolean, attribute: 'file-upload-for-all-users' },
 			fullPage: { type: Boolean, attribute: 'full-page' },
@@ -155,6 +157,7 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 	constructor() {
 		super();
 		this.attachedImagesOnly = false;
+		this.autoSave = false;
 		this.files = [];
 		this.fileUploadForAllUsers = false;
 		this.fullPage = false;
@@ -223,6 +226,12 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 				powerpaste_word_import: context ? context.pasteFormatting : 'merge'
 			};
 
+			const autoSaveConfig = {
+				autosave_ask_before_unload: this.autoSave,
+				autosave_restore_when_empty: false,
+				autosave_retention: '0s'
+			};
+
 			/*
 			paste_preprocess: function(plugin, data) {
 				// Stops Paste plugin from converting pasted image links to image
@@ -249,12 +258,17 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 				fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt',
 				height: this.height,
 				images_upload_handler: (blobInfo, success, failure) => this._imageUploadHandler(blobInfo, success, failure),
+				init_instance_callback: (editor) => {
+					if (editor && editor.plugins && editor.plugins.autosave) {
+						delete editor.plugins.autosave; // removing the autosave plugin prevents saving of content but retains the "ask_before_unload" behaviour
+					}
+				},
 				// inline: this.type === editorTypes.INLINE || this.type === editorTypes.INLINE_LIMITED,
 				language: tinymceLang,
 				language_url: `/tinymce/langs/${tinymceLang}.js`,
 				menubar: false,
 				object_resizing : true,
-				plugins: `a11ychecker charmap code directionality emoticons ${this.fullPage ? 'fullpage' : ''} fullscreen hr image ${this.pasteLocalImages ? 'imagetools' : ''} lists powerpaste preview table d2l-equation d2l-image d2l-isf d2l-quicklink`,
+				plugins: `a11ychecker ${this.autoSave ? 'autosave' : ''} charmap code directionality emoticons ${this.fullPage ? 'fullpage' : ''} fullscreen hr image ${this.pasteLocalImages ? 'imagetools' : ''} lists powerpaste preview table d2l-equation d2l-image d2l-isf d2l-quicklink`,
 				relative_urls: false,
 				resize: true,
 				setup: (editor) => {
@@ -307,6 +321,7 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 				toolbar: this._getToolbarConfig(),
 				valid_elements: '*[*]',
 				width: this.width,
+				...autoSaveConfig,
 				...fullPageConfig,
 				...powerPasteConfig
 			});
