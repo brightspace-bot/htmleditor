@@ -120,8 +120,9 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 				display: none;
 			}
 			/* stylelint-disable-next-line selector-class-pattern */
+			.tox-tinymce-aux,
 			.tox-tinymce.tox-fullscreen {
-				z-index: 1001;
+				z-index: 1000;
 			}
 			/* stylelint-disable-next-line selector-class-pattern */
 			.tox .tox-statusbar {
