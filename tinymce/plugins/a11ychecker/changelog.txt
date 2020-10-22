@@ -1,3 +1,14 @@
+Version 2.3.0 (2020-10-06)
+  [FEATURE] Added the `a11ychecker_ignored_rules` setting to allow filtering of rules by rule ID. #TINY-6265
+  [FEATURE] Added the `a11ychecker_issue_url_callback` setting to allow custom URLs to be used for the more info links. #TINY-6198
+  [FEATURE] Added rule `id` to the rule data returned by the `getReport()` API method #TINY-6265
+  [FEATURE] Added the `a11ychecker_filter_issues` setting to allow filtering of report results. #TINY-6266
+  [BUG] Fixed the `toggleAudit` API not accounting for the dialog being closed by dialog buttons or the ESC key #TINY-6384
+  [BUG] Fixed the error message displayed when the filename of an image clashes with the alt text #TINY-6431
+  [BUG] Fixed missing `bg_BG`, `eu` and `id` translations #TINY-6374
+  [BUG] Fixed the editor content scrolling when calling the `getReport` API #TINY-6439
+  [BUG] Fixed incorrect strings used for the next/previous button tooltips #TINY-6437
+  [BUG] Fixed a security issue related to repairing table captions #TINY-6510
 Version 2.2.1 (2020-06-09)
   [BUG] Fixed missing translations for strings added in 2.2.0 #TINY-6056
 Version 2.2.0 (2020-02-13)

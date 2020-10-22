@@ -1,4 +1,4 @@
-a11ychecker - build: 2.2.1-114
+a11ychecker - build: 2.3.0-125
 
 Documentation
 -----------------
