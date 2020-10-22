@@ -119,34 +119,30 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 			:host([hidden]) {
 				display: none;
 			}
-			/* stylelint-disable-next-line selector-class-pattern */
+			/* stylelint-disable selector-class-pattern */
+			.tox-tinymce-aux,
 			.tox-tinymce.tox-fullscreen {
-				z-index: 1001;
+				z-index: 1000;
 			}
-			/* stylelint-disable-next-line selector-class-pattern */
 			.tox .tox-statusbar {
 				border-top: none;
 			}
-			/* stylelint-disable-next-line selector-class-pattern */
 			.tox .tox-statusbar__text-container {
 				display: none;
 			}
-			/* stylelint-disable-next-line selector-class-pattern */
 			:host([type="inline"]) .tox-tinymce .tox-toolbar-overlord > div:nth-child(2) {
 				display: none;
 			}
-			/* stylelint-disable-next-line selector-class-pattern */
 			:host([type="inline"]) .tox-tinymce.tox-fullscreen .tox-toolbar-overlord > div:nth-child(1) {
 				display: none;
 			}
-			/* stylelint-disable-next-line selector-class-pattern */
 			:host([type="inline"]) .tox-tinymce.tox-fullscreen .tox-toolbar-overlord > div:nth-child(2) {
 				display: flex;
 			}
-			/* stylelint-disable-next-line selector-class-pattern */
 			.tox-tinymce.tox-fullscreen .tox-statusbar__resize-handle {
 				display: none;
 			}
+			/* stylelint-enable selector-class-pattern */
 		`;
 	}
 
