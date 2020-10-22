@@ -254,8 +254,15 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 				images_upload_handler: (blobInfo, success, failure) => uploadImage(this, blobInfo, success, failure),
 				init_instance_callback: editor => {
 					if (editor && editor.plugins && editor.plugins.autosave) {
-						delete editor.plugins.autosave; // removing the autosave plugin prevents saving of content but retains the "ask_before_unload" behaviour
+						// removing the autosave plugin prevents saving of content but retains the "ask_before_unload" behaviour
+						delete editor.plugins.autosave;
 					}
+
+					this.dispatchEvent(new CustomEvent(
+						'd2l-htmleditor-ready', {
+							bubbles: true
+						}
+					));
 				},
 				// inline: this.type === editorTypes.INLINE || this.type === editorTypes.INLINE_LIMITED,
 				language: tinymceLang,
