@@ -162,6 +162,9 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 		this.width = '100%';
 		this._editorId = getUniqueId();
 		this._html = '';
+		this._initializationComplete = new Promise((resolve) => {
+			this._initializationResolve = resolve;
+		});
 		this._uploadImageCount = 0;
 		if (context) {
 			this.provideInstance('maxFileSize', context.maxFileSize);
@@ -197,6 +200,10 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 			}
 			this.requestUpdate('html', oldVal);
 		}
+	}
+
+	get initializationComplete() {
+		return this._initializationComplete;
 	}
 
 	firstUpdated(changedProperties) {
@@ -258,11 +265,7 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 						delete editor.plugins.autosave;
 					}
 
-					this.dispatchEvent(new CustomEvent(
-						'd2l-htmleditor-ready', {
-							bubbles: true
-						}
-					));
+					this._initializationResolve();
 				},
 				// inline: this.type === editorTypes.INLINE || this.type === editorTypes.INLINE_LIMITED,
 				language: tinymceLang,
