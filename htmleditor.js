@@ -202,10 +202,6 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 		}
 	}
 
-	get initializationComplete() {
-		return this._initializationComplete;
-	}
-
 	firstUpdated(changedProperties) {
 		super.firstUpdated(changedProperties);
 
@@ -344,6 +340,10 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 
 	focus() {
 		tinymce.EditorManager.get(this._editorId).focus();
+	}
+
+	get initializationComplete() {
+		return this._initializationComplete;
 	}
 
 	_getToolbarConfig() {
