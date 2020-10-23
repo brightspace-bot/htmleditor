@@ -66,7 +66,7 @@ export function uploadImage(editor, blobInfo, success, failure) {
 				editor._uploadImageCount--;
 				if (editor._uploadImageCount <= 0) {
 					editor.dispatchEvent(new CustomEvent(
-						'd2l-htmleditor-image-upload-finish', {
+						'd2l-htmleditor-image-upload-complete', {
 							bubbles: true
 						}
 					));
