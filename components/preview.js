@@ -79,19 +79,12 @@ class PreviewDialog extends RequesterMixin(LitElement) {
 
 			await (new Promise((resolve) => {
 
-				const uuidv4 = () => {
-					return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
-						(c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
-					);
-				};
-
 				const previewResult = D2L.LP.Web.UI.Desktop.MasterPages.Dialog.OpenWithParam(
 					this.opener,
 					new D2L.LP.Web.Http.UrlLocation(`/d2l/lp/htmleditor/${this._fullPage ? 'fullpagepreview' : 'inlinepreview'}?ou=${this._orgUnitId}`),
 					{
 						editor: this.htmlInfo,
-						filter: this._noFilter ? 0 : 1,
-						key: uuidv4()
+						filter: this._noFilter ? 0 : 1
 					}
 				);
 
