@@ -162,6 +162,9 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 		this.width = '100%';
 		this._editorId = getUniqueId();
 		this._html = '';
+		this._initializationComplete = new Promise((resolve) => {
+			this._initializationResolve = resolve;
+		});
 		this._uploadImageCount = 0;
 		if (context) {
 			this.provideInstance('maxFileSize', context.maxFileSize);
@@ -254,8 +257,11 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 				images_upload_handler: (blobInfo, success, failure) => uploadImage(this, blobInfo, success, failure),
 				init_instance_callback: editor => {
 					if (editor && editor.plugins && editor.plugins.autosave) {
-						delete editor.plugins.autosave; // removing the autosave plugin prevents saving of content but retains the "ask_before_unload" behaviour
+						// removing the autosave plugin prevents saving of content but retains the "ask_before_unload" behaviour
+						delete editor.plugins.autosave;
 					}
+
+					this._initializationResolve();
 				},
 				// inline: this.type === editorTypes.INLINE || this.type === editorTypes.INLINE_LIMITED,
 				language: tinymceLang,
@@ -334,6 +340,10 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 
 	focus() {
 		tinymce.EditorManager.get(this._editorId).focus();
+	}
+
+	get initializationComplete() {
+		return this._initializationComplete;
 	}
 
 	_getToolbarConfig() {
