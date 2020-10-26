@@ -1,5 +1,6 @@
 import './components/quicklink.js';
 import './components/equation.js';
+import './components/preview.js';
 import 'tinymce/tinymce.js';
 import 'tinymce/icons/default/icons.js';
 import 'tinymce/plugins/autosave/plugin.js';
@@ -174,6 +175,7 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 		setTimeout(() => {
 			this.provideInstance('attachedImagesOnly', this.attachedImagesOnly);
 			this.provideInstance('fileUploadForAllUsers', this.fileUploadForAllUsers);
+			this.provideInstance('fullPage', this.fullPage);
 			this.provideInstance('noFilter', this.noFilter);
 		}, 0);
 	}
@@ -262,7 +264,7 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 				language_url: `/tinymce/langs/${tinymceLang}.js`,
 				menubar: false,
 				object_resizing : true,
-				plugins: `a11ychecker ${this.autoSave ? 'autosave' : ''} charmap advcode directionality emoticons ${this.fullPage ? 'fullpage' : ''} fullscreen hr image ${this.pasteLocalImages ? 'imagetools' : ''} lists powerpaste preview table d2l-equation d2l-image d2l-isf d2l-quicklink`,
+				plugins: `a11ychecker ${this.autoSave ? 'autosave' : ''} charmap advcode directionality emoticons ${this.fullPage ? 'fullpage' : ''} fullscreen hr image ${this.pasteLocalImages ? 'imagetools' : ''} lists powerpaste ${D2L.LP ? 'd2l-preview' : 'preview'}  table d2l-equation d2l-image d2l-isf d2l-quicklink`,
 				relative_urls: false,
 				resize: true,
 				setup: (editor) => {
@@ -342,10 +344,10 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 		} else if (this.type === editorTypes.INLINE) {
 			return [
 				'bold italic underline | d2l-align d2l-list d2l-isf | fullscreen',
-				'styleselect | bold italic underline d2l-inline forecolor a11ycheck | d2l-align d2l-list d2l-dir | d2l-isf d2l-quicklink d2l-image | table d2l-equation | charmap emoticons hr | fontselect | fontsizeselect | preview code fullscreen'
+				`styleselect | bold italic underline d2l-inline forecolor a11ycheck | d2l-align d2l-list d2l-dir | d2l-isf d2l-quicklink d2l-image | table d2l-equation | charmap emoticons hr | fontselect | fontsizeselect | ${ D2L.LP ? 'd2l-preview' : 'preview'} code fullscreen`
 			];
 		} else {
-			return 'styleselect | bold italic underline d2l-inline forecolor a11ycheck | d2l-align d2l-list d2l-dir | d2l-isf d2l-quicklink d2l-image | table d2l-equation | charmap emoticons hr | fontselect | fontsizeselect | preview code fullscreen';
+			return `styleselect | bold italic underline d2l-inline forecolor a11ycheck | d2l-align d2l-list d2l-dir | d2l-isf d2l-quicklink d2l-image | table d2l-equation | charmap emoticons hr | fontselect | fontsizeselect | ${ D2L.LP ? 'd2l-preview' : 'preview'} code fullscreen`;
 		}
 	}
 
