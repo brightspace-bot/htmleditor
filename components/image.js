@@ -32,7 +32,7 @@ export function uploadImage(editor, blobInfo, success, failure) {
 	editor._uploadImageCount++;
 	if (editor._uploadImageCount === 1) { // only fire the upload started event on the first image being uploaded
 		editor.dispatchEvent(new CustomEvent(
-			'd2l-htmleditor-image-upload-started', {
+			'd2l-htmleditor-image-upload-start', {
 				bubbles: true
 			}
 		));
@@ -66,7 +66,7 @@ export function uploadImage(editor, blobInfo, success, failure) {
 				editor._uploadImageCount--;
 				if (editor._uploadImageCount <= 0) {
 					editor.dispatchEvent(new CustomEvent(
-						'd2l-htmleditor-image-upload-completed', {
+						'd2l-htmleditor-image-upload-complete', {
 							bubbles: true
 						}
 					));
