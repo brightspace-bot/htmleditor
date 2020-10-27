@@ -1,9 +1,9 @@
-import './components/image.js';
 import './components/quicklink.js';
 import './components/equation.js';
-import '@brightspace-ui/core/components/colors/colors.js';
+import './components/preview.js';
 import 'tinymce/tinymce.js';
 import 'tinymce/icons/default/icons.js';
+import 'tinymce/plugins/autosave/plugin.js';
 import 'tinymce/plugins/charmap/plugin.js';
 import 'tinymce/plugins/code/plugin.js';
 import 'tinymce/plugins/directionality/plugin.js';
@@ -25,6 +25,7 @@ import { isfStyles } from './components/isf.js';
 import { ProviderMixin } from '@brightspace-ui/core/mixins/provider-mixin.js';
 import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
 import { tinymceLangs } from './generated/langs.js';
+import { uploadImage } from './components/image.js';
 
 // To update from new tinyMCE install
 // 1. copy skins from installed node_modules/tinymce into tinymce/skins
@@ -32,12 +33,9 @@ import { tinymceLangs } from './generated/langs.js';
 // 3. copy new enterprise plugins into tinymce/plugins
 
 // TODO: set powerpaste_word_import based on paste formatting config value (clean, merge, prompt)
-// TODO: convert pasted local images if upload location provided (previously only allowed local images if provided)
 // TODO: review whether pasted content needs prepcessing to avoid pasted image links getting converted to images
 // TODO: configure paste_as_text if using tinyMCEs paste as text feature (fra editor sets to false if power paste enabled) - probably not needed
-// TODO: provide a way for consumer to specify upload location for images, and configure images_upload_handler
 // TODO: review whether we need to stop pasting of image addresses (see fra editor)
-// TODO: refactor classic / inline if necessary (need Design discussion)
 // TODO: review allow_script_urls (ideally we can turn this off)
 // TODO: review auto-focus and whether it should be on the API
 
@@ -96,6 +94,7 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 	static get properties() {
 		return {
 			attachedImagesOnly: { type: Boolean, attribute: 'attached-images-only' },
+			autoSave: { type: Boolean, attribute: 'auto-save' },
 			files: { type: Array },
 			fileUploadForAllUsers: { type: Boolean, attribute: 'file-upload-for-all-users' },
 			fullPage: { type: Boolean, attribute: 'full-page' },
@@ -121,40 +120,37 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 			:host([hidden]) {
 				display: none;
 			}
-			/* stylelint-disable-next-line selector-class-pattern */
+			/* stylelint-disable selector-class-pattern */
+			.tox-tinymce-aux,
 			.tox-tinymce.tox-fullscreen {
-				z-index: 1001;
+				z-index: 1000;
 			}
-			/* stylelint-disable-next-line selector-class-pattern */
 			.tox .tox-statusbar {
 				border-top: none;
 			}
-			/* stylelint-disable-next-line selector-class-pattern */
 			.tox .tox-statusbar__text-container {
 				display: none;
 			}
-			/* stylelint-disable-next-line selector-class-pattern */
 			:host([type="inline"]) .tox-tinymce .tox-toolbar-overlord > div:nth-child(2) {
 				display: none;
 			}
-			/* stylelint-disable-next-line selector-class-pattern */
 			:host([type="inline"]) .tox-tinymce.tox-fullscreen .tox-toolbar-overlord > div:nth-child(1) {
 				display: none;
 			}
-			/* stylelint-disable-next-line selector-class-pattern */
 			:host([type="inline"]) .tox-tinymce.tox-fullscreen .tox-toolbar-overlord > div:nth-child(2) {
 				display: flex;
 			}
-			/* stylelint-disable-next-line selector-class-pattern */
 			.tox-tinymce.tox-fullscreen .tox-statusbar__resize-handle {
 				display: none;
 			}
+			/* stylelint-enable selector-class-pattern */
 		`;
 	}
 
 	constructor() {
 		super();
 		this.attachedImagesOnly = false;
+		this.autoSave = false;
 		this.files = [];
 		this.fileUploadForAllUsers = false;
 		this.fullPage = false;
@@ -167,8 +163,12 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 		this.width = '100%';
 		this._editorId = getUniqueId();
 		this._html = '';
+		this._initializationComplete = new Promise((resolve) => {
+			this._initializationResolve = resolve;
+		});
 		this._uploadImageCount = 0;
 		if (context) {
+			this.provideInstance('maxFileSize', context.maxFileSize);
 			this.provideInstance('orgUnitId', context.orgUnitId);
 			this.provideInstance('orgUnitPath', context.orgUnitPath);
 			this.provideInstance('uploadFiles', context.uploadFiles);
@@ -178,6 +178,7 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 		setTimeout(() => {
 			this.provideInstance('attachedImagesOnly', this.attachedImagesOnly);
 			this.provideInstance('fileUploadForAllUsers', this.fileUploadForAllUsers);
+			this.provideInstance('fullPage', this.fullPage);
 			this.provideInstance('noFilter', this.noFilter);
 		}, 0);
 	}
@@ -223,6 +224,12 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 				powerpaste_word_import: context ? context.pasteFormatting : 'merge'
 			};
 
+			const autoSaveConfig = {
+				autosave_ask_before_unload: this.autoSave,
+				autosave_restore_when_empty: false,
+				autosave_retention: '0s'
+			};
+
 			/*
 			paste_preprocess: function(plugin, data) {
 				// Stops Paste plugin from converting pasted image links to image
@@ -243,18 +250,27 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 				extended_valid_elements: 'span[*]',
 				external_plugins: {
 					'a11ychecker': `${baseImportPath}/tinymce/plugins/a11ychecker/plugin.js`,
+					'advcode': `${baseImportPath}/tinymce/plugins/advcode/plugin.js`,
 					'powerpaste': `${baseImportPath}/tinymce/plugins/powerpaste/plugin.js`
 				},
 				font_formats: 'Arabic Transparent=arabic transparent,sans-serif; Arial (Recommended)=arial,helvetica,sans-serif; Comic Sans=comic sans ms,sans-serif; Courier=courier new,courier,sans-serif; Ezra SIL=ezra sil,arial unicode ms,arial,sans-serif; Georgia=georgia,serif; SBL Hebrew=sbl hebrew,times new roman,serif; Simplified Arabic=simplified arabic,sans-serif; Tahoma=tahoma,sans-serif; Times New Roman=times new roman,times,serif; Traditional Arabic=traditional arabic,serif; Trebuchet=trebuchet ms,helvetica,sans-serif; Verdana=verdana,sans-serif; 돋움 (Dotum)=dotum,arial,helvetica,sans-serif; 宋体 (Sim Sun)=simsun; 細明體 (Ming Liu)=mingliu,arial,helvetica,sans-serif',
 				fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt',
 				height: this.height,
-				images_upload_handler: (blobInfo, success, failure) => this._imageUploadHandler(blobInfo, success, failure),
+				images_upload_handler: (blobInfo, success, failure) => uploadImage(this, blobInfo, success, failure),
+				init_instance_callback: editor => {
+					if (editor && editor.plugins && editor.plugins.autosave) {
+						// removing the autosave plugin prevents saving of content but retains the "ask_before_unload" behaviour
+						delete editor.plugins.autosave;
+					}
+
+					this._initializationResolve();
+				},
 				// inline: this.type === editorTypes.INLINE || this.type === editorTypes.INLINE_LIMITED,
 				language: tinymceLang,
 				language_url: `/tinymce/langs/${tinymceLang}.js`,
 				menubar: false,
 				object_resizing : true,
-				plugins: `a11ychecker charmap code directionality emoticons ${this.fullPage ? 'fullpage' : ''} fullscreen hr image ${this.pasteLocalImages ? 'imagetools' : ''} lists powerpaste preview table d2l-equation d2l-image d2l-isf d2l-quicklink`,
+				plugins: `a11ychecker ${this.autoSave ? 'autosave' : ''} charmap advcode directionality emoticons ${this.fullPage ? 'fullpage' : ''} fullscreen hr image ${this.pasteLocalImages ? 'imagetools' : ''} lists powerpaste ${D2L.LP ? 'd2l-preview' : 'preview'}  table d2l-equation d2l-image d2l-isf d2l-quicklink`,
 				relative_urls: false,
 				resize: true,
 				setup: (editor) => {
@@ -307,6 +323,7 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 				toolbar: this._getToolbarConfig(),
 				valid_elements: '*[*]',
 				width: this.width,
+				...autoSaveConfig,
 				...fullPageConfig,
 				...powerPasteConfig
 			});
@@ -327,85 +344,21 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 		tinymce.EditorManager.get(this._editorId).focus();
 	}
 
+	get initializationComplete() {
+		return this._initializationComplete;
+	}
+
 	_getToolbarConfig() {
 		if (this.type === editorTypes.INLINE_LIMITED) {
 			return 'bold italic underline | d2l-list d2l-isf emoticons';
 		} else if (this.type === editorTypes.INLINE) {
 			return [
 				'bold italic underline | d2l-align d2l-list d2l-isf | fullscreen',
-				'styleselect | bold italic underline d2l-inline forecolor a11ycheck | d2l-align d2l-list d2l-dir | d2l-isf d2l-quicklink d2l-image | table d2l-equation | charmap emoticons hr | fontselect | fontsizeselect | preview code fullscreen'
+				`styleselect | bold italic underline d2l-inline forecolor a11ycheck | d2l-align d2l-list d2l-dir | d2l-isf d2l-quicklink d2l-image | table d2l-equation | charmap emoticons hr | fontselect | fontsizeselect | ${ D2L.LP ? 'd2l-preview' : 'preview'} code fullscreen`
 			];
 		} else {
-			return 'styleselect | bold italic underline d2l-inline forecolor a11ycheck | d2l-align d2l-list d2l-dir | d2l-isf d2l-quicklink d2l-image | table d2l-equation | charmap emoticons hr | fontselect | fontsizeselect | preview code fullscreen';
+			return `styleselect | bold italic underline d2l-inline forecolor a11ycheck | d2l-align d2l-list d2l-dir | d2l-isf d2l-quicklink d2l-image | table d2l-equation | charmap emoticons hr | fontselect | fontsizeselect | ${ D2L.LP ? 'd2l-preview' : 'preview'} code fullscreen`;
 		}
-	}
-
-	_imageUploadHandler(blobInfo, success, failure) {
-		this._uploadImageCount++;
-		if (this._uploadImageCount === 1) { // only fire the upload started event on the first image being uploaded
-			this.dispatchEvent(new CustomEvent(
-				'd2l-htmleditor-image-upload-started', {
-					bubbles: true
-				}
-			));
-		}
-
-		// Local image upload requires an LMS context for now
-		if (!D2L.LP || !context || context.orgUnitId === null || context.maxFileSize === null) return;
-
-		const fileName = blobInfo.filename().replace('blobid', 'pic');
-		const blob = blobInfo.blob();
-		blob.name = fileName;
-
-		const uploadLocation = new D2L.LP.Web.Http.UrlLocation(
-			`/d2l/lp/fileupload/${context.orgUnitId}?maxFileSize=${context.maxFileSize}`
-		);
-
-		D2L.LP.Web.UI.Html.Files.FileUpload.XmlHttpRequest.UploadFiles(
-			[blob],
-			{
-				UploadLocation: uploadLocation,
-				OnFileComplete: (uploadedFile) => {
-					const location = `/d2l/lp/files/temp/${uploadedFile.FileId}/View`;
-
-					this.files.push(
-						new FileData( // eslint-disable-line no-use-before-define
-							uploadedFile.FileSystemType,
-							uploadedFile.FileId,
-							uploadedFile.FileName,
-							uploadedFile.Size,
-							location
-						)
-					);
-
-					success(location);
-
-					this._uploadImageCount--;
-					if (this._uploadImageCount <= 0) {
-						this.dispatchEvent(new CustomEvent(
-							'd2l-htmleditor-image-upload-completed', {
-								bubbles: true
-							}
-						));
-					}
-				},
-				OnAbort: (errorResponse) => failure(errorResponse),
-				OnError: (errorResponse) => failure(errorResponse),
-				OnProgress: () => { }
-			}
-		);
-	}
-
-}
-
-class FileData {
-
-	constructor(fileSystemType, id, fileName, size, location) {
-		this.FileSystemType = fileSystemType;
-		this.Id = id;
-		this.FileName = fileName;
-		this.Size = size;
-		this.Location = location;
 	}
 
 }

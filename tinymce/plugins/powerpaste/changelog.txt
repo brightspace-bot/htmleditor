@@ -1,3 +1,5 @@
+Version 5.3.3 (2020-09-29)
+  [BUG] Fixed missing `bg_BG`, `eu` and `id` translations #TINY-6374
 Version 5.3.2 (2020-08-18)
   [BUG] Fixed an exception thrown on IE 11 due to using `String.startsWith` #TINY-6269
   [BUG] Fixed an issue where lists would become corrupt on IE 11 due to invalid empty font elements #TINY-6270

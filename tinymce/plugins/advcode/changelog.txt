@@ -1,3 +1,5 @@
+Version 2.2.0 (2020-09-29)
+  [FEATURE] Added support for loading UI components within a ShadowRoot #TINY-6299
 Version 2.1.0 (2020-07-01)
   [FEATURE] Added search/replace support #TINY-6113
   [BUG] Fixed the editor `referrer_policy` setting not working when loading additional resources #TINY-5087
