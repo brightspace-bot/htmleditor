@@ -22,6 +22,7 @@ import { css, html, LitElement, unsafeCSS } from 'lit-element/lit-element.js';
 import { getUniqueId } from '@brightspace-ui/core/helpers/uniqueId.js';
 import { icons } from './icons.js';
 import { isfStyles } from './components/isf.js';
+import { Localizer } from './lang/localizer.js';
 import { ProviderMixin } from '@brightspace-ui/core/mixins/provider-mixin.js';
 import { RtlMixin } from '@brightspace-ui/core/mixins/rtl-mixin.js';
 import { tinymceLangs } from './generated/langs.js';
@@ -32,7 +33,6 @@ import { uploadImage } from './components/image.js';
 // 2. copy new language packs from https://www.tiny.cloud/get-tiny/language-packages/ into tinymce/langs
 // 3. copy new enterprise plugins into tinymce/plugins
 
-// TODO: set powerpaste_word_import based on paste formatting config value (clean, merge, prompt)
 // TODO: review whether pasted content needs prepcessing to avoid pasted image links getting converted to images
 // TODO: configure paste_as_text if using tinyMCEs paste as text feature (fra editor sets to false if power paste enabled) - probably not needed
 // TODO: review whether we need to stop pasting of image addresses (see fra editor)
@@ -89,7 +89,7 @@ const contentFragmentStyles = css`
 	}
 `.cssText;
 
-class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
+class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 
 	static get properties() {
 		return {
@@ -127,9 +127,6 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 			}
 			.tox .tox-statusbar {
 				border-top: none;
-			}
-			.tox .tox-statusbar__text-container {
-				display: none;
 			}
 			:host([type="inline"]) .tox-tinymce .tox-toolbar-overlord > div:nth-child(2) {
 				display: none;
@@ -181,6 +178,7 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 			this.provideInstance('fullPage', this.fullPage);
 			this.provideInstance('noFilter', this.noFilter);
 		}, 0);
+		this.provideInstance('localize', this.localize.bind(this));
 	}
 
 	get html() {
@@ -247,6 +245,7 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 				content_css: `${baseImportPath}/tinymce/skins/content/default/content.css`,
 				content_style: this.fullPage ? isfStyles : `${contentFragmentStyles} ${isfStyles}`,
 				directionality: this.dir ? this.dir : 'ltr',
+				elementpath: false,
 				extended_valid_elements: 'span[*]',
 				external_plugins: {
 					'a11ychecker': `${baseImportPath}/tinymce/plugins/a11ychecker/plugin.js`,
@@ -267,7 +266,7 @@ class HtmlEditor extends ProviderMixin(RtlMixin(LitElement)) {
 				},
 				// inline: this.type === editorTypes.INLINE || this.type === editorTypes.INLINE_LIMITED,
 				language: tinymceLang,
-				language_url: `/tinymce/langs/${tinymceLang}.js`,
+				language_url: `${baseImportPath}/tinymce/langs/${tinymceLang}.js`,
 				menubar: false,
 				object_resizing : true,
 				plugins: `a11ychecker ${this.autoSave ? 'autosave' : ''} charmap advcode directionality emoticons ${this.fullPage ? 'fullpage' : ''} fullscreen hr image ${this.pasteLocalImages ? 'imagetools' : ''} lists powerpaste ${D2L.LP ? 'd2l-preview' : 'preview'}  table d2l-equation d2l-image d2l-isf d2l-quicklink`,

@@ -2,17 +2,16 @@ import 'tinymce/tinymce.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { RequesterMixin, requestInstance } from '@brightspace-ui/core/mixins/provider-mixin.js';
 
-// TODO: localize the tooltip
-
 tinymce.PluginManager.add('d2l-preview', function(editor) {
 
 	// bail if no LMS context
 	if (!D2L.LP) return;
 
+	const localize = requestInstance(editor.getElement(), 'localize');
 	const orgUnitId = requestInstance(editor.getElement(), 'orgUnitId');
 
 	editor.ui.registry.addButton('d2l-preview', {
-		tooltip: 'Preview',
+		tooltip: localize('preview.tooltip'),
 		icon: 'preview',
 		onAction: () => {
 			const root = editor.getElement().getRootNode();

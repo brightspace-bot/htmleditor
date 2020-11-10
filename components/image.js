@@ -4,8 +4,6 @@ import { RequesterMixin, requestInstance } from '@brightspace-ui/core/mixins/pro
 import { getComposedActiveElement } from '@brightspace-ui/core/helpers/focus.js';
 import { icons } from '../icons.js';
 
-// TODO: localize the tooltip
-
 const fileTypes = {
 	All: 0,
 	Image: 1
@@ -85,10 +83,12 @@ tinymce.PluginManager.add('d2l-image', function(editor) {
 	// bail if no LMS context
 	if (!D2L.LP) return;
 
+	const localize = requestInstance(editor.getElement(), 'localize');
+
 	editor.ui.registry.addIcon('d2l-image', icons['image']);
 
 	editor.ui.registry.addButton('d2l-image', {
-		tooltip: 'Insert Image',
+		tooltip: localize('image.tooltip'),
 		icon: 'd2l-image',
 		onAction: () => {
 			const root = editor.getElement().getRootNode();
