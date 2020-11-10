@@ -1,12 +1,12 @@
 /* eslint quotes: 0 */
 
 export default {
-	"htmleditor.equationeditor.chemistrytooltip": "Kemiekvation",
-	"htmleditor.equationeditor.graphicaltooltip": "Grafisk ekvation",
-	"htmleditor.equationeditor.latextooltip": "LaTeX-ekvation",
-	"htmleditor.equationeditor.mathmltooltip": "MathML-ekvation",
-	"htmleditor.image.tooltip": "Infoga bild",
-	"htmleditor.insertstuff.tooltip": "Infoga material",
-	"htmleditor.preview.tooltip": "Förhandsgranska",
-	"htmleditor.quicklink.tooltip": "Infoga snabblänk"
+	"equationeditor.chemistrytooltip": "Kemiekvation",
+	"equationeditor.graphicaltooltip": "Grafisk ekvation",
+	"equationeditor.latextooltip": "LaTeX-ekvation",
+	"equationeditor.mathmltooltip": "MathML-ekvation",
+	"image.tooltip": "Infoga bild",
+	"insertstuff.tooltip": "Infoga material",
+	"preview.tooltip": "Förhandsgranska",
+	"quicklink.tooltip": "Infoga snabblänk"
 };

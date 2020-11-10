@@ -1,12 +1,12 @@
 /* eslint quotes: 0 */
 
 export default {
-	"htmleditor.equationeditor.chemistrytooltip": "Kemisk ligning",
-	"htmleditor.equationeditor.graphicaltooltip": "Grafisk ligning",
-	"htmleditor.equationeditor.latextooltip": "LaTeX-ligning",
-	"htmleditor.equationeditor.mathmltooltip": "MathML-ligning",
-	"htmleditor.image.tooltip": "Indsæt billede",
-	"htmleditor.insertstuff.tooltip": "Indsæt ting",
-	"htmleditor.preview.tooltip": "Forhåndsvisning",
-	"htmleditor.quicklink.tooltip": "Indsæt genvejslink"
+	"equationeditor.chemistrytooltip": "Kemisk ligning",
+	"equationeditor.graphicaltooltip": "Grafisk ligning",
+	"equationeditor.latextooltip": "LaTeX-ligning",
+	"equationeditor.mathmltooltip": "MathML-ligning",
+	"image.tooltip": "Indsæt billede",
+	"insertstuff.tooltip": "Indsæt ting",
+	"preview.tooltip": "Forhåndsvisning",
+	"quicklink.tooltip": "Indsæt genvejslink"
 };

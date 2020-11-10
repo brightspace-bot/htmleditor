@@ -34,7 +34,7 @@ tinymce.PluginManager.add('d2l-isf', function(editor) {
 	editor.ui.registry.addIcon('d2l-isf', icons['media']);
 
 	editor.ui.registry.addButton('d2l-isf', {
-		tooltip: localize('htmleditor.insertstuff.tooltip'),
+		tooltip: localize('insertstuff.tooltip'),
 		icon: 'd2l-isf',
 		onAction: () => {
 			const root = editor.getElement().getRootNode();

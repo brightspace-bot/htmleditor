@@ -1,12 +1,12 @@
 /* eslint quotes: 0 */
 
 export default {
-	"htmleditor.equationeditor.chemistrytooltip": "Chemistry Equation",
-	"htmleditor.equationeditor.graphicaltooltip": "Graphical Equation",
-	"htmleditor.equationeditor.latextooltip": "LaTeX Equation",
-	"htmleditor.equationeditor.mathmltooltip": "MathML Equation",
-	"htmleditor.image.tooltip": "Insert Image",
-	"htmleditor.insertstuff.tooltip": "Insert Stuff",
-	"htmleditor.preview.tooltip": "Preview",
-	"htmleditor.quicklink.tooltip": "Insert Quicklink"
+	"equationeditor.chemistrytooltip": "Chemistry Equation",
+	"equationeditor.graphicaltooltip": "Graphical Equation",
+	"equationeditor.latextooltip": "LaTeX Equation",
+	"equationeditor.mathmltooltip": "MathML Equation",
+	"image.tooltip": "Insert Image",
+	"insertstuff.tooltip": "Insert Stuff",
+	"preview.tooltip": "Preview",
+	"quicklink.tooltip": "Insert Quicklink"
 };

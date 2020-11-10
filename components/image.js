@@ -88,7 +88,7 @@ tinymce.PluginManager.add('d2l-image', function(editor) {
 	editor.ui.registry.addIcon('d2l-image', icons['image']);
 
 	editor.ui.registry.addButton('d2l-image', {
-		tooltip: localize('htmleditor.image.tooltip'),
+		tooltip: localize('image.tooltip'),
 		icon: 'd2l-image',
 		onAction: () => {
 			const root = editor.getElement().getRootNode();

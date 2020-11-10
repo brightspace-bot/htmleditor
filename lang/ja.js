@@ -1,12 +1,12 @@
 /* eslint quotes: 0 */
 
 export default {
-	"htmleditor.equationeditor.chemistrytooltip": "化学方程式",
-	"htmleditor.equationeditor.graphicaltooltip": "グラフィカル数式",
-	"htmleditor.equationeditor.latextooltip": "LaTeX 数式",
-	"htmleditor.equationeditor.mathmltooltip": "MathML 数式",
-	"htmleditor.image.tooltip": "イメージの挿入",
-	"htmleditor.insertstuff.tooltip": "素材の挿入",
-	"htmleditor.preview.tooltip": "プレビュー",
-	"htmleditor.quicklink.tooltip": "クイックリンクの挿入"
+	"equationeditor.chemistrytooltip": "化学方程式",
+	"equationeditor.graphicaltooltip": "グラフィカル数式",
+	"equationeditor.latextooltip": "LaTeX 数式",
+	"equationeditor.mathmltooltip": "MathML 数式",
+	"image.tooltip": "イメージの挿入",
+	"insertstuff.tooltip": "素材の挿入",
+	"preview.tooltip": "プレビュー",
+	"quicklink.tooltip": "クイックリンクの挿入"
 };

@@ -1,12 +1,12 @@
 /* eslint quotes: 0 */
 
 export default {
-	"htmleditor.equationeditor.chemistrytooltip": "Scheikundige vergelijking",
-	"htmleditor.equationeditor.graphicaltooltip": "Grafische vergelijking",
-	"htmleditor.equationeditor.latextooltip": "LaTeX-vergelijking",
-	"htmleditor.equationeditor.mathmltooltip": "MathML-vergelijking",
-	"htmleditor.image.tooltip": "Afbeelding invoegen",
-	"htmleditor.insertstuff.tooltip": "Inhoud invoegen",
-	"htmleditor.preview.tooltip": "Voorbeeldweergave",
-	"htmleditor.quicklink.tooltip": "QuickLink invoegen"
+	"equationeditor.chemistrytooltip": "Scheikundige vergelijking",
+	"equationeditor.graphicaltooltip": "Grafische vergelijking",
+	"equationeditor.latextooltip": "LaTeX-vergelijking",
+	"equationeditor.mathmltooltip": "MathML-vergelijking",
+	"image.tooltip": "Afbeelding invoegen",
+	"insertstuff.tooltip": "Inhoud invoegen",
+	"preview.tooltip": "Voorbeeldweergave",
+	"quicklink.tooltip": "QuickLink invoegen"
 };

@@ -65,7 +65,7 @@ tinymce.PluginManager.add('d2l-equation', function(editor) {
 
 	editor.ui.registry.addSplitButton('d2l-equation', {
 		icon: 'd2l-equation-graphical',
-		tooltip: localize('htmleditor.equationeditor.graphicaltooltip'),
+		tooltip: localize('equationeditor.graphicaltooltip'),
 		onAction: () => {
 			launchEditor(editorTypes.Graphical);
 		},
@@ -80,25 +80,25 @@ tinymce.PluginManager.add('d2l-equation', function(editor) {
 			callback([{
 				type: 'choiceitem',
 				icon: 'd2l-equation-graphical',
-				text: localize('htmleditor.equationeditor.graphicaltooltip'),
+				text: localize('equationeditor.graphicaltooltip'),
 				value: editorTypes.Graphical,
 				disabled: contextNode && editorType !== editorTypes.Graphical
 			}, {
 				type: 'choiceitem',
 				icon: 'd2l-equation-latex',
-				text: localize('htmleditor.equationeditor.latextooltip'),
+				text: localize('equationeditor.latextooltip'),
 				value: editorTypes.Latex,
 				disabled: contextNode && editorType !== editorTypes.Latex
 			}, {
 				type: 'choiceitem',
 				icon: 'd2l-equation-mathml',
-				text: localize('htmleditor.equationeditor.mathmltooltip'),
+				text: localize('equationeditor.mathmltooltip'),
 				value: editorTypes.MathML,
 				disabled: contextNode && editorType !== editorTypes.MathML
 			}, {
 				type: 'choiceitem',
 				icon: 'd2l-equation-chemistry',
-				text: localize('htmleditor.equationeditor.chemistrytooltip'),
+				text: localize('equationeditor.chemistrytooltip'),
 				value: editorTypes.Chemistry,
 				disabled: contextNode && editorType !== editorTypes.Chemistry
 			}]);

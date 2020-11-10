@@ -11,7 +11,7 @@ tinymce.PluginManager.add('d2l-preview', function(editor) {
 	const orgUnitId = requestInstance(editor.getElement(), 'orgUnitId');
 
 	editor.ui.registry.addButton('d2l-preview', {
-		tooltip: localize('htmleditor.preview.tooltip'),
+		tooltip: localize('preview.tooltip'),
 		icon: 'preview',
 		onAction: () => {
 			const root = editor.getElement().getRootNode();
