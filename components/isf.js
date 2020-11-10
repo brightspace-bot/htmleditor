@@ -4,8 +4,6 @@ import { RequesterMixin, requestInstance } from '@brightspace-ui/core/mixins/pro
 import { getComposedActiveElement } from '@brightspace-ui/core/helpers/focus.js';
 import { icons } from '../icons.js';
 
-// TODO: localize the tooltip
-
 export const isfStyles = css`
 	/* stylelint-disable-next-line selector-class-pattern */
 	.disf_default, .disf_flash, .disf_shockwave, .disf_quicktime, .disf_windowsmedia, .disf_realmedia {
@@ -30,12 +28,13 @@ tinymce.PluginManager.add('d2l-isf', function(editor) {
 	// bail if no LMS context
 	if (!D2L.LP) return;
 
+	const localize = requestInstance(editor.getElement(), 'localize');
 	const wmodeOpaque = requestInstance(editor.getElement(), 'wmodeOpaque');
 
 	editor.ui.registry.addIcon('d2l-isf', icons['media']);
 
 	editor.ui.registry.addButton('d2l-isf', {
-		tooltip: 'Insert Stuff',
+		tooltip: localize('htmleditor.insertstuff.tooltip'),
 		icon: 'd2l-isf',
 		onAction: () => {
 			const root = editor.getElement().getRootNode();

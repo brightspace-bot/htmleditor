@@ -1,20 +1,20 @@
 import 'tinymce/tinymce.js';
 import { css, LitElement } from 'lit-element/lit-element.js';
+import { RequesterMixin, requestInstance } from '@brightspace-ui/core/mixins/provider-mixin.js';
 import { getComposedActiveElement } from '@brightspace-ui/core/helpers/focus.js';
 import { icons } from '../icons.js';
-import { RequesterMixin } from '@brightspace-ui/core/mixins/provider-mixin.js';
-
-// TODO: localize the tooltip
 
 tinymce.PluginManager.add('d2l-quicklink', function(editor) {
 
 	// bail if no LMS context
 	if (!D2L.LP) return;
 
+	const localize = requestInstance(editor.getElement(), 'localize');
+
 	editor.ui.registry.addIcon('d2l-quicklink', icons['link']);
 
 	editor.ui.registry.addButton('d2l-quicklink', {
-		tooltip: 'Insert QuickLink',
+		tooltip: localize('htmleditor.quicklink.tooltip'),
 		icon: 'd2l-quicklink',
 		onAction: () => {
 			const root = editor.getElement().getRootNode();

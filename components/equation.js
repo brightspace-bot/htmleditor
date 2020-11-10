@@ -3,8 +3,7 @@
 import { css, LitElement } from 'lit-element/lit-element.js';
 import { getComposedActiveElement } from '@brightspace-ui/core/helpers/focus.js';
 import { icons } from '../icons.js';
-
-// TODO: localize the tooltip
+import { requestInstance } from '@brightspace-ui/core/mixins/provider-mixin.js';
 
 const editorTypes = {
 	Latex: 0,
@@ -17,6 +16,8 @@ tinymce.PluginManager.add('d2l-equation', function(editor) {
 
 	// bail if no LMS context
 	if (!D2L.LP) return;
+
+	const localize = requestInstance(editor.getElement(), 'localize');
 
 	editor.ui.registry.addIcon('d2l-equation-chemistry', icons['equation-chemistry']);
 	editor.ui.registry.addIcon('d2l-equation-graphical', icons['equation-graphical']);
@@ -64,7 +65,7 @@ tinymce.PluginManager.add('d2l-equation', function(editor) {
 
 	editor.ui.registry.addSplitButton('d2l-equation', {
 		icon: 'd2l-equation-graphical',
-		tooltip: 'Equations',
+		tooltip: localize('htmleditor.equationeditor.graphicaltooltip'),
 		onAction: () => {
 			launchEditor(editorTypes.Graphical);
 		},
@@ -79,25 +80,25 @@ tinymce.PluginManager.add('d2l-equation', function(editor) {
 			callback([{
 				type: 'choiceitem',
 				icon: 'd2l-equation-graphical',
-				text: 'Graphical Equation',
+				text: localize('htmleditor.equationeditor.graphicaltooltip'),
 				value: editorTypes.Graphical,
 				disabled: contextNode && editorType !== editorTypes.Graphical
 			}, {
 				type: 'choiceitem',
 				icon: 'd2l-equation-latex',
-				text: 'LaTeX Equation',
+				text: localize('htmleditor.equationeditor.latextooltip'),
 				value: editorTypes.Latex,
 				disabled: contextNode && editorType !== editorTypes.Latex
 			}, {
 				type: 'choiceitem',
 				icon: 'd2l-equation-mathml',
-				text: 'MathML Equation',
+				text: localize('htmleditor.equationeditor.mathmltooltip'),
 				value: editorTypes.MathML,
 				disabled: contextNode && editorType !== editorTypes.MathML
 			}, {
 				type: 'choiceitem',
 				icon: 'd2l-equation-chemistry',
-				text: 'Chemistry Equation',
+				text: localize('htmleditor.equationeditor.chemistrytooltip'),
 				value: editorTypes.Chemistry,
 				disabled: contextNode && editorType !== editorTypes.Chemistry
 			}]);
