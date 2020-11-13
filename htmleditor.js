@@ -1,6 +1,7 @@
 import './components/quicklink.js';
 import './components/equation.js';
 import './components/preview.js';
+import './components/wordcount.js';
 import 'tinymce/tinymce.js';
 import 'tinymce/icons/default/icons.js';
 import 'tinymce/plugins/autosave/plugin.js';
@@ -108,6 +109,7 @@ class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 			pasteLocalImages: { type: Boolean, attribute: 'paste-local-images' },
 			type: { type: String },
 			width: { type: String },
+			wordCountInFooter: { type: Boolean, attribute: 'word-count-in-footer' },
 			_editorId: { type: String }
 		};
 	}
@@ -158,6 +160,7 @@ class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 		this.pasteLocalImages = false;
 		this.type = editorTypes.FULL;
 		this.width = '100%';
+		this.wordCountInFooter = false;
 		this._editorId = getUniqueId();
 		this._html = '';
 		this._initializationComplete = new Promise((resolve) => {
@@ -177,6 +180,7 @@ class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 			this.provideInstance('fileUploadForAllUsers', this.fileUploadForAllUsers);
 			this.provideInstance('fullPage', this.fullPage);
 			this.provideInstance('noFilter', this.noFilter);
+			this.provideInstance('wordCountInFooter', this.wordCountInFooter);
 		}, 0);
 		this.provideInstance('localize', this.localize.bind(this));
 	}
@@ -269,7 +273,7 @@ class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 				language_url: `${baseImportPath}/tinymce/langs/${tinymceLang}.js`,
 				menubar: false,
 				object_resizing : true,
-				plugins: `a11ychecker ${this.autoSave ? 'autosave' : ''} charmap advcode directionality emoticons ${this.fullPage ? 'fullpage' : ''} fullscreen hr image ${this.pasteLocalImages ? 'imagetools' : ''} lists powerpaste ${D2L.LP ? 'd2l-preview' : 'preview'}  table d2l-equation d2l-image d2l-isf d2l-quicklink`,
+				plugins: `a11ychecker ${this.autoSave ? 'autosave' : ''} charmap advcode directionality emoticons ${this.fullPage ? 'fullpage' : ''} fullscreen hr image ${this.pasteLocalImages ? 'imagetools' : ''} lists powerpaste ${D2L.LP ? 'd2l-preview' : 'preview'}  table d2l-equation d2l-image d2l-isf d2l-quicklink d2l-wordcount`,
 				relative_urls: false,
 				resize: true,
 				setup: (editor) => {
@@ -356,7 +360,7 @@ class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 				`styleselect | bold italic underline d2l-inline forecolor a11ycheck | d2l-align d2l-list d2l-dir | d2l-isf d2l-quicklink d2l-image | table d2l-equation | charmap emoticons hr | fontselect | fontsizeselect | ${ D2L.LP ? 'd2l-preview' : 'preview'} code fullscreen`
 			];
 		} else {
-			return `styleselect | bold italic underline d2l-inline forecolor a11ycheck | d2l-align d2l-list d2l-dir | d2l-isf d2l-quicklink d2l-image | table d2l-equation | charmap emoticons hr | fontselect | fontsizeselect | ${ D2L.LP ? 'd2l-preview' : 'preview'} code fullscreen`;
+			return `styleselect | bold italic underline d2l-inline forecolor a11ycheck | d2l-align d2l-list d2l-dir | d2l-isf d2l-quicklink d2l-image | table d2l-equation | charmap emoticons hr | fontselect | fontsizeselect | ${ D2L.LP ? 'd2l-preview' : 'preview'} code fullscreen | d2l-wordcount`;
 		}
 	}
 
