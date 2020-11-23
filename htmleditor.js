@@ -316,10 +316,11 @@ class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 					]);
 
 				},
-				skin_url: `${baseImportPath}/tinymce/skins/ui/naked`,
+				skin_url: `${baseImportPath}/tinymce/skins/ui/oxide`,
 				statusbar: true,
 				target: textarea,
 				toolbar: this._getToolbarConfig(),
+				toolbar_mode: 'sliding',
 				valid_elements: '*[*]',
 				width: this.width,
 				...autoSaveConfig,
