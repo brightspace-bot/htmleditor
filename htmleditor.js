@@ -103,7 +103,6 @@ class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 			fullPageFontSize: { type: String, attribute: 'full-page-font-size' },
 			height: { type: String },
 			html: { type: String },
-			label: { type: String },
 			noFilter: { type: Boolean, attribute: 'no-filter' },
 			noSpellchecker: { type: Boolean, attribute: 'no-spellchecker' },
 			pasteLocalImages: { type: Boolean, attribute: 'paste-local-images' },
@@ -155,7 +154,6 @@ class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 		this.fullPage = false;
 		this.fullPageFontColor = '#494c4e';
 		this.height = '355px';
-		this.label = '';
 		this.noFilter = false;
 		this.noSpellchecker = false;
 		this.pasteLocalImages = false;
@@ -269,10 +267,7 @@ class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 					}
 
 					const iframe = editor.getContentAreaContainer().firstElementChild;
-					if (iframe) {
-						iframe.title = this.title;
-						if (this.label) iframe.setAttribute('aria-label', this.label);
-					}
+					if (iframe) iframe.title = this.title;
 
 					this._initializationResolve();
 				},
