@@ -103,9 +103,11 @@ class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 			fullPageFontSize: { type: String, attribute: 'full-page-font-size' },
 			height: { type: String },
 			html: { type: String },
+			label: { type: String },
 			noFilter: { type: Boolean, attribute: 'no-filter' },
 			noSpellchecker: { type: Boolean, attribute: 'no-spellchecker' },
 			pasteLocalImages: { type: Boolean, attribute: 'paste-local-images' },
+			title: { type: String },
 			type: { type: String },
 			width: { type: String },
 			_editorId: { type: String }
@@ -153,9 +155,11 @@ class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 		this.fullPage = false;
 		this.fullPageFontColor = '#494c4e';
 		this.height = '355px';
+		this.label = '';
 		this.noFilter = false;
 		this.noSpellchecker = false;
 		this.pasteLocalImages = false;
+		this.title = '';
 		this.type = editorTypes.FULL;
 		this.width = '100%';
 		this._editorId = getUniqueId();
@@ -257,9 +261,17 @@ class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 				height: this.height,
 				images_upload_handler: (blobInfo, success, failure) => uploadImage(this, blobInfo, success, failure),
 				init_instance_callback: editor => {
-					if (editor && editor.plugins && editor.plugins.autosave) {
+					if (!editor) return;
+
+					if (editor.plugins && editor.plugins.autosave) {
 						// removing the autosave plugin prevents saving of content but retains the "ask_before_unload" behaviour
 						delete editor.plugins.autosave;
+					}
+
+					const iframe = editor.getContentAreaContainer().firstElementChild;
+					if (iframe) {
+						iframe.title = this.title;
+						if (this.label) iframe.setAttribute('aria-label', this.label);
 					}
 
 					this._initializationResolve();
