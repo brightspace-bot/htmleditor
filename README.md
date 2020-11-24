@@ -1,7 +1,6 @@
 # d2l-htmleditor
 
 [![NPM version](https://img.shields.io/npm/v/@brightspace-ui/htmleditor.svg)](https://www.npmjs.org/package/@brightspace-ui/htmleditor)
-![Build status](https://github.com/BrightspaceUI/htmleditor/workflows/CI/badge.svg)
 
 An HTML editor that integrates with Brightspace.  Coming soon!
 
