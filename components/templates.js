@@ -9,9 +9,9 @@ import 'tinymce/tinymce.js';
 import { css, html, LitElement } from 'lit-element/lit-element.js';
 import { getUniqueId } from '@brightspace-ui/core/helpers/uniqueId.js';
 import { inputLabelStyles } from '@brightspace-ui/core/components/inputs/input-label-styles.js';
+import { inputStyles } from '@brightspace-ui/core/components/inputs/input-styles.js';
 import { repeat } from 'lit-html/directives/repeat.js';
 import { selectStyles } from '@brightspace-ui/core/components/inputs/input-select-styles.js';
-import { inputStyles } from '@brightspace-ui/core/components/inputs/input-styles.js';
 
 const templateStrings = [
 	{ text: 'templateAlert', value: `
@@ -48,7 +48,7 @@ const templates = [{
 			return [
 				{ key: 'type', type: 'select', label: 'Type', default: 'primary', values: ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark'] },
 				{ key: 'dismissable', type: 'checkbox', label: 'Dismissable', default: true }
-			]
+			];
 		}
 	}, {
 		type: 'create',
@@ -59,7 +59,7 @@ const templates = [{
 				html: `
 					<div class="alert alert-${state.type} ${state.dismissable ? 'alert-dismissible fade show' : ''}" role="alert">
 						A simple ${state.type} alert with <a href="#" class="alert-link">an example link</a>. Give it a click if you like.
-						${state.dismissable ? `<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>` : ''}
+						${state.dismissable ? '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' : ''}
 					</div>`
 			};
 		}
@@ -76,7 +76,7 @@ const templates = [{
 				{ key: 'primaryMessage', type: 'text', label: 'Primary Message', default: '' },
 				{ key: 'supportingMessage', type: 'text', label: 'Supporting Message', default: '' },
 				{ key: 'dismissable', type: 'checkbox', label: 'Dismissable', default: true }
-			]
+			];
 		}
 	}, {
 		type: 'create',
@@ -90,7 +90,7 @@ const templates = [{
 						<p>${state.primaryMessage}</p>
 						<hr>
 						<p>${state.supportingMessage}</p>
-						${state.dismissable ? `<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>` : ''}
+						${state.dismissable ? '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' : ''}
 					</div>`
 			};
 		}
@@ -104,9 +104,9 @@ const templates = [{
 			return [
 				{ key: 'buttonText', type: 'text', label: 'Button Text', default: '' },
 				{ key: 'collapsed', type: 'checkbox', label: 'Collapsed', default: false }
-			]
+			];
 		}
-	},{
+	}, {
 		type: 'create',
 		create: (state) => {
 			const targetId = getUniqueId();
@@ -130,7 +130,7 @@ const templates = [{
 	description: 'An accordion container for one or more panels.',
 	steps: [{
 		type: 'create',
-		create: (state) => {
+		create: () => {
 			const targetId = getUniqueId();
 			const labelId = getUniqueId();
 			return {
@@ -164,7 +164,7 @@ const templates = [{
 	description: 'An accordion panel to be placed inside an accordion container.',
 	steps: [{
 		type: 'create',
-		create: (state) => {
+		create: () => {
 			const targetId = getUniqueId();
 			const labelId = getUniqueId();
 			return {
@@ -213,7 +213,7 @@ tinymce.PluginManager.add('d2l-templates', function(editor) {
 				if (contextNode) {
 					editor.selection.select(contextNode);
 				}
-				editor.insertContent(e.detail.html + '<p></p>');
+				editor.insertContent(`${e.detail.html}<p></p>`);
 
 				const editorDocument = new DOMParser().parseFromString(editor.getContent(), 'text/html');
 
@@ -245,7 +245,7 @@ tinymce.PluginManager.add('d2l-templates', function(editor) {
 				}
 				if (requiresContentUpdate) editor.setContent(editorDocument.documentElement.outerHTML);
 
-			}, {once: true});
+			}, { once: true });
 
 		}
 	});
@@ -272,7 +272,7 @@ tinymce.PluginManager.add('d2l-templates', function(editor) {
 				resolve(results);
 			});
 		},
-		matches: (rng, text, pattern) => {
+		matches: (rng, text) => {
 			return text.startsWith('$template');
 		},
 		onAction: (autocompleteApi, rng, value) => {
@@ -294,7 +294,6 @@ class TemplatesDialog extends LitElement {
 		};
 	}
 
-
 	static get styles() {
 		return [inputLabelStyles, inputStyles, selectStyles, css`
 			.d2l-htmleditor-templates-field {
@@ -303,8 +302,8 @@ class TemplatesDialog extends LitElement {
 			.d2l-htmleditor-templates-field:first-child {
 				margin-top: 0;
 			}
-		`]
-	};
+		`];
+	}
 
 	constructor() {
 		super();
@@ -351,7 +350,7 @@ class TemplatesDialog extends LitElement {
 									<label>
 										<span class="d2l-input-label">${property.label}</span>
 										<select class="d2l-input-select" data-property-key="${property.key}">
-											${property.values.map((optionValue, index) => html`<option value="${optionValue}" ?selected="${value === optionValue}">${optionValue}</option>`)}
+											${property.values.map((optionValue) => html`<option value="${optionValue}" ?selected="${value === optionValue}">${optionValue}</option>`)}
 										</select>
 									</label>
 								</div>
@@ -363,14 +362,14 @@ class TemplatesDialog extends LitElement {
 								</div>
 							`;
 						case 'text':
-						return html`
-							<div class="d2l-htmleditor-templates-field">
-								<label>
-									<span class="d2l-input-label">${property.label}</span>
-									<d2l-input-text data-property-key="${property.key}" value="${value}"></d2l-input-text>
-								</label>
-							</div>
-						`;
+							return html`
+								<div class="d2l-htmleditor-templates-field">
+									<label>
+										<span class="d2l-input-label">${property.label}</span>
+										<d2l-input-text data-property-key="${property.key}" value="${value}"></d2l-input-text>
+									</label>
+								</div>
+							`;
 					}
 
 				});
@@ -430,6 +429,17 @@ class TemplatesDialog extends LitElement {
 		this._templateIndex = -1;
 	}
 
+	_handleListItemClick(e) {
+		const templateIndex = Number(e.target.getAttribute('data-template-index'));
+		const template = templates[templateIndex];
+		if (template.steps[0].type === 'create') {
+			this._create(template.steps[0]);
+		} else if (template.steps[0].type === 'properties') {
+			this._templateIndex = templateIndex;
+			this._stepIndex = 0;
+		}
+	}
+
 	_handleNextClick() {
 		const template = templates[this._templateIndex];
 
@@ -445,17 +455,6 @@ class TemplatesDialog extends LitElement {
 			this._create(template.steps[this._stepIndex + 1]);
 		} else {
 			this._stepIndex += 1;
-		}
-	}
-
-	_handleListItemClick(e) {
-		const templateIndex = Number(e.target.getAttribute('data-template-index'))
-		const template = templates[templateIndex];
-		if (template.steps[0].type === 'create') {
-			this._create(template.steps[0]);
-		} else if (template.steps[0].type === 'properties') {
-			this._templateIndex = templateIndex;
-			this._stepIndex = 0
 		}
 	}
 
