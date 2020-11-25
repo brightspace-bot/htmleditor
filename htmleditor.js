@@ -290,36 +290,47 @@ class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 							tooltip: tooltip,
 							onAction: () => editor.execCommand(cmd),
 							onItemAction: (api, value) => editor.execCommand(value),
-							select: (value) => editor.queryCommandState(value),
-							fetch: (callback) => {
-								callback(items);
-							}
+							select: value => editor.queryCommandState(value),
+							fetch: callback => callback(items)
 						});
 					};
 
-					createSplitButton('d2l-inline', 'superscript', 'Superscript', 'superscript', [
+					const createMenuButton = (name, icon, tooltip, items) => {
+						editor.ui.registry.addMenuButton(name, {
+							tooltip: tooltip,
+							icon: icon,
+							fetch: callback => callback(items)
+						});
+					};
+
+					const createToggleMenuItem = (name, icon, text, cmd) => {
+						editor.ui.registry.addToggleMenuItem(name, {
+							text: text,
+							icon: icon,
+							onAction: () => editor.execCommand(cmd),
+							onSetup: api => api.setActive(editor.queryCommandState(cmd))
+						});
+					};
+
+					createSplitButton('d2l-inline', 'strike-through', 'Strike-through', 'strikethrough', [
+						{ type: 'choiceitem', icon: 'strike-through', text: 'Strike-through', value: 'strikethrough' },
 						{ type: 'choiceitem', icon: 'superscript', text: 'Superscript', value: 'superscript' },
-						{ type: 'choiceitem', icon: 'subscript', text: 'Subscript', value: 'subscript' },
-						{ type: 'choiceitem', icon: 'strike-through', text: 'Strike-through', value: 'strikethrough' }
+						{ type: 'choiceitem', icon: 'subscript', text: 'Subscript', value: 'subscript' }
 					]);
 
-					createSplitButton('d2l-align', 'align-left', 'Left', 'justifyLeft', [
-						{ type: 'choiceitem', icon: 'align-left', text: 'Left', value: 'justifyLeft' },
-						{ type: 'choiceitem', icon: 'align-center', text: 'Center', value: 'justifyCenter' },
-						{ type: 'choiceitem', icon: 'align-right', text: 'Right', value: 'justifyRight' },
-						{ type: 'choiceitem', icon: 'align-justify', text: 'Justify', value: 'justifyFull' }
-					]);
+					createToggleMenuItem('d2l-align-left', 'align-left', 'Left', 'justifyLeft');
+					createToggleMenuItem('d2l-align-center', 'align-center', 'Center', 'justifyCenter');
+					createToggleMenuItem('d2l-align-right', 'align-right', 'Right', 'justifyRight');
+					createToggleMenuItem('d2l-align-justify', 'align-justify', 'Justify', 'justifyFull');
+					createToggleMenuItem('d2l-ltr', 'ltr', 'Left to Right', 'mceDirectionLTR');
+					createToggleMenuItem('d2l-rtl', 'rtl', 'Right to Left', 'mceDirectionRTL');
+					createMenuButton('d2l-align', 'align-left', 'Alignment', 'd2l-align-left d2l-align-center d2l-align-right d2l-align-justify | d2l-ltr d2l-rtl');
 
 					createSplitButton('d2l-list', 'unordered-list', 'Bulleted List', 'insertUnorderedList', [
 						{ type: 'choiceitem', icon: 'unordered-list', text: 'Bulleted List', value: 'insertUnorderedList' },
 						{ type: 'choiceitem', icon: 'ordered-list', text: 'Numbered List', value: 'insertOrderedList' },
 						{ type: 'choiceitem', icon: 'indent', text: 'Increase Indent', value: 'indent' },
 						{ type: 'choiceitem', icon: 'outdent', text: 'Decrease Indent', value: 'outdent' }
-					]);
-
-					createSplitButton('d2l-dir', 'ltr', 'Left to Right', 'mceDirectionLTR', [
-						{ type: 'choiceitem', icon: 'ltr', text: 'Left to Right', value: 'mceDirectionLTR' },
-						{ type: 'choiceitem', icon: 'rtl', text: 'Right to Left', value: 'mceDirectionRTL' },
 					]);
 
 				},
@@ -361,10 +372,10 @@ class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 		} else if (this.type === editorTypes.INLINE) {
 			return [
 				'bold italic underline | d2l-align d2l-list d2l-isf | fullscreen',
-				`styleselect | bold italic underline d2l-inline forecolor a11ycheck | d2l-align d2l-list d2l-dir | d2l-isf d2l-quicklink d2l-image | table d2l-equation | charmap emoticons hr | fontselect | fontsizeselect | ${ D2L.LP ? 'd2l-preview' : 'preview'} code fullscreen`
+				`styleselect | bold italic underline d2l-inline | d2l-align d2l-list | d2l-isf d2l-quicklink d2l-image | table d2l-equation charmap emoticons hr | a11ycheck | fontselect | fontsizeselect | forecolor | ${ D2L.LP ? 'd2l-preview' : 'preview'} code | undo redo | fullscreen`
 			];
 		} else {
-			return `styleselect | bold italic underline d2l-inline forecolor a11ycheck | d2l-align d2l-list d2l-dir | d2l-isf d2l-quicklink d2l-image | table d2l-equation | charmap emoticons hr | fontselect | fontsizeselect | ${ D2L.LP ? 'd2l-preview' : 'preview'} code fullscreen`;
+			return `styleselect | bold italic underline d2l-inline | d2l-align d2l-list | d2l-isf d2l-quicklink d2l-image | table d2l-equation charmap emoticons hr | a11ycheck | fontselect | fontsizeselect | forecolor | ${ D2L.LP ? 'd2l-preview' : 'preview'} code | undo redo | fullscreen`;
 		}
 	}
 
