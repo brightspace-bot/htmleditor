@@ -11,20 +11,76 @@ import { getUniqueId } from '@brightspace-ui/core/helpers/uniqueId.js';
 import { inputLabelStyles } from '@brightspace-ui/core/components/inputs/input-label-styles.js';
 import { inputStyles } from '@brightspace-ui/core/components/inputs/input-styles.js';
 import { repeat } from 'lit-html/directives/repeat.js';
+import { requestInstance } from '@brightspace-ui/core/mixins/provider-mixin.js';
 import { selectStyles } from '@brightspace-ui/core/components/inputs/input-select-styles.js';
 
-const templateStrings = [
-	{ text: 'templateAlert', value: `
-		<div class="alert alert-primary" role="alert">
-			A simple primary alert with <a href="#" class="alert-link">an example link</a>. Give it a click if you like.
-		</div>
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-		<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-		<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>`
-	}
-];
-
 const templates = [{
+	name: 'Accordion Container',
+	description: 'An accordion container for one or more panels.',
+	steps: [{
+		type: 'create',
+		create: () => {
+			const targetId = getUniqueId();
+			const labelId = getUniqueId();
+			return {
+				scripts: [{ src: 'https://code.jquery.com/jquery-3.5.1.slim.min.js', integrity: 'sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj' }, { src: 'https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js', integrity: 'sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx' }],
+				styleSheets: [{ href: 'https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css', integrity: 'sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2' }],
+				html: `
+					<div class="accordion" id="accordionExample">
+						<div class="card">
+							<div class="card-header" id="${labelId}">
+								<h2 class="mb-0">
+									<button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#${targetId}" aria-expanded="true" aria-controls="${targetId}">
+										Accordion Panel Heading
+									</button>
+								</h2>
+							</div>
+							<div id="${targetId}" class="collapse show" aria-labelledby="${labelId}" data-parent="#accordionExample">
+								<div class="card-body">
+								<p>Deadlights jack lad schooner scallywag dance the hempen jig carouser broadside cable strike colors. Bring a spring upon her cable holystone blow the man down spanker</p>
+								<p>Shiver me timbers to go on account lookout wherry doubloon chase. Belay yo-ho-ho keelhaul squiffy black spot yardarm spyglass sheet transom heave to.</p>
+								<p>Trysail Sail ho Corsair red ensign hulk smartly boom jib rum gangway. Case shot Shiver me timbers gangplank crack Jennys tea cup ballast Blimey lee snow crow's nest rutters. Fluke jib scourge of the seven seas boatswain schooner gaff booty Jack Tar transom spirits.</p>
+								</div>
+							</div>
+						</div>
+						<div>placeholder</div>
+					</div>`
+			};
+		}
+	}]
+}, {
+	name: 'Accordion Panel',
+	description: 'An accordion panel to be placed inside an accordion container.',
+	steps: [{
+		type: 'create',
+		create: () => {
+			const targetId = getUniqueId();
+			const labelId = getUniqueId();
+			return {
+				scripts: [{ src: 'https://code.jquery.com/jquery-3.5.1.slim.min.js', integrity: 'sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj' }, { src: 'https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js', integrity: 'sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx' }],
+				styleSheets: [{ href: 'https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css', integrity: 'sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2' }],
+				html: `
+					<div class="card">
+						<div class="card-header" id="${labelId}">
+							<h2 class="mb-0">
+								<button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#${targetId}" aria-expanded="false" aria-controls="${targetId}">
+									Accordion Panel Heading
+								</button>
+							</h2>
+						</div>
+						<div id="${targetId}" class="collapse" aria-labelledby="${labelId}" data-parent="#accordionExample">
+							<div class="card-body">
+								<p>Deadlights jack lad schooner scallywag dance the hempen jig carouser broadside cable strike colors. Bring a spring upon her cable holystone blow the man down spanker</p>
+								<p>Shiver me timbers to go on account lookout wherry doubloon chase. Belay yo-ho-ho keelhaul squiffy black spot yardarm spyglass sheet transom heave to.</p>
+								<p>Trysail Sail ho Corsair red ensign hulk smartly boom jib rum gangway. Case shot Shiver me timbers gangplank crack Jennys tea cup ballast Blimey lee snow crow's nest rutters. Fluke jib scourge of the seven seas boatswain schooner gaff booty Jack Tar transom spirits.</p>
+							</div>
+						</div>
+					</div>
+				`
+			};
+		}
+	}]
+}, {
 	name: 'Alert (primary)',
 	description: 'A simple primary alert.',
 	steps: [{
@@ -125,75 +181,22 @@ const templates = [{
 			};
 		}
 	}]
-}, {
-	name: 'Accordion Container',
-	description: 'An accordion container for one or more panels.',
-	steps: [{
-		type: 'create',
-		create: () => {
-			const targetId = getUniqueId();
-			const labelId = getUniqueId();
-			return {
-				scripts: [{ src: 'https://code.jquery.com/jquery-3.5.1.slim.min.js', integrity: 'sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj' }, { src: 'https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js', integrity: 'sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx' }],
-				styleSheets: [{ href: 'https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css', integrity: 'sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2' }],
-				html: `
-					<div class="accordion" id="accordionExample">
-						<div class="card">
-							<div class="card-header" id="${labelId}">
-								<h2 class="mb-0">
-									<button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#${targetId}" aria-expanded="true" aria-controls="${targetId}">
-										Accordion Panel Heading
-									</button>
-								</h2>
-							</div>
-							<div id="${targetId}" class="collapse show" aria-labelledby="${labelId}" data-parent="#accordionExample">
-								<div class="card-body">
-								<p>Deadlights jack lad schooner scallywag dance the hempen jig carouser broadside cable strike colors. Bring a spring upon her cable holystone blow the man down spanker</p>
-								<p>Shiver me timbers to go on account lookout wherry doubloon chase. Belay yo-ho-ho keelhaul squiffy black spot yardarm spyglass sheet transom heave to.</p>
-								<p>Trysail Sail ho Corsair red ensign hulk smartly boom jib rum gangway. Case shot Shiver me timbers gangplank crack Jennys tea cup ballast Blimey lee snow crow's nest rutters. Fluke jib scourge of the seven seas boatswain schooner gaff booty Jack Tar transom spirits.</p>
-								</div>
-							</div>
-						</div>
-						<div>placeholder</div>
-					</div>`
-			};
-		}
-	}]
-}, {
-	name: 'Accordion Panel',
-	description: 'An accordion panel to be placed inside an accordion container.',
-	steps: [{
-		type: 'create',
-		create: () => {
-			const targetId = getUniqueId();
-			const labelId = getUniqueId();
-			return {
-				scripts: [{ src: 'https://code.jquery.com/jquery-3.5.1.slim.min.js', integrity: 'sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj' }, { src: 'https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js', integrity: 'sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx' }],
-				styleSheets: [{ href: 'https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css', integrity: 'sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2' }],
-				html: `
-					<div class="card">
-						<div class="card-header" id="${labelId}">
-							<h2 class="mb-0">
-								<button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#${targetId}" aria-expanded="false" aria-controls="${targetId}">
-									Accordion Panel Heading
-								</button>
-							</h2>
-						</div>
-						<div id="${targetId}" class="collapse" aria-labelledby="${labelId}" data-parent="#accordionExample">
-							<div class="card-body">
-								<p>Deadlights jack lad schooner scallywag dance the hempen jig carouser broadside cable strike colors. Bring a spring upon her cable holystone blow the man down spanker</p>
-								<p>Shiver me timbers to go on account lookout wherry doubloon chase. Belay yo-ho-ho keelhaul squiffy black spot yardarm spyglass sheet transom heave to.</p>
-								<p>Trysail Sail ho Corsair red ensign hulk smartly boom jib rum gangway. Case shot Shiver me timbers gangplank crack Jennys tea cup ballast Blimey lee snow crow's nest rutters. Fluke jib scourge of the seven seas boatswain schooner gaff booty Jack Tar transom spirits.</p>
-							</div>
-						</div>
-					</div>
-				`
-			};
-		}
-	}]
 }];
 
+const templateStrings = [
+	{ text: 'templateAlert', value: `
+		<div class="alert alert-primary" role="alert">
+			A simple primary alert with <a href="#" class="alert-link">an example link</a>. Give it a click if you like.
+		</div>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+		<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>`
+	}
+];
+
 tinymce.PluginManager.add('d2l-templates', function(editor) {
+
+	if (!requestInstance(editor.getElement(), 'fullPage')) return;
 
 	editor.ui.registry.addButton('d2l-templates', {
 		tooltip: 'Insert Template',
