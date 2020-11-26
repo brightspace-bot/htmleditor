@@ -116,7 +116,10 @@ class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 	static get styles() {
 		return css`
 			:host {
+				border: 1px solid var(--d2l-color-mica);
+				border-radius: 6px;
 				display: block;
+				padding: 4px;
 			}
 			:host([hidden]) {
 				display: none;
@@ -127,7 +130,7 @@ class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 				z-index: 1000;
 			}
 			.tox .tox-statusbar {
-				border-top: none;
+			/*	border-top: none;*/
 			}
 			:host([type="inline"]) .tox-tinymce .tox-toolbar-overlord > div:nth-child(2) {
 				display: none;
@@ -335,7 +338,7 @@ class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 					]);
 
 				},
-				skin_url: `${baseImportPath}/tinymce/skins/ui/oxide`,
+				skin_url: `${baseImportPath}/tinymce/skins/ui/snow`,
 				statusbar: true,
 				target: textarea,
 				toolbar: this._getToolbarConfig(),
