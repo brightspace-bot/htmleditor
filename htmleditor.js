@@ -130,9 +130,6 @@ class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 			.tox-tinymce.tox-fullscreen {
 				z-index: 1000;
 			}
-			.tox .tox-statusbar {
-			/*	border-top: none;*/
-			}
 			:host([type="inline"]) .tox-tinymce .tox-toolbar-overlord > div:nth-child(2) {
 				display: none;
 			}
