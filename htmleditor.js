@@ -17,6 +17,7 @@ import 'tinymce/plugins/imagetools/plugin.js';
 import 'tinymce/plugins/lists/plugin.js';
 import 'tinymce/plugins/preview/plugin.js';
 import 'tinymce/plugins/table/plugin.js';
+import 'tinymce/plugins/textpattern/plugin.js';
 import 'tinymce/themes/silver/theme.js';
 import { css, html, LitElement, unsafeCSS } from 'lit-element/lit-element.js';
 import { getUniqueId } from '@brightspace-ui/core/helpers/uniqueId.js';
@@ -280,7 +281,7 @@ class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 				language_url: `${baseImportPath}/tinymce/langs/${tinymceLang}.js`,
 				menubar: false,
 				object_resizing : true,
-				plugins: `a11ychecker ${this.autoSave ? 'autosave' : ''} advtable charmap advcode directionality emoticons ${this.fullPage ? 'fullpage' : ''} fullscreen hr image ${this.pasteLocalImages ? 'imagetools' : ''} lists powerpaste ${D2L.LP ? 'd2l-preview' : 'preview'}  table d2l-equation d2l-image d2l-isf d2l-quicklink`,
+				plugins: `a11ychecker ${this.autoSave ? 'autosave' : ''} advtable charmap advcode directionality emoticons ${this.fullPage ? 'fullpage' : ''} fullscreen hr image ${this.pasteLocalImages ? 'imagetools' : ''} lists powerpaste ${D2L.LP ? 'd2l-preview' : 'preview'} table textpattern d2l-equation d2l-image d2l-isf d2l-quicklink`,
 				relative_urls: false,
 				resize: true,
 				setup: (editor) => {
