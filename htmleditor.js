@@ -17,6 +17,7 @@ import 'tinymce/plugins/imagetools/plugin.js';
 import 'tinymce/plugins/lists/plugin.js';
 import 'tinymce/plugins/preview/plugin.js';
 import 'tinymce/plugins/table/plugin.js';
+import 'tinymce/plugins/textpattern/plugin.js';
 import 'tinymce/themes/silver/theme.js';
 import { css, html, LitElement, unsafeCSS } from 'lit-element/lit-element.js';
 import { getUniqueId } from '@brightspace-ui/core/helpers/uniqueId.js';
@@ -106,6 +107,7 @@ class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 			noFilter: { type: Boolean, attribute: 'no-filter' },
 			noSpellchecker: { type: Boolean, attribute: 'no-spellchecker' },
 			pasteLocalImages: { type: Boolean, attribute: 'paste-local-images' },
+			title: { type: String },
 			type: { type: String },
 			width: { type: String },
 			_editorId: { type: String }
@@ -115,7 +117,10 @@ class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 	static get styles() {
 		return css`
 			:host {
+				border: 1px solid var(--d2l-color-mica);
+				border-radius: 6px;
 				display: block;
+				padding: 4px;
 			}
 			:host([hidden]) {
 				display: none;
@@ -124,9 +129,6 @@ class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 			.tox-tinymce-aux,
 			.tox-tinymce.tox-fullscreen {
 				z-index: 1000;
-			}
-			.tox .tox-statusbar {
-				border-top: none;
 			}
 			:host([type="inline"]) .tox-tinymce .tox-toolbar-overlord > div:nth-child(2) {
 				display: none;
@@ -156,6 +158,7 @@ class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 		this.noFilter = false;
 		this.noSpellchecker = false;
 		this.pasteLocalImages = false;
+		this.title = '';
 		this.type = editorTypes.FULL;
 		this.width = '100%';
 		this._editorId = getUniqueId();
@@ -250,6 +253,7 @@ class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 				external_plugins: {
 					'a11ychecker': `${baseImportPath}/tinymce/plugins/a11ychecker/plugin.js`,
 					'advcode': `${baseImportPath}/tinymce/plugins/advcode/plugin.js`,
+					'advtable': `${baseImportPath}/tinymce/plugins/advtable/plugin.js`,
 					'powerpaste': `${baseImportPath}/tinymce/plugins/powerpaste/plugin.js`
 				},
 				font_formats: 'Arabic Transparent=arabic transparent,sans-serif; Arial (Recommended)=arial,helvetica,sans-serif; Comic Sans=comic sans ms,sans-serif; Courier=courier new,courier,sans-serif; Ezra SIL=ezra sil,arial unicode ms,arial,sans-serif; Georgia=georgia,serif; SBL Hebrew=sbl hebrew,times new roman,serif; Simplified Arabic=simplified arabic,sans-serif; Tahoma=tahoma,sans-serif; Times New Roman=times new roman,times,serif; Traditional Arabic=traditional arabic,serif; Trebuchet=trebuchet ms,helvetica,sans-serif; Verdana=verdana,sans-serif; 돋움 (Dotum)=dotum,arial,helvetica,sans-serif; 宋体 (Sim Sun)=simsun; 細明體 (Ming Liu)=mingliu,arial,helvetica,sans-serif',
@@ -257,10 +261,15 @@ class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 				height: this.height,
 				images_upload_handler: (blobInfo, success, failure) => uploadImage(this, blobInfo, success, failure),
 				init_instance_callback: editor => {
-					if (editor && editor.plugins && editor.plugins.autosave) {
+					if (!editor) return;
+
+					if (editor.plugins && editor.plugins.autosave) {
 						// removing the autosave plugin prevents saving of content but retains the "ask_before_unload" behaviour
 						delete editor.plugins.autosave;
 					}
+
+					const iframe = editor.getContentAreaContainer().firstElementChild;
+					if (iframe) iframe.title = this.title;
 
 					this._initializationResolve();
 				},
@@ -269,7 +278,7 @@ class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 				language_url: `${baseImportPath}/tinymce/langs/${tinymceLang}.js`,
 				menubar: false,
 				object_resizing : true,
-				plugins: `a11ychecker ${this.autoSave ? 'autosave' : ''} charmap advcode directionality emoticons ${this.fullPage ? 'fullpage' : ''} fullscreen hr image ${this.pasteLocalImages ? 'imagetools' : ''} lists powerpaste ${D2L.LP ? 'd2l-preview' : 'preview'}  table d2l-equation d2l-image d2l-isf d2l-quicklink`,
+				plugins: `a11ychecker ${this.autoSave ? 'autosave' : ''} advtable charmap advcode directionality emoticons ${this.fullPage ? 'fullpage' : ''} fullscreen hr image ${this.pasteLocalImages ? 'imagetools' : ''} lists powerpaste ${D2L.LP ? 'd2l-preview' : 'preview'} table textpattern d2l-equation d2l-image d2l-isf d2l-quicklink`,
 				relative_urls: false,
 				resize: true,
 				setup: (editor) => {
@@ -283,25 +292,41 @@ class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 							tooltip: tooltip,
 							onAction: () => editor.execCommand(cmd),
 							onItemAction: (api, value) => editor.execCommand(value),
-							select: (value) => editor.queryCommandState(value),
-							fetch: (callback) => {
-								callback(items);
-							}
+							select: value => editor.queryCommandState(value),
+							fetch: callback => callback(items)
 						});
 					};
 
-					createSplitButton('d2l-inline', 'superscript', 'Superscript', 'superscript', [
+					const createMenuButton = (name, icon, tooltip, items) => {
+						editor.ui.registry.addMenuButton(name, {
+							tooltip: tooltip,
+							icon: icon,
+							fetch: callback => callback(items)
+						});
+					};
+
+					const createToggleMenuItem = (name, icon, text, cmd) => {
+						editor.ui.registry.addToggleMenuItem(name, {
+							text: text,
+							icon: icon,
+							onAction: () => editor.execCommand(cmd),
+							onSetup: api => api.setActive(editor.queryCommandState(cmd))
+						});
+					};
+
+					createSplitButton('d2l-inline', 'strike-through', 'Strike-through', 'strikethrough', [
+						{ type: 'choiceitem', icon: 'strike-through', text: 'Strike-through', value: 'strikethrough' },
 						{ type: 'choiceitem', icon: 'superscript', text: 'Superscript', value: 'superscript' },
-						{ type: 'choiceitem', icon: 'subscript', text: 'Subscript', value: 'subscript' },
-						{ type: 'choiceitem', icon: 'strike-through', text: 'Strike-through', value: 'strikethrough' }
+						{ type: 'choiceitem', icon: 'subscript', text: 'Subscript', value: 'subscript' }
 					]);
 
-					createSplitButton('d2l-align', 'align-left', 'Left', 'justifyLeft', [
-						{ type: 'choiceitem', icon: 'align-left', text: 'Left', value: 'justifyLeft' },
-						{ type: 'choiceitem', icon: 'align-center', text: 'Center', value: 'justifyCenter' },
-						{ type: 'choiceitem', icon: 'align-right', text: 'Right', value: 'justifyRight' },
-						{ type: 'choiceitem', icon: 'align-justify', text: 'Justify', value: 'justifyFull' }
-					]);
+					createToggleMenuItem('d2l-align-left', 'align-left', 'Left', 'justifyLeft');
+					createToggleMenuItem('d2l-align-center', 'align-center', 'Center', 'justifyCenter');
+					createToggleMenuItem('d2l-align-right', 'align-right', 'Right', 'justifyRight');
+					createToggleMenuItem('d2l-align-justify', 'align-justify', 'Justify', 'justifyFull');
+					createToggleMenuItem('d2l-ltr', 'ltr', 'Left to Right', 'mceDirectionLTR');
+					createToggleMenuItem('d2l-rtl', 'rtl', 'Right to Left', 'mceDirectionRTL');
+					createMenuButton('d2l-align', 'align-left', 'Alignment', 'd2l-align-left d2l-align-center d2l-align-right d2l-align-justify | d2l-ltr d2l-rtl');
 
 					createSplitButton('d2l-list', 'unordered-list', 'Bulleted List', 'insertUnorderedList', [
 						{ type: 'choiceitem', icon: 'unordered-list', text: 'Bulleted List', value: 'insertUnorderedList' },
@@ -310,13 +335,8 @@ class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 						{ type: 'choiceitem', icon: 'outdent', text: 'Decrease Indent', value: 'outdent' }
 					]);
 
-					createSplitButton('d2l-dir', 'ltr', 'Left to Right', 'mceDirectionLTR', [
-						{ type: 'choiceitem', icon: 'ltr', text: 'Left to Right', value: 'mceDirectionLTR' },
-						{ type: 'choiceitem', icon: 'rtl', text: 'Right to Left', value: 'mceDirectionRTL' },
-					]);
-
 				},
-				skin_url: `${baseImportPath}/tinymce/skins/ui/oxide`,
+				skin_url: `${baseImportPath}/tinymce/skins/ui/snow`,
 				statusbar: true,
 				target: textarea,
 				toolbar: this._getToolbarConfig(),
@@ -354,10 +374,10 @@ class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 		} else if (this.type === editorTypes.INLINE) {
 			return [
 				'bold italic underline | d2l-align d2l-list d2l-isf | fullscreen',
-				`styleselect | bold italic underline d2l-inline forecolor a11ycheck | d2l-align d2l-list d2l-dir | d2l-isf d2l-quicklink d2l-image | table d2l-equation | charmap emoticons hr | fontselect | fontsizeselect | ${ D2L.LP ? 'd2l-preview' : 'preview'} code fullscreen`
+				`styleselect | bold italic underline d2l-inline | d2l-align d2l-list | d2l-isf d2l-quicklink d2l-image | table d2l-equation charmap emoticons hr | a11ycheck | fontselect | fontsizeselect | forecolor | ${ D2L.LP ? 'd2l-preview' : 'preview'} code | undo redo | fullscreen`
 			];
 		} else {
-			return `styleselect | bold italic underline d2l-inline forecolor a11ycheck | d2l-align d2l-list d2l-dir | d2l-isf d2l-quicklink d2l-image | table d2l-equation | charmap emoticons hr | fontselect | fontsizeselect | ${ D2L.LP ? 'd2l-preview' : 'preview'} code fullscreen`;
+			return `styleselect | bold italic underline d2l-inline | d2l-align d2l-list | d2l-isf d2l-quicklink d2l-image | table d2l-equation charmap emoticons hr | a11ycheck | fontselect | fontsizeselect | forecolor | ${ D2L.LP ? 'd2l-preview' : 'preview'} code | undo redo | fullscreen`;
 		}
 	}
 
