@@ -117,10 +117,10 @@ class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 	static get styles() {
 		return css`
 			:host {
-				border: 1px solid var(--d2l-color-mica);
+				/* border: 1px solid var(--d2l-color-mica); */
 				border-radius: 6px;
 				display: block;
-				padding: 4px;
+				/* padding: 4px; */
 			}
 			:host([hidden]) {
 				display: none;
@@ -336,7 +336,7 @@ class HtmlEditor extends ProviderMixin(Localizer(RtlMixin(LitElement))) {
 					]);
 
 				},
-				skin_url: `${baseImportPath}/tinymce/skins/ui/snow`,
+				skin_url: `${baseImportPath}/tinymce/skins/ui/oxide`,
 				statusbar: true,
 				target: textarea,
 				toolbar: this._getToolbarConfig(),
